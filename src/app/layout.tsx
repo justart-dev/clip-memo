@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import PWARegister from "./pwa";
 import ClientInstallPWAWrapper from "./ClientInstallPWAWrapper";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +27,6 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
   },
-
   manifest: "/manifest.json",
   themeColor: "#ffffff",
   appleWebApp: {
@@ -61,6 +61,7 @@ export default function RootLayout({
         <PWARegister />
         {children}
         <ClientInstallPWAWrapper />
+        <Analytics />
         <Toaster position="top-center" />
       </body>
     </html>
