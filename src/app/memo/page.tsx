@@ -13,6 +13,7 @@ import { DeleteConfirmDialog } from "./components/DeleteConfirmDialog";
 const STORAGE_KEYS = {
   ITEMS: "clip-memo-items",
   CATEGORIES: "clip-memo-categories",
+  BANNER_CLOSED: "clip-memo-banner-closed",
 };
 
 export default function Home() {
@@ -25,56 +26,41 @@ export default function Home() {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   // 초기 데이터 로드를 useEffect로 이동
   useEffect(() => {
     const initializeData = () => {
-      const savedItems = localStorage.getItem(STORAGE_KEYS.ITEMS);
-      const savedCategories = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
+      try {
+        const savedItems = localStorage.getItem(STORAGE_KEYS.ITEMS);
+        const savedCategories = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
+        const bannerClosed = localStorage.getItem(STORAGE_KEYS.BANNER_CLOSED);
 
-      const initialItems = savedItems
-        ? JSON.parse(savedItems)
-        : [
-            {
-              id: "1",
-              title: "꼭 읽어주세요.",
-              content:
-                "기록된 메모는 해당 기기에 저장이 되므로 다수가 사용하는 기기에서는 주의해주세요.",
-              category: "중요사항",
-            },
-            {
-              id: "2",
-              title: "배달완료",
-              content: "안녕하세요, 문 앞에 두고 갑니다. 맛있게드세요.",
-              category: "사업",
-            },
-            {
-              id: "3",
-              title: "이사 갈 주소",
-              content: "서울특별시 강남구 도곡동 467-1 타워펠리스 꼭대기",
-              category: "주소",
-            },
-            {
-              id: "4",
-              title: "본가 집주소",
-              content: "대구 수성구 범물동 하늘채",
-              category: "주소",
-            },
-            {
-              id: "5",
-              title: "고양이 동물병원",
-              content: "010-1234-5678",
-              category: "연락처",
-            },
-          ];
+        const initialItems = savedItems ? JSON.parse(savedItems) : [];
+        let initialCategories = savedCategories
+          ? JSON.parse(savedCategories)
+          : [];
 
-      const initialCategories = savedCategories
-        ? JSON.parse(savedCategories)
-        : ["사업", "주소", "연락처", "중요사항"];
+        // "기본" 카테고리가 없으면 추가
+        if (!initialCategories.includes("기본")) {
+          initialCategories = ["기본", ...initialCategories];
+        }
 
-      setItems(initialItems);
-      setCategories(initialCategories);
-      setIsLoading(false);
+        // 카테고리가 없는 메모들을 "기본" 카테고리로 설정
+        const updatedItems = initialItems.map((item: Item) => ({
+          ...item,
+          category: item.category || "기본",
+        }));
+
+        setItems(updatedItems);
+        setCategories(initialCategories);
+        setShowBanner(bannerClosed !== "true");
+        setIsMounted(true);
+      } catch (error) {
+        console.error("Error initializing data:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     initializeData();
@@ -82,13 +68,25 @@ export default function Home() {
 
   // items가 변경될 때마다 로컬 스토리지에 저장
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.ITEMS, JSON.stringify(items));
-  }, [items]);
+    if (isMounted) {
+      localStorage.setItem(STORAGE_KEYS.ITEMS, JSON.stringify(items));
+    }
+  }, [items, isMounted]);
 
   // categories가 변경될 때마다 로컬 스토리지에 저장
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(categories));
-  }, [categories]);
+    if (isMounted) {
+      let updatedCategories = categories;
+      if (!categories.includes("기본")) {
+        updatedCategories = ["기본", ...categories];
+        setCategories(updatedCategories);
+      }
+      localStorage.setItem(
+        STORAGE_KEYS.CATEGORIES,
+        JSON.stringify(updatedCategories)
+      );
+    }
+  }, [categories, isMounted]);
 
   const filteredItems = useMemo(
     () =>
@@ -112,6 +110,7 @@ export default function Home() {
     const item: Item = {
       id: String(items.length + 1),
       ...newItem,
+      category: newItem.category || "기본",
     };
     setItems([...items, item]);
     toast.success("메모가 추가되었습니다");
@@ -120,6 +119,26 @@ export default function Home() {
   const handleAddCategory = (category: string) => {
     setCategories([...categories, category]);
     toast.success("카테고리가 추가되었습니다");
+  };
+
+  const handleDeleteCategory = (category: string) => {
+    // 카테고리에 속한 메모들의 카테고리를 '기본'으로 변경
+    const updatedItems = items.map((item) =>
+      item.category === category ? { ...item, category: "기본" } : item
+    );
+
+    // 카테고리 목록에서 삭제
+    const updatedCategories = categories.filter((cat) => cat !== category);
+
+    setItems(updatedItems);
+    setCategories(updatedCategories);
+
+    // 현재 삭제된 카테고리를 보고 있었다면 '기본' 탭으로 이동
+    if (activeTab === category) {
+      setActiveTab("기본");
+    }
+
+    toast.success("카테고리가 삭제되었습니다");
   };
 
   const handleEdit = (editedItem: Item) => {
@@ -149,22 +168,31 @@ export default function Home() {
     toast.success("클립보드에 복사되었습니다.");
   };
 
+  const handleCloseBanner = () => {
+    setShowBanner(false);
+    localStorage.setItem(STORAGE_KEYS.BANNER_CLOSED, "true");
+  };
+
   // 데이터 로딩 중일 때 로딩 상태 표시
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <div className="w-8 h-8 mx-auto border-b-2 border-gray-900 rounded-full animate-spin"></div>
           <p className="mt-4 text-gray-600">로딩 중...</p>
         </div>
       </div>
     );
   }
 
+  if (!isMounted) {
+    return null; // or a loading spinner
+  }
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {showBanner && (
-        <div className="fixed top-0 left-0 right-0 bg-blue-500 text-white py-3 px-4 flex justify-between items-center z-50 shadow-lg animate-fade-in">
+        <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 text-white bg-blue-500 shadow-lg animate-fade-in">
           <div className="flex items-center gap-3 max-w-[1024px] mx-auto w-full">
             <svg
               className="w-5 h-5"
@@ -185,8 +213,8 @@ export default function Home() {
             </p>
           </div>
           <button
-            onClick={() => setShowBanner(false)}
-            className="text-white hover:text-blue-100 transition-colors cursor-pointer"
+            onClick={handleCloseBanner}
+            className="text-white transition-colors cursor-pointer hover:text-blue-100"
             aria-label="배너 닫기"
           >
             <svg
@@ -208,11 +236,11 @@ export default function Home() {
       )}
       <div className="flex flex-col flex-1">
         <div className="max-w-[1024px] w-full mx-auto px-5">
-          <div className={`pt-18 pb-4`}>
-            <h1 className="text-2xl font-bold text-foreground mb-1">
+          <div className={`pt-18 pb-4 bg-gray-50`}>
+            <h1 className="mb-1 text-2xl font-bold text-foreground">
               클립 메모
             </h1>
-            <p className="text-sm text-muted-foreground mb-5">
+            <p className="mb-5 text-sm text-muted-foreground">
               필요한 내용을 빠르게 기록하고, 클립보드로 복사해 효율을 높이세요!
             </p>
 
@@ -224,16 +252,17 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-card pt-4 pb-2">
+          <div className="pt-4 pb-2 bg-gray-50">
             <TabBar
               activeTab={activeTab}
               onTabChange={setActiveTab}
               categories={categories}
               onAddCategory={handleAddCategory}
+              onDeleteCategory={handleDeleteCategory}
             />
           </div>
 
-          <div className="flex-1 overflow-auto">
+          <div className="flex-1 overflow-auto bg-gray-50">
             <div className="space-y-4 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
               {filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
@@ -251,7 +280,7 @@ export default function Home() {
               ) : (
                 <div className="flex flex-col items-center justify-center py-10 text-center">
                   <svg
-                    className="w-16 h-16 text-muted-foreground/50 mb-4"
+                    className="w-16 h-16 mb-4 text-muted-foreground/50"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

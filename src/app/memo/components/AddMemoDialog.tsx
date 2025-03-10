@@ -29,7 +29,7 @@ export function AddMemoDialog({ categories, onAdd }: AddMemoDialogProps) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [category, setCategory] = useState(categories[0]);
+  const [category, setCategory] = useState("기본");
 
   const handleSubmit = () => {
     if (!title || !content) return;
@@ -42,7 +42,7 @@ export function AddMemoDialog({ categories, onAdd }: AddMemoDialogProps) {
 
     setTitle("");
     setContent("");
-    setCategory(categories[0]);
+    setCategory("기본");
     setOpen(false);
   };
 
