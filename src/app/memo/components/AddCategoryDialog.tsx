@@ -15,16 +15,24 @@ import { ReactNode } from "react";
 interface AddCategoryDialogProps {
   onAdd: (category: string) => void;
   children: ReactNode;
+  categories: string[];
 }
 
-export function AddCategoryDialog({ onAdd, children }: AddCategoryDialogProps) {
+export function AddCategoryDialog({
+  onAdd,
+  children,
+  categories,
+}: AddCategoryDialogProps) {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
 
-  const handleSubmit = () => {
-    if (!category) return;
+  const isDuplicate =
+    category.trim() !== "" && categories.includes(category.trim());
 
-    onAdd(category);
+  const handleSubmit = () => {
+    if (!category || isDuplicate) return;
+
+    onAdd(category.trim());
     setCategory("");
     setOpen(false);
   };
@@ -46,13 +54,18 @@ export function AddCategoryDialog({ onAdd, children }: AddCategoryDialogProps) {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             />
+            {isDuplicate && (
+              <p className="text-sm text-red-500">
+                이미 존재하는 카테고리입니다.
+              </p>
+            )}
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
             취소
           </Button>
-          <Button onClick={handleSubmit} disabled={!category}>
+          <Button onClick={handleSubmit} disabled={!category || isDuplicate}>
             추가
           </Button>
         </DialogFooter>

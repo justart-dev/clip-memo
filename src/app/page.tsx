@@ -555,7 +555,7 @@ export default function LandingPage() {
               <Button
                 asChild
                 size="lg"
-                className="h-16 px-12 text-lg transition-all duration-300 bg-gray-900 border-0 hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-2xl hover:shadow-xl"
+                className="h-16 px-12 text-lg transition-all duration-300 border-0 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 rounded-2xl hover:shadow-xl hover:shadow-indigo-500/20"
               >
                 <Link
                   href="/memo"

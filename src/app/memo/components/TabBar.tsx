@@ -20,7 +20,7 @@ const TabBar = ({
   onAddCategory,
   onDeleteCategory,
 }: TabBarProps) => {
-  const tabs = ["전체", ...categories];
+  const tabs = categories;
 
   return (
     <nav
@@ -44,7 +44,7 @@ const TabBar = ({
         </button>
       ))}
       <div className="flex gap-2 ml-auto">
-        <AddCategoryDialog onAdd={onAddCategory}>
+        <AddCategoryDialog onAdd={onAddCategory} categories={categories}>
           <button
             className="px-3 py-2 text-sm font-medium rounded-full transition-colors duration-300 cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-1.5"
             title="카테고리 추가"
