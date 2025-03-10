@@ -21,12 +21,13 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showBanner, setShowBanner] = useState(true);
   const [items, setItems] = useState<Item[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>(["전체", "기본"]);
   const [isLoading, setIsLoading] = useState(true);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // 초기 데이터 로드를 useEffect로 이동
   useEffect(() => {
@@ -39,11 +40,17 @@ export default function Home() {
         const initialItems = savedItems ? JSON.parse(savedItems) : [];
         let initialCategories = savedCategories
           ? JSON.parse(savedCategories)
-          : [];
+          : ["전체", "기본"];
 
-        // "기본" 카테고리가 없으면 추가
+        // "기본"과 "전체" 카테고리가 없으면 추가
         if (!initialCategories.includes("기본")) {
-          initialCategories = ["기본", ...initialCategories];
+          initialCategories = [
+            "기본",
+            ...initialCategories.filter((cat: string) => cat !== "전체"),
+          ];
+        }
+        if (!initialCategories.includes("전체")) {
+          initialCategories = ["전체", ...initialCategories];
         }
 
         // 카테고리가 없는 메모들을 "기본" 카테고리로 설정
@@ -58,6 +65,7 @@ export default function Home() {
         setIsMounted(true);
       } catch (error) {
         console.error("Error initializing data:", error);
+        setError("데이터를 불러오는 중 오류가 발생했습니다.");
       } finally {
         setIsLoading(false);
       }
@@ -69,22 +77,37 @@ export default function Home() {
   // items가 변경될 때마다 로컬 스토리지에 저장
   useEffect(() => {
     if (isMounted) {
-      localStorage.setItem(STORAGE_KEYS.ITEMS, JSON.stringify(items));
+      try {
+        localStorage.setItem(STORAGE_KEYS.ITEMS, JSON.stringify(items));
+      } catch (error) {
+        console.error("Error saving items:", error);
+        setError("메모를 저장하는 중 오류가 발생했습니다.");
+      }
     }
   }, [items, isMounted]);
 
   // categories가 변경될 때마다 로컬 스토리지에 저장
   useEffect(() => {
     if (isMounted) {
-      let updatedCategories = categories;
-      if (!categories.includes("기본")) {
-        updatedCategories = ["기본", ...categories];
-        setCategories(updatedCategories);
+      try {
+        let updatedCategories = categories;
+        if (!categories.includes("기본")) {
+          updatedCategories = [
+            "기본",
+            ...categories.filter((cat) => cat !== "전체"),
+          ];
+        }
+        if (!categories.includes("전체")) {
+          updatedCategories = ["전체", ...updatedCategories];
+        }
+        localStorage.setItem(
+          STORAGE_KEYS.CATEGORIES,
+          JSON.stringify(updatedCategories)
+        );
+      } catch (error) {
+        console.error("Error saving categories:", error);
+        setError("카테고리를 저장하는 중 오류가 발생했습니다.");
       }
-      localStorage.setItem(
-        STORAGE_KEYS.CATEGORIES,
-        JSON.stringify(updatedCategories)
-      );
     }
   }, [categories, isMounted]);
 
@@ -172,6 +195,38 @@ export default function Home() {
     setShowBanner(false);
     localStorage.setItem(STORAGE_KEYS.BANNER_CLOSED, "true");
   };
+
+  // 에러 발생 시 표시할 컴포넌트
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <svg
+            className="w-12 h-12 mx-auto text-red-500 mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <p className="text-xl font-semibold text-gray-900 dark:text-white">
+            {error}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-4 px-4 py-2 text-white bg-gray-900 rounded-lg hover:bg-gray-800"
+          >
+            다시 시도
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // 데이터 로딩 중일 때 로딩 상태 표시
   if (isLoading) {
