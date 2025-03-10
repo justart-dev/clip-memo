@@ -16,9 +16,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "클립 메모",
+  title: "Clip Memo - 빠른 메모, 쉬운 공유",
   description:
-    "중요한 내용을 간편하게 기록하고, 클릭 한 번으로 클립보드에 복사하세요. 빠르고 직관적인 메모 경험을 제공합니다.",
+    "필요한 내용을 빠르게 기록하고, 클립보드로 복사해 효율을 높이세요!",
+  openGraph: {
+    title: "Clip Memo - 빠른 메모, 쉬운 공유",
+    description:
+      "필요한 내용을 빠르게 기록하고, 클립보드로 복사해 효율을 높이세요!",
+    type: "website",
+    locale: "ko_KR",
+  },
+
   manifest: "/manifest.json",
   themeColor: "#ffffff",
   appleWebApp: {
@@ -38,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <head>
         <meta
           name="viewport"
