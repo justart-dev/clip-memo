@@ -264,10 +264,10 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col min-h-screen bg-gray-50">
+    <main className="flex flex-col min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <header className="fixed top-0 left-0 right-0 z-50">
         {showBanner && (
-          <div className="flex items-center justify-between px-4 py-3 text-white bg-blue-500 shadow-lg animate-fade-in">
+          <div className="flex items-center justify-between px-4 py-3 text-white shadow-lg bg-gradient-to-r from-blue-600 to-blue-500 animate-fade-in">
             <div className="flex items-center gap-3 max-w-[1024px] mx-auto w-full">
               <svg
                 className="w-5 h-5"
@@ -314,11 +314,11 @@ export default function Home() {
 
       <section className="flex flex-col flex-1">
         <div className="max-w-[1024px] w-full mx-auto px-5">
-          <header className={`pt-18 pb-4 bg-gray-50`}>
-            <h1 className="mb-1 text-2xl font-bold text-foreground">
+          <header className={`pt-20 pb-6 bg-transparent`}>
+            <h1 className="mb-2 text-3xl font-bold text-transparent text-foreground bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text">
               클립 메모
             </h1>
-            <p className="mb-5 text-sm text-muted-foreground">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               필요한 내용을 빠르게 기록하고, 클립보드로 복사해 효율을 높이세요!
             </p>
           </header>
@@ -328,7 +328,7 @@ export default function Home() {
               <SearchBar onSearch={setSearchQuery} />
             </div>
             <AddMemoDialog categories={categories} onAdd={handleAddNew}>
-              <button className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:bg-black/90 hover:scale-110">
+              <button className="flex items-center justify-center w-12 h-12 transition-all duration-300 rounded-full bg-gradient-to-r from-black to-gray-800 hover:scale-105 hover:shadow-lg">
                 <svg
                   width="24"
                   height="24"
@@ -351,11 +351,11 @@ export default function Home() {
 
           <section
             aria-label="카테고리 관리"
-            className="p-4 mb-4 bg-white rounded-lg shadow-sm"
+            className="p-6 mb-6 transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 mb-4">
               <svg
-                className="w-4 h-4 text-muted-foreground"
+                className="w-5 h-5 text-blue-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -368,7 +368,7 @@ export default function Home() {
                   d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
                 />
               </svg>
-              <p className="text-sm font-medium text-foreground">카테고리</p>
+              <p className="text-base font-semibold text-gray-900">카테고리</p>
               <div className="flex gap-2 ml-auto">
                 <AddCategoryDialog
                   onAdd={handleAddCategory}
@@ -467,24 +467,28 @@ export default function Home() {
           </section>
 
           <section aria-label="메모 목록" className="flex-1 overflow-auto">
-            <div className="space-y-4 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
+            <div className="space-y-5 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
               {filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
-                  <ListItem
+                  <div
                     key={item.id}
-                    item={item}
-                    onCopy={handleCopy}
-                    onEdit={() => {
-                      setSelectedItem(item);
-                      setEditDialogOpen(true);
-                    }}
-                    onDelete={() => handleDelete(item)}
-                  />
+                    className="transform transition-all duration-300 hover:translate-y-[-2px]"
+                  >
+                    <ListItem
+                      item={item}
+                      onCopy={handleCopy}
+                      onEdit={() => {
+                        setSelectedItem(item);
+                        setEditDialogOpen(true);
+                      }}
+                      onDelete={() => handleDelete(item)}
+                    />
+                  </div>
                 ))
               ) : (
-                <div className="flex flex-col items-center justify-center py-10 text-center">
+                <div className="flex flex-col items-center justify-center py-16 text-center bg-white border border-gray-100 shadow-sm rounded-xl">
                   <svg
-                    className="w-16 h-16 mb-4 text-muted-foreground/50"
+                    className="w-20 h-20 mb-6 text-blue-100"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -497,8 +501,11 @@ export default function Home() {
                       d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                     ></path>
                   </svg>
-                  <p className="text-muted-foreground">
+                  <p className="text-lg font-medium text-gray-500">
                     첫 번째 메모를 작성해보세요
+                  </p>
+                  <p className="mt-2 text-sm text-gray-400">
+                    상단의 + 버튼을 클릭하여 새로운 메모를 추가할 수 있습니다
                   </p>
                 </div>
               )}

@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL("https://clip-memo.vercel.app"),
   title: {
-    template: "%s | 클립 메모",
+    template: "%s | Clip memo",
     default: "클립 메모 - 빠르게 복사하는 메모장",
   },
   description:
