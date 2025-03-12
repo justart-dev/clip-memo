@@ -153,7 +153,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center px-4 py-2 mb-4 space-x-2 text-sm font-medium text-indigo-600 rounded-full bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-300"
+              className="inline-flex items-center px-4 py-2 mb-4 space-x-2 text-sm font-medium text-gray-900 bg-gray-100 rounded-full dark:bg-gray-800/30 dark:text-gray-300"
             >
               <span className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-indigo-600 rounded-full dark:bg-indigo-400 animate-pulse" />
@@ -441,10 +441,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mb-8 text-4xl font-bold text-gray-900 sm:text-5xl dark:text-white"
             >
-              클립 메모와 함께하는{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 dark:from-indigo-400 dark:via-indigo-300 dark:to-indigo-400">
-                분들
-              </span>
+              클립 메모와 함께하는 분들
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 10 }}
@@ -464,9 +461,9 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="transition-all border-none shadow-xl bg-gray-50 dark:bg-gray-800 hover:shadow-2xl hover:-translate-y-1">
-                  <CardContent className="p-8">
-                    <div className="flex items-center mb-6">
+                <Card className="transition-all border border-gray-200 shadow-xl dark:border-gray-600 bg-gray-50 dark:bg-gray-800 hover:shadow-2xl hover:-translate-y-1">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
                       <div className="relative">
                         <div className="absolute transition duration-1000 bg-gray-200 -inset-1 dark:bg-gray-700 rounded-2xl blur opacity-30 group-hover:opacity-100 group-hover:duration-200" />
                         <Image
@@ -487,16 +484,11 @@ export default function LandingPage() {
                       </div>
                     </div>
                     <div className="relative">
-                      <svg
-                        className="absolute w-8 h-8 text-indigo-200 -top-4 -left-4 dark:text-indigo-800"
-                        fill="currentColor"
-                        viewBox="0 0 32 32"
-                      >
-                        <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                      </svg>
-                      <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-                        {testimonial.content}
-                      </p>
+                      <div className="relative">
+                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+                          {testimonial.content}
+                        </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
