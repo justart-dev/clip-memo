@@ -12,6 +12,7 @@ import { DeleteConfirmDialog } from "./components/DeleteConfirmDialog";
 import { AddCategoryDialog } from "./components/AddCategoryDialog";
 import { DeleteCategoryDialog } from "./components/DeleteCategoryDialog";
 import { EditCategoryDialog } from "./components/EditCategoryDialog";
+import Loading from "@/components/Loading";
 
 const STORAGE_KEYS = {
   ITEMS: "clip-memo-items",
@@ -255,14 +256,7 @@ export default function Home() {
 
   // 데이터 로딩 중일 때 로딩 상태 표시
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="w-8 h-8 mx-auto border-b-2 border-gray-900 rounded-full animate-spin"></div>
-          <p className="mt-4 text-gray-600">로딩 중...</p>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!isMounted) {
@@ -355,7 +349,10 @@ export default function Home() {
             </AddMemoDialog>
           </nav>
 
-          <section aria-label="카테고리 관리" className="mb-4">
+          <section
+            aria-label="카테고리 관리"
+            className="p-4 mb-4 bg-white rounded-lg shadow-sm"
+          >
             <div className="flex items-center gap-2">
               <svg
                 className="w-4 h-4 text-muted-foreground"
