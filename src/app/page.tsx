@@ -20,27 +20,25 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     question: "클립 메모는 어떤 앱인가요?",
-    answer:
-      "클립 메모는 빠르고 간편하게 메모를 작성하고 관리할 수 있는 웹 앱입니다. 카테고리별로 메모를 구분하고, 원하는 내용을 클립보드에 빠르게 복사할 수 있습니다.",
+    answer: `클립 메모는 빠르고 간편하게 메모를 작성하고 관리할 수 있는 웹 앱입니다. 카테고리별로 메모를 구분하고, 원하는 내용을 클립보드에 빠르게 복사할 수 있습니다. 
+      
+      강력한 검색 기능으로 원하는 메모에 빠르게 접근 가능합니다.`,
   },
   {
     question: "저장된 메모는 어디에 보관되나요?",
-    answer:
-      "모든 메모는 사용자의 브라우저 로컬 스토리지에 안전하게 저장됩니다. 서버에 데이터를 저장하지 않기 때문에 개인정보가 유출될 걱정이 없습니다.",
-  },
-  {
-    question: "다른 기기와 동기화가 가능한가요?",
-    answer:
-      "현재 버전에서는 기기 간 동기화를 지원하지 않습니다. 추후 업데이트를 통해 클라우드 동기화 기능을 추가할 예정입니다.",
+    answer: `모든 메모는 사용자의 브라우저 로컬 스토리지에 안전하게 저장됩니다. 서버에 데이터를 저장하지 않기 때문에 개인정보가 유출될 걱정이 없습니다. 
+      
+      단, 브라우저 데이터를 초기화하면 저장된 메모도 함께 삭제되니 중요한 메모는 별도로 백업해두시는 것을 권장드립니다. 
+      
+      또한 공용 PC에서 사용하실 경우 브라우저 종료 시 반드시 로컬 데이터를 삭제해주세요.`,
   },
   {
     question: "PWA가 무엇인가요?",
     answer: `PWA(Progressive Web App)는 웹사이트를 모바일이나 데스크톱에 앱처럼 설치할 수 있게 해주는 최신 웹 기술입니다. 웹의 편리함과 앱의 장점을 모두 제공하여, 브라우저를 열지 않고도 바로 실행할 수 있습니다.
       
-      PWA로 설치하면 앱 아이콘이 홈 화면이나 시작 메뉴에 추가되어 빠르게 실행할 수 있고, 오프라인에서도 사용할 수 있습니다. 또한 브라우저를 열지 않고도 네이티브 앱과 동일한 사용자 경험을 제공받으며, 자동 업데이트와 푸시 알림 등의 기능도 사용할 수 있습니다.
+      PWA로 설치하면 앱 아이콘이 홈 화면이나 시작 메뉴에 추가되어 빠르게 실행할 수 있고, 오프라인에서도 사용할 수 있습니다. 또한 브라우저를 열지 않고도 네이티브 앱과 동일한 사용자 경험을 제공받을 수 있습니다.
       `,
   },
-
   {
     question: "PWA 설치는 어떻게 하나요?",
     answer: `설치 방법은 사용 중인 기기에 따라 다릅니다:
@@ -79,26 +77,23 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
   {
-    content:
-      "메모 앱을 여러 개 써봤지만, 클립 메모만큼 직관적이고 빠른 앱은 처음입니다. 특히 클립보드 복사 기능이 정말 편리해요!",
-    author: "김지훈",
-    role: "프리랜서 개발자",
+    content: "클립보드 복사 기능이 편하고 깔끔하네요!",
+    author: "이OO",
+    role: "데이터 사이언티스트",
     avatar:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' rx='24' fill='%234F46E5'/%3E%3Cpath d='M24 13C19.0294 13 15 17.0294 15 22C15 24.9003 16.3588 27.4659 18.5012 29.0556C19.4961 29.8295 18.9767 31.3223 17.7796 31.6249C15.5186 32.1812 13.6057 33.3251 12.1896 34.9111C11.1537 36.0764 12.0241 38 13.6622 38H34.3378C35.9759 38 36.8463 36.0764 35.8104 34.9111C34.3943 33.3251 32.4814 32.1812 30.2204 31.6249C29.0233 31.3223 28.5039 29.8295 29.4988 29.0556C31.6412 27.4659 33 24.9003 33 22C33 17.0294 28.9706 13 24 13Z' fill='white'/%3E%3Cpath d='M21 21C21 21 22.5 22.5 24 22.5C25.5 22.5 27 21 27 21' stroke='%234F46E5' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='18' r='1.5' fill='%234F46E5'/%3E%3Ccircle cx='29' cy='18' r='1.5' fill='%234F46E5'/%3E%3C/svg%3E",
+      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' rx='24' fill='%230EA5E9'/%3E%3Cpath d='M24 13C19.0294 13 15 17.0294 15 22C15 24.9003 16.3588 27.4659 18.5012 29.0556C19.4961 29.8295 18.9767 31.3223 17.7796 31.6249C15.5186 32.1812 13.6057 33.3251 12.1896 34.9111C11.1537 36.0764 12.0241 38 13.6622 38H34.3378C35.9759 38 36.8463 36.0764 35.8104 34.9111C34.3943 33.3251 32.4814 32.1812 30.2204 31.6249C29.0233 31.3223 28.5039 29.8295 29.4988 29.0556C31.6412 27.4659 33 24.9003 33 22C33 17.0294 28.9706 13 24 13Z' fill='white'/%3E%3Cpath d='M21 21C21 21 22.5 22.5 24 22.5C25.5 22.5 27 21 27 21' stroke='%230EA5E9' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='18' r='1.5' fill='%230EA5E9'/%3E%3Ccircle cx='29' cy='18' r='1.5' fill='%230EA5E9'/%3E%3Cpath d='M20 16L28 16M24 16V19' stroke='%230EA5E9' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M22 25C22 25 23 26 24 26C25 26 26 25 26 25' stroke='%230EA5E9' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M15 22C15 22 17 23 19 23C21 23 23 22 23 22' stroke='%230EA5E9' stroke-width='1.5' stroke-linecap='round' opacity='0.7'/%3E%3Cpath d='M25 22C25 22 27 23 29 23C31 23 33 22 33 22' stroke='%230EA5E9' stroke-width='1.5' stroke-linecap='round' opacity='0.7'/%3E%3C/svg%3E",
   },
   {
-    content:
-      "PWA로 설치해서 사용하니 네이티브 앱처럼 빠르고, 오프라인에서도 잘 작동해요. 일상적인 메모 도구로 완벽합니다.",
-    author: "이서연",
-    role: "디자이너",
+    content: "오프라인에서도 잘 작동해요. 일상적인 메모 도구로 완벽합니다.",
+    author: "박OO",
+    role: "웹 개발자",
     avatar:
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' rx='24' fill='%23EC4899'/%3E%3Cpath d='M24 13C19.0294 13 15 17.0294 15 22C15 24.9003 16.3588 27.4659 18.5012 29.0556C19.4961 29.8295 18.9767 31.3223 17.7796 31.6249C15.5186 32.1812 13.6057 33.3251 12.1896 34.9111C11.1537 36.0764 12.0241 38 13.6622 38H34.3378C35.9759 38 36.8463 36.0764 35.8104 34.9111C34.3943 33.3251 32.4814 32.1812 30.2204 31.6249C29.0233 31.3223 28.5039 29.8295 29.4988 29.0556C31.6412 27.4659 33 24.9003 33 22C33 17.0294 28.9706 13 24 13Z' fill='white'/%3E%3Cpath d='M21 21C21 21 22.5 22.5 24 22.5C25.5 22.5 27 21 27 21' stroke='%23EC4899' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='18' r='1.5' fill='%23EC4899'/%3E%3Ccircle cx='29' cy='18' r='1.5' fill='%23EC4899'/%3E%3Cpath d='M20 16L28 16' stroke='%23EC4899' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E",
   },
   {
-    content:
-      "카테고리 기능이 있어서 업무용, 개인용 메모를 깔끔하게 구분해서 관리할 수 있어요. 심플하면서도 필요한 기능은 다 있네요!",
-    author: "박현우",
-    role: "대학원생",
+    content: "심플하면서도 필요한 기능은 다 있네요",
+    author: "김OO",
+    role: "밥풀 대표",
     avatar:
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' rx='24' fill='%2310B981'/%3E%3Cpath d='M24 13C19.0294 13 15 17.0294 15 22C15 24.9003 16.3588 27.4659 18.5012 29.0556C19.4961 29.8295 18.9767 31.3223 17.7796 31.6249C15.5186 32.1812 13.6057 33.3251 12.1896 34.9111C11.1537 36.0764 12.0241 38 13.6622 38H34.3378C35.9759 38 36.8463 36.0764 35.8104 34.9111C34.3943 33.3251 32.4814 32.1812 30.2204 31.6249C29.0233 31.3223 28.5039 29.8295 29.4988 29.0556C31.6412 27.4659 33 24.9003 33 22C33 17.0294 28.9706 13 24 13Z' fill='white'/%3E%3Cpath d='M21 21C21 21 22.5 22.5 24 22.5C25.5 22.5 27 21 27 21' stroke='%2310B981' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='18' r='1.5' fill='%2310B981'/%3E%3Ccircle cx='29' cy='18' r='1.5' fill='%2310B981'/%3E%3Cpath d='M20 15H28M24 15V17' stroke='%2310B981' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E",
   },
@@ -282,35 +277,34 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
             {[
               {
-                title: "빠른 기록",
-                description:
-                  "생각나는 순간 바로 메모하세요. 카테고리별로 자동 정리되어 찾기도 쉽습니다.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                ),
-              },
-              {
                 title: "원클릭 복사",
                 description:
-                  "드래그할 필요 없이 클릭 한 번으로 클립보드에 복사됩니다. 필요할 때 바로 붙여넣기하세요.",
+                  "드래그할 필요 없이 클릭 한 번으로 클립보드에 복사됩니다.",
                 icon: (
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                   />
                 ),
               },
               {
-                title: "앱처럼 사용",
+                title: "태그 관리",
+                description: "메모를 태그로 분류하고 체계적으로 관리하세요.",
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                  />
+                ),
+              },
+              {
+                title: "PWA 지원",
                 description:
-                  "PWA로 설치하면 네이티브 앱처럼 사용할 수 있습니다. 오프라인에서도 완벽하게 동작합니다.",
+                  "앱처럼 설치하여 더욱 편리하게 사용하세요. 오프라인에서도 완벽하게 동작합니다.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -320,9 +314,60 @@ export default function LandingPage() {
                   />
                 ),
               },
+              {
+                title: "로컬 저장",
+                description: "모든 데이터는 브라우저에 안전하게 저장됩니다.",
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+                  />
+                ),
+              },
+              {
+                title: (
+                  <div className="flex items-center gap-2">
+                    데이터 백업
+                    <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
+                      Coming Soon
+                    </span>
+                  </div>
+                ),
+                description:
+                  "메모를 파일로 내보내고 가져와서 안전하게 보관하세요.",
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                  />
+                ),
+              },
+              {
+                title: (
+                  <div className="flex items-center gap-2">
+                    다크 모드
+                    <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
+                      Coming Soon
+                    </span>
+                  </div>
+                ),
+                description: "눈의 피로를 줄여주는 다크 테마를 지원합니다.",
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  />
+                ),
+              },
             ].map((feature, index) => (
               <motion.div
-                key={feature.title}
+                key={feature.description}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -414,6 +459,35 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Stats Section */}
+      {/* <section className="relative py-24 -mt-32">
+            <div className="relative px-4 py-32 mx-auto max-w-7xl sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  { number: "10K+", label: "활성 사용자" },
+                  { number: "100K+", label: "저장된 메모" },
+                  { number: "4.9/5", label: "사용자 평점" },
+                  { number: "24/7", label: "무료 사용" },
+                ].map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="text-center"
+                  >
+                    <div className="text-4xl font-bold text-indigo-600 dark:text-indigo-400">
+                      {stat.number}
+                    </div>
+                    <div className="mt-2 text-lg text-gray-600 dark:text-gray-300">
+                      {stat.label}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section> */}
 
       {/* Testimonials Section */}
       <section className="relative py-24 -mt-32">
