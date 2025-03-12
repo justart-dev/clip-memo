@@ -33,7 +33,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
     >
       <button
         onClick={handleSearchSubmit}
-        className="absolute inset-y-0 left-0 flex items-center pl-4 hover:text-primary transition-colors"
+        className="absolute inset-y-0 left-0 flex items-center pl-4 transition-colors hover:text-primary"
       >
         <svg
           className={`w-5 h-5 transition-colors duration-300 ${
@@ -65,7 +65,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
       {query && (
         <button
           onClick={handleClear}
-          className="absolute inset-y-0 right-4 flex items-center text-muted-foreground hover:text-foreground transition-colors "
+          className="absolute inset-y-0 flex items-center transition-colors right-4 text-muted-foreground hover:text-foreground "
         >
           <svg
             className="w-4 h-4"

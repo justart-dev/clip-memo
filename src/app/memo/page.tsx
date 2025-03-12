@@ -270,205 +270,206 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {showBanner && (
-        <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 text-white bg-blue-500 shadow-lg animate-fade-in">
-          <div className="flex items-center gap-3 max-w-[1024px] mx-auto w-full">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+    <main className="flex flex-col min-h-screen bg-gray-50">
+      <header className="fixed top-0 left-0 right-0 z-50">
+        {showBanner && (
+          <div className="flex items-center justify-between px-4 py-3 text-white bg-blue-500 shadow-lg animate-fade-in">
+            <div className="flex items-center gap-3 max-w-[1024px] mx-auto w-full">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p className="text-sm font-medium">
+                지금은 베타버전이에요! 안전한 사용을 위해 개인 기기에서 이용해
+                주세요.
+              </p>
+            </div>
+            <button
+              onClick={handleCloseBanner}
+              className="text-white transition-colors cursor-pointer hover:text-blue-100"
+              aria-label="배너 닫기"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <p className="text-sm font-medium">
-              지금은 베타버전이에요! 더 안전한 사용을 위해 개인 기기에서 이용해
-              주세요.
-            </p>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
-          <button
-            onClick={handleCloseBanner}
-            className="text-white transition-colors cursor-pointer hover:text-blue-100"
-            aria-label="배너 닫기"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-      )}
-      <div className="flex flex-col flex-1">
+        )}
+      </header>
+
+      <section className="flex flex-col flex-1">
         <div className="max-w-[1024px] w-full mx-auto px-5">
-          <div className={`pt-18 pb-4 bg-gray-50`}>
+          <header className={`pt-18 pb-4 bg-gray-50`}>
             <h1 className="mb-1 text-2xl font-bold text-foreground">
               클립 메모
             </h1>
             <p className="mb-5 text-sm text-muted-foreground">
               필요한 내용을 빠르게 기록하고, 클립보드로 복사해 효율을 높이세요!
             </p>
+          </header>
 
-            <div className="flex items-center gap-4 mb-6">
-              <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px]">
-                <SearchBar onSearch={setSearchQuery} />
-              </div>
-              <AddMemoDialog categories={categories} onAdd={handleAddNew}>
-                <button className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:bg-black/90 hover:scale-110">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="text-white"
-                  >
-                    <path
-                      d="M12 4V20M4 12H20"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              </AddMemoDialog>
+          <nav className="flex items-center gap-4 mb-6">
+            <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px]">
+              <SearchBar onSearch={setSearchQuery} />
             </div>
-          </div>
-
-          <div className="mb-4 bg-white border rounded-lg shadow-sm border-border/40">
-            <div className="flex flex-col gap-3 p-4">
-              <div className="flex items-center gap-2">
+            <AddMemoDialog categories={categories} onAdd={handleAddNew}>
+              <button className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:bg-black/90 hover:scale-110">
                 <svg
-                  className="w-4 h-4 text-muted-foreground"
-                  fill="none"
-                  stroke="currentColor"
+                  width="24"
+                  height="24"
                   viewBox="0 0 24 24"
+                  fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="text-white"
                 >
                   <path
+                    d="M12 4V20M4 12H20"
+                    stroke="currentColor"
+                    strokeWidth="3"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
                   />
                 </svg>
-                <p className="text-sm font-medium text-foreground">카테고리</p>
-                <div className="flex gap-2 ml-auto">
-                  <AddCategoryDialog
-                    onAdd={handleAddCategory}
-                    categories={categories}
-                  >
-                    <button
-                      className="px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
-                      title="카테고리 추가"
-                    >
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="stroke-current"
-                      >
-                        <path
-                          d="M12 4V20M4 12H20"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span>추가</span>
-                    </button>
-                  </AddCategoryDialog>
-                  <EditCategoryDialog
-                    categories={categories}
-                    onEdit={handleEditCategory}
-                  >
-                    <button
-                      className="px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
-                      title="카테고리 수정"
-                    >
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="stroke-current"
-                      >
-                        <path
-                          d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span>수정</span>
-                    </button>
-                  </EditCategoryDialog>
-                  <DeleteCategoryDialog
-                    categories={categories}
-                    onDelete={handleDeleteCategory}
-                  >
-                    <button
-                      className="px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1 border border-border/40"
-                      title="카테고리 삭제"
-                    >
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="stroke-current"
-                      >
-                        <path
-                          d="M6 7V18C6 19.1046 6.89543 20 8 20H16C17.1046 20 18 19.1046 18 18V7M6 7H5M6 7H8M18 7H19M18 7H16M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7M8 7H16M10 11V16M14 11V16"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span>삭제</span>
-                    </button>
-                  </DeleteCategoryDialog>
-                </div>
-              </div>
+              </button>
+            </AddMemoDialog>
+          </nav>
 
-              <div className="pt-1">
-                <TabBar
-                  activeTab={activeTab}
-                  onTabChange={setActiveTab}
-                  categories={categories}
+          <section aria-label="카테고리 관리" className="mb-4">
+            <div className="flex items-center gap-2">
+              <svg
+                className="w-4 h-4 text-muted-foreground"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
                 />
+              </svg>
+              <p className="text-sm font-medium text-foreground">카테고리</p>
+              <div className="flex gap-2 ml-auto">
+                <AddCategoryDialog
+                  onAdd={handleAddCategory}
+                  categories={categories}
+                >
+                  <button
+                    className="px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
+                    title="카테고리 추가"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="stroke-current"
+                    >
+                      <path
+                        d="M12 4V20M4 12H20"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>추가</span>
+                  </button>
+                </AddCategoryDialog>
+                <EditCategoryDialog
+                  categories={categories}
+                  onEdit={handleEditCategory}
+                >
+                  <button
+                    className="px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
+                    title="카테고리 수정"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="stroke-current"
+                    >
+                      <path
+                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>수정</span>
+                  </button>
+                </EditCategoryDialog>
+                <DeleteCategoryDialog
+                  categories={categories}
+                  onDelete={handleDeleteCategory}
+                >
+                  <button
+                    className="px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1 border border-border/40"
+                    title="카테고리 삭제"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="stroke-current"
+                    >
+                      <path
+                        d="M6 7V18C6 19.1046 6.89543 20 8 20H16C17.1046 20 18 19.1046 18 18V7M6 7H5M6 7H8M18 7H19M18 7H16M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7M8 7H16M10 11V16M14 11V16"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>삭제</span>
+                  </button>
+                </DeleteCategoryDialog>
               </div>
             </div>
-          </div>
 
-          <div className="flex-1 overflow-auto bg-gray-50">
+            <div className="pt-1">
+              <TabBar
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+                categories={categories}
+              />
+            </div>
+          </section>
+
+          <section aria-label="메모 목록" className="flex-1 overflow-auto">
             <div className="space-y-4 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
               {filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
@@ -505,9 +506,9 @@ export default function Home() {
                 </div>
               )}
             </div>
-          </div>
+          </section>
         </div>
-      </div>
+      </section>
 
       {selectedItem && (
         <EditMemoDialog
@@ -524,6 +525,6 @@ export default function Home() {
         onOpenChange={setDeleteDialogOpen}
         onConfirm={confirmDelete}
       />
-    </div>
+    </main>
   );
 }
