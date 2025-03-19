@@ -129,13 +129,13 @@ const ListItem = ({ item, onCopy, onEdit, onDelete }: ListItemProps) => {
             )}
           </div>
         </div>
-        <p className="mb-4 text-sm text-muted-foreground line-clamp-2 no-select">
+        <p className="mb-2 overflow-hidden text-sm text-gray-600 dark:text-gray-400 text-ellipsis whitespace-nowrap">
           {item.content}
         </p>
         <div className="flex items-center justify-between">
-          <span className="px-2 py-1 text-xs rounded-full text-muted-foreground bg-secondary">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {item.category}
-          </span>
+          </p>
           <button
             onClick={handleCopy}
             className="px-3 py-1.5 bg-primary text-primary-foreground rounded-full text-xs hover:bg-primary/90 transition-colors flex items-center gap-1 shadow-sm"

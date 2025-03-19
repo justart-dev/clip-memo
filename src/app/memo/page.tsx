@@ -13,12 +13,15 @@ import { AddCategoryDialog } from "./components/AddCategoryDialog";
 import { DeleteCategoryDialog } from "./components/DeleteCategoryDialog";
 import { EditCategoryDialog } from "./components/EditCategoryDialog";
 import Loading from "@/components/Loading";
+import { v4 as uuidv4 } from "uuid";
 
 const STORAGE_KEYS = {
   ITEMS: "clip-memo-items",
   CATEGORIES: "clip-memo-categories",
   BANNER_CLOSED: "clip-memo-banner-closed",
 };
+
+const MAX_MEMO_LENGTH = 10000; // 메모 길이 제한
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("전체");
@@ -78,19 +81,31 @@ export default function Home() {
     initializeData();
   }, []); // 컴포넌트 마운트 시 한 번만 실행
 
-  // items가 변경될 때마다 로컬 스토리지에 저장
+  // 로컬 스토리지 저장 함수 개선
+  const saveToLocalStorage = (key: string, data: Item[] | string[]) => {
+    try {
+      const serializedData = JSON.stringify(data);
+      localStorage.setItem(key, serializedData);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.name === "QuotaExceededError") {
+          toast.error("저장 공간이 부족합니다. 일부 메모를 삭제해주세요.");
+        } else {
+          toast.error("데이터 저장 중 오류가 발생했습니다");
+        }
+      }
+      console.error("Storage error:", error);
+    }
+  };
+
+  // items 저장 useEffect 수정
   useEffect(() => {
     if (isMounted) {
-      try {
-        localStorage.setItem(STORAGE_KEYS.ITEMS, JSON.stringify(items));
-      } catch (error) {
-        console.error("Error saving items:", error);
-        setError("메모를 저장하는 중 오류가 발생했습니다.");
-      }
+      saveToLocalStorage(STORAGE_KEYS.ITEMS, items);
     }
   }, [items, isMounted]);
 
-  // categories가 변경될 때마다 로컬 스토리지에 저장
+  // categories 저장 useEffect 수정
   useEffect(() => {
     if (isMounted) {
       try {
@@ -104,13 +119,10 @@ export default function Home() {
         if (!categories.includes("전체")) {
           updatedCategories = ["전체", ...updatedCategories];
         }
-        localStorage.setItem(
-          STORAGE_KEYS.CATEGORIES,
-          JSON.stringify(updatedCategories)
-        );
+        saveToLocalStorage(STORAGE_KEYS.CATEGORIES, updatedCategories);
       } catch (error) {
         console.error("Error saving categories:", error);
-        setError("카테고리를 저장하는 중 오류가 발생했습니다.");
+        toast.error("카테고리 저장 중 오류가 발생했습니다");
       }
     }
   }, [categories, isMounted]);
@@ -134,13 +146,34 @@ export default function Home() {
   );
 
   const handleAddNew = (newItem: Omit<Item, "id">) => {
-    const item: Item = {
-      id: String(items.length + 1),
-      ...newItem,
-      category: newItem.category || "기본",
-    };
-    setItems([...items, item]);
-    toast.success("메모가 추가되었습니다");
+    try {
+      // 메모 길이 검증
+      if (newItem.content.length > MAX_MEMO_LENGTH) {
+        toast.error(`메모는 ${MAX_MEMO_LENGTH}자를 초과할 수 없습니다`);
+        return;
+      }
+
+      const item: Item = {
+        id: uuidv4(), // UUID 사용
+        ...newItem,
+        category: newItem.category || "기본",
+      };
+
+      // 스토리지 용량 체크
+      const currentStorage = JSON.stringify([...items, item]).length;
+
+      if (currentStorage > 5000000) {
+        // 약 5MB 제한
+        toast.error("저장 공간이 부족합니다. 일부 메모를 삭제해주세요.");
+        return;
+      }
+
+      setItems([...items, item]);
+      toast.success("메모가 추가되었습니다");
+    } catch (error) {
+      console.error("Error adding memo:", error);
+      toast.error("메모 추가 중 오류가 발생했습니다");
+    }
   };
 
   const handleAddCategory = (category: string) => {

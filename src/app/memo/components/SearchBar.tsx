@@ -55,12 +55,13 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
       <input
         type="text"
         placeholder="검색어를 입력해주세요"
-        className="w-full py-3.5 pl-12 pr-4 text-sm bg-card border border-input rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 shadow-sm"
+        className="w-full py-3.5 pl-12 pr-4 text-md bg-card border border-input rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 shadow-sm"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        autoFocus={false}
       />
       {query && (
         <button
