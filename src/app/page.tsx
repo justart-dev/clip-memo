@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/accordion";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/Loading";
 
 interface FAQItem {
   question: string;
