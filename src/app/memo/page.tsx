@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react"; // useEffect 추가
+import { useState, useEffect } from "react";
 import { Item } from "./types";
 import SearchBar from "./components/SearchBar";
 import TabBar from "./components/TabBar";
@@ -13,215 +13,128 @@ import { AddCategoryDialog } from "./components/AddCategoryDialog";
 import { DeleteCategoryDialog } from "./components/DeleteCategoryDialog";
 import { EditCategoryDialog } from "./components/EditCategoryDialog";
 import Loading from "@/components/Loading";
-import { v4 as uuidv4 } from "uuid";
+import { useMemoManager } from "./hooks/useMemoManager";
 
-const STORAGE_KEYS = {
-  ITEMS: "clip-memo-items",
-  CATEGORIES: "clip-memo-categories",
-  BANNER_CLOSED: "clip-memo-banner-closed",
-};
-
-const MAX_MEMO_LENGTH = 10000; // 메모 길이 제한
+const STORAGE_KEY_BANNER_CLOSED = "clip-memo-banner-closed";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("전체");
-  const [searchQuery, setSearchQuery] = useState("");
   const [showBanner, setShowBanner] = useState(true);
-  const [items, setItems] = useState<Item[]>([]);
-  const [categories, setCategories] = useState<string[]>(["전체", "기본"]);
   const [isLoading, setIsLoading] = useState(true);
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [isMounted, setIsMounted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  
+  // 메모 관리 훅 사용
+  const {
+    items,
+    categories,
+    activeTab,
+    filteredItems,
+    selectedItem,
+    editDialogOpen,
+    deleteDialogOpen,
+    setActiveTab,
+    setSearchQuery,
+    setEditDialogOpen,
+    setDeleteDialogOpen,
+    setSelectedItem,
+    handleAddNew,
+    handleEdit,
+    handleDelete,
+    confirmDelete,
+    handleAddCategory,
+    handleDeleteCategory,
+    handleEditCategory
+  } = useMemoManager();
 
-  // 초기 데이터 로드를 useEffect로 이동
+  // 배너 상태 초기화 및 로딩 상태 관리
   useEffect(() => {
-    const initializeData = () => {
-      try {
-        const savedItems = localStorage.getItem(STORAGE_KEYS.ITEMS);
-        const savedCategories = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
-        const bannerClosed = localStorage.getItem(STORAGE_KEYS.BANNER_CLOSED);
-
-        const initialItems = savedItems ? JSON.parse(savedItems) : [];
-        let initialCategories = savedCategories
-          ? JSON.parse(savedCategories)
-          : ["전체", "기본"];
-
-        // "기본"과 "전체" 카테고리가 없으면 추가
-        if (!initialCategories.includes("기본")) {
-          initialCategories = [
-            "기본",
-            ...initialCategories.filter((cat: string) => cat !== "전체"),
-          ];
-        }
-        if (!initialCategories.includes("전체")) {
-          initialCategories = ["전체", ...initialCategories];
-        }
-
-        // 카테고리가 없는 메모들을 "기본" 카테고리로 설정
-        const updatedItems = initialItems.map((item: Item) => ({
-          ...item,
-          category: item.category || "기본",
-        }));
-
-        setItems(updatedItems);
-        setCategories(initialCategories);
-        setShowBanner(bannerClosed !== "true");
-        setIsMounted(true);
-      } catch (error) {
-        console.error("Error initializing data:", error);
-        setError("데이터를 불러오는 중 오류가 발생했습니다.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeData();
-  }, []); // 컴포넌트 마운트 시 한 번만 실행
-
-  // 로컬 스토리지 저장 함수 개선
-  const saveToLocalStorage = (key: string, data: Item[] | string[]) => {
     try {
-      const serializedData = JSON.stringify(data);
-      localStorage.setItem(key, serializedData);
+      const bannerClosed = localStorage.getItem(STORAGE_KEY_BANNER_CLOSED);
+      setShowBanner(bannerClosed !== "true");
+      setIsMounted(true);
     } catch (error) {
-      if (error instanceof Error) {
-        if (error.name === "QuotaExceededError") {
-          toast.error("저장 공간이 부족합니다. 일부 메모를 삭제해주세요.");
-        } else {
-          toast.error("데이터 저장 중 오류가 발생했습니다");
-        }
-      }
-      console.error("Storage error:", error);
+      console.error("Error loading banner state:", error);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, []);
 
-  // items 저장 useEffect 수정
-  useEffect(() => {
-    if (isMounted) {
-      saveToLocalStorage(STORAGE_KEYS.ITEMS, items);
-    }
-  }, [items, isMounted]);
-
-  // categories 저장 useEffect 수정
-  useEffect(() => {
-    if (isMounted) {
-      try {
-        let updatedCategories = categories;
-        if (!categories.includes("기본")) {
-          updatedCategories = [
-            "기본",
-            ...categories.filter((cat) => cat !== "전체"),
-          ];
-        }
-        if (!categories.includes("전체")) {
-          updatedCategories = ["전체", ...updatedCategories];
-        }
-        saveToLocalStorage(STORAGE_KEYS.CATEGORIES, updatedCategories);
-      } catch (error) {
-        console.error("Error saving categories:", error);
-        toast.error("카테고리 저장 중 오류가 발생했습니다");
-      }
-    }
-  }, [categories, isMounted]);
-
-  const filteredItems = useMemo(
-    () =>
-      items.filter((item) => {
-        if (activeTab !== "전체" && item.category !== activeTab) return false;
-
-        if (searchQuery) {
-          const query = searchQuery.toLowerCase();
-          return (
-            item.title.toLowerCase().includes(query) ||
-            item.content.toLowerCase().includes(query)
-          );
-        }
-
-        return true;
-      }),
-    [items, activeTab, searchQuery]
-  );
-
-  const handleAddNew = (newItem: Omit<Item, "id">) => {
+  // 토스트 메시지와 함께 작업을 수행하는 래퍼 함수들
+  const handleAddNewWithToast = (newItem: Omit<Item, "id">) => {
     try {
-      // 메모 길이 검증
-      if (newItem.content.length > MAX_MEMO_LENGTH) {
-        toast.error(`메모는 ${MAX_MEMO_LENGTH}자를 초과할 수 없습니다`);
-        return;
-      }
-
-      const item: Item = {
-        id: uuidv4(), // UUID 사용
-        ...newItem,
-        category: newItem.category || "기본",
-      };
-
-      // 스토리지 용량 체크
-      const currentStorage = JSON.stringify([...items, item]).length;
-
-      if (currentStorage > 5000000) {
-        // 약 5MB 제한
-        toast.error("저장 공간이 부족합니다. 일부 메모를 삭제해주세요.");
-        return;
-      }
-
-      setItems([...items, item]);
+      handleAddNew(newItem);
       toast.success("메모가 추가되었습니다");
     } catch (error) {
-      console.error("Error adding memo:", error);
-      toast.error("메모 추가 중 오류가 발생했습니다");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("메모 추가 중 오류가 발생했습니다");
+      }
     }
   };
 
-  const handleAddCategory = (category: string) => {
-    setCategories([...categories, category]);
-    toast.success("카테고리가 추가되었습니다");
-  };
-
-  const handleDeleteCategory = (category: string) => {
-    // 카테고리에 속한 메모들의 카테고리를 '기본'으로 변경
-    const updatedItems = items.map((item) =>
-      item.category === category ? { ...item, category: "기본" } : item
-    );
-
-    // 카테고리 목록에서 삭제
-    const updatedCategories = categories.filter((cat) => cat !== category);
-
-    setItems(updatedItems);
-    setCategories(updatedCategories);
-
-    // 현재 삭제된 카테고리를 보고 있었다면 '기본' 탭으로 이동
-    if (activeTab === category) {
-      setActiveTab("기본");
+  const handleAddCategoryWithToast = (category: string) => {
+    try {
+      handleAddCategory(category);
+      toast.success("카테고리가 추가되었습니다");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("카테고리 추가 중 오류가 발생했습니다");
+      }
     }
-
-    toast.success("카테고리가 삭제되었습니다");
   };
 
-  const handleEdit = (editedItem: Item) => {
-    const updatedItems = items.map((i) =>
-      i.id === editedItem.id ? editedItem : i
-    );
-    setItems(updatedItems);
-    toast.success("메모가 수정되었습니다");
+  const handleDeleteCategoryWithToast = (category: string) => {
+    try {
+      handleDeleteCategory(category);
+      toast.success("카테고리가 삭제되었습니다");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("카테고리 삭제 중 오류가 발생했습니다");
+      }
+    }
   };
 
-  const handleDelete = (item: Item) => {
-    setSelectedItem(item);
-    setDeleteDialogOpen(true);
+  const handleEditWithToast = (editedItem: Item) => {
+    try {
+      handleEdit(editedItem);
+      toast.success("메모가 수정되었습니다");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("메모 수정 중 오류가 발생했습니다");
+      }
+    }
   };
 
-  const confirmDelete = () => {
-    if (!selectedItem) return;
+  const confirmDeleteWithToast = () => {
+    try {
+      confirmDelete();
+      toast.success("메모가 삭제되었습니다");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("메모 삭제 중 오류가 발생했습니다");
+      }
+    }
+  };
 
-    const updatedItems = items.filter((i) => i.id !== selectedItem.id);
-    setItems(updatedItems);
-    setDeleteDialogOpen(false);
-    setSelectedItem(null);
-    toast.success("메모가 삭제되었습니다");
+  const handleEditCategoryWithToast = (oldCategory: string, newCategory: string) => {
+    try {
+      handleEditCategory(oldCategory, newCategory);
+      toast.success("카테고리가 수정되었습니다");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("카테고리 수정 중 오류가 발생했습니다");
+      }
+    }
   };
 
   const handleCopy = () => {
@@ -230,62 +143,8 @@ export default function Home() {
 
   const handleCloseBanner = () => {
     setShowBanner(false);
-    localStorage.setItem(STORAGE_KEYS.BANNER_CLOSED, "true");
+    localStorage.setItem(STORAGE_KEY_BANNER_CLOSED, "true");
   };
-
-  const handleEditCategory = (oldCategory: string, newCategory: string) => {
-    // 카테고리 이름 변경
-    const updatedCategories = categories.map((cat) =>
-      cat === oldCategory ? newCategory : cat
-    );
-
-    // 해당 카테고리를 사용하는 메모들의 카테고리도 변경
-    const updatedItems = items.map((item) =>
-      item.category === oldCategory ? { ...item, category: newCategory } : item
-    );
-
-    setItems(updatedItems);
-    setCategories(updatedCategories);
-
-    // 현재 수정된 카테고리를 보고 있었다면 새 카테고리로 이동
-    if (activeTab === oldCategory) {
-      setActiveTab(newCategory);
-    }
-
-    toast.success("카테고리가 수정되었습니다");
-  };
-
-  // 에러 발생 시 표시할 컴포넌트
-  if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <svg
-            className="w-12 h-12 mx-auto mb-4 text-red-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-            />
-          </svg>
-          <p className="text-xl font-semibold text-gray-900 dark:text-white">
-            {error}
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 mt-4 text-white bg-gray-900 rounded-lg hover:bg-gray-800"
-          >
-            다시 시도
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   // 데이터 로딩 중일 때 로딩 상태 표시
   if (isLoading) {
@@ -317,8 +176,7 @@ export default function Home() {
                 />
               </svg>
               <p className="text-sm font-medium">
-                지금은 베타버전이에요! 안전한 사용을 위해 개인 기기에서 이용해
-                주세요.
+              새로운 시작, v1버전이 출시되었습니다 :) 
               </p>
             </div>
             <button
@@ -352,7 +210,7 @@ export default function Home() {
               클립 메모
             </h1>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              필요한 내용을 빠르게 기록하고, 클립보드로 복사해 효율을 높이세요!
+            필요한 내용을 클릭 한 번에 복사하고, 생산성을 높여보세요!
             </p>
           </header>
 
@@ -360,7 +218,7 @@ export default function Home() {
             <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px]">
               <SearchBar onSearch={setSearchQuery} />
             </div>
-            <AddMemoDialog categories={categories} onAdd={handleAddNew}>
+            <AddMemoDialog categories={categories} onAdd={handleAddNewWithToast}>
               <button className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:scale-105 hover:shadow-lg">
                 <svg
                   width="24"
@@ -407,7 +265,7 @@ export default function Home() {
               </div>
               <div className="flex flex-wrap gap-1.5 sm:gap-2 ml-auto">
                 <AddCategoryDialog
-                  onAdd={handleAddCategory}
+                  onAdd={handleAddCategoryWithToast}
                   categories={categories}
                 >
                   <button
@@ -434,7 +292,7 @@ export default function Home() {
                 </AddCategoryDialog>
                 <EditCategoryDialog
                   categories={categories}
-                  onEdit={handleEditCategory}
+                  onEdit={handleEditCategoryWithToast}
                 >
                   <button
                     className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
@@ -466,7 +324,7 @@ export default function Home() {
                 </EditCategoryDialog>
                 <DeleteCategoryDialog
                   categories={categories}
-                  onDelete={handleDeleteCategory}
+                  onDelete={handleDeleteCategoryWithToast}
                 >
                   <button
                     className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1 border border-border/40"
@@ -528,7 +386,7 @@ export default function Home() {
                     <p className="mt-2 text-sm text-gray-500">
                       상단의 + 버튼을 클릭하여 새로운 메모를 추가할 수 있습니다
                     </p>
-                    <AddMemoDialog categories={categories} onAdd={handleAddNew}>
+                    <AddMemoDialog categories={categories} onAdd={handleAddNewWithToast}>
                       <button className="px-4 py-2 mt-6 text-white transition-colors duration-300 bg-black rounded-lg cursor-pointer hover:bg-gray-900">
                         새 메모 작성하기
                       </button>
@@ -590,14 +448,14 @@ export default function Home() {
           categories={categories}
           open={editDialogOpen}
           onOpenChange={setEditDialogOpen}
-          onEdit={handleEdit}
+          onEdit={handleEditWithToast}
         />
       )}
 
       <DeleteConfirmDialog
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        onConfirm={confirmDelete}
+        onConfirm={confirmDeleteWithToast}
       />
     </main>
   );
