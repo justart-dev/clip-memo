@@ -16,7 +16,6 @@ export function useLocalStorage<T>(
   const [storedValue, setStoredValue] = useState<T>(initialValue);
   const [error, setError] = useState<string | null>(null);
   
-
   // 초기 데이터 로드
   useEffect(() => {
     try {
@@ -28,9 +27,9 @@ export function useLocalStorage<T>(
       console.error(`Error reading localStorage key "${key}":`, error);
       setError(`데이터를 불러오는 중 오류가 발생했습니다: ${key}`);
     }
-  }, [key, initialValue]);
+  }, [key]);
 
-  // 값 설정 함수
+  // 값 설정 함수 
   const setValue: SetValue<T> = (value) => {
     try {
       // 함수로 전달된 경우 처리
