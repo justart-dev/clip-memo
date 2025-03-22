@@ -176,7 +176,7 @@ export default function Home() {
                 />
               </svg>
               <p className="text-sm font-medium">
-              새로운 시작, v1버전이 출시되었습니다 :) 
+              피드백은 언제나 환영입니다 :)
               </p>
             </div>
             <button
