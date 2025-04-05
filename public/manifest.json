@@ -18,6 +18,37 @@
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "새 메모 작성",
+      "short_name": "새 메모",
+      "description": "새 메모 작성하기",
+      "url": "/memo?new=true",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.svg",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "orientation": "any",
+  "categories": ["productivity", "utilities"],
+  "scope": "/",
+  "prefer_related_applications": false,
+  "offline_enabled": true
 }

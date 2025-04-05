@@ -1,67 +1,175 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>오프라인 - Clip Memo</title>
+    <link rel="icon" href="/icons/icon-192x192.svg" type="image/svg+xml" />
     <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+      .container {
+        text-align: center;
+        padding: 2rem;
+        max-width: 90%;
+        width: 400px;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1.5rem;
+        animation: pulse 2s infinite;
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: 1.8rem;
+        color: #4f46e5;
+      }
+      p {
+        color: #666;
+        margin: 0 0 1.5rem;
+        line-height: 1.6;
+      }
+      .retry-button {
+        padding: 0.8rem 1.5rem;
+        background-color: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.2s;
+        font-weight: 500;
+        box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3);
+      }
+      .retry-button:hover {
+        background-color: #4338ca;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(79, 70, 229, 0.4);
+      }
+      .info-text {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: #777;
+      }
+      .features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+      }
+      .feature {
+        background-color: #f0f0ff;
+        border-radius: 8px;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        color: #4f46e5;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(0.95);
+        }
+      }
+      @media (prefers-color-scheme: dark) {
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f5f5f5;
-            color: #333;
+          background-color: #1a1a1a;
+          color: #e0e0e0;
         }
         .container {
-            text-align: center;
-            padding: 2rem;
-            max-width: 90%;
-            width: 400px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        .icon {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 1.5rem;
+          background-color: #2a2a2a;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         h1 {
-            margin: 0 0 1rem;
-            font-size: 1.8rem;
-            color: #007AFF;
+          color: #818cf8;
         }
         p {
-            color: #666;
-            margin: 0 0 1.5rem;
-            line-height: 1.5;
+          color: #c0c0c0;
+        }
+        .info-text {
+          color: #a0a0a0;
+        }
+        .feature {
+          background-color: #333355;
+          color: #818cf8;
         }
         .retry-button {
-            padding: 0.8rem 1.5rem;
-            background-color: #007AFF;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.2s;
-            font-weight: 500;
+          background-color: #818cf8;
+          box-shadow: 0 2px 5px rgba(129, 140, 248, 0.3);
         }
         .retry-button:hover {
-            background-color: #0056b3;
+          background-color: #6b7df7;
+          box-shadow: 0 4px 8px rgba(129, 140, 248, 0.4);
         }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <img src="/icons/icon-192x192.svg" alt="Clip Memo 로고" class="icon">
-        <h1>인터넷 연결 없음</h1>
-        <p>현재 오프라인 상태입니다.<br>이전에 방문한 페이지는 계속 사용할 수 있습니다.</p>
-        <button class="retry-button" onclick="window.location.reload()">다시 연결 시도</button>
+      <img
+        src="/icons/icon-192x192.svg"
+        alt="Clip Memo 로고"
+        class="icon"
+        width="80"
+        height="80"
+      />
+      <h1>인터넷 연결 없음</h1>
+      <p>
+        현재 오프라인 상태입니다.<br />이전에 방문한 페이지는 계속 사용할 수
+        있습니다.
+      </p>
+
+      <div class="features">
+        <div class="feature">오프라인 메모 사용 가능</div>
+        <div class="feature">자동 동기화</div>
+        <div class="feature">빠른 복사 기능</div>
+      </div>
+
+      <button class="retry-button" onclick="window.location.reload()">
+        다시 연결 시도
+      </button>
+
+      <p class="info-text">
+        오프라인 상태에서도 클립 메모의 대부분의 기능을 사용할 수 있습니다.
+        인터넷에 연결되면 자동으로 동기화됩니다.
+      </p>
     </div>
-</body>
+
+    <script>
+      // 연결 상태 확인
+      function checkConnection() {
+        if (navigator.onLine) {
+          window.location.href = "/";
+        }
+      }
+
+      // 주기적으로 연결 확인
+      setInterval(checkConnection, 5000);
+
+      // 온라인 상태가 되면 자동으로 메인 페이지로 이동
+      window.addEventListener("online", function () {
+        window.location.href = "/";
+      });
+    </script>
+  </body>
 </html>

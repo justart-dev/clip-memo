@@ -121,20 +121,41 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // DOM 로드가 완료되면 스플래시 화면이 표시되는 동안 데이터 체크 시작
     const checkMemos = async () => {
-      const savedItems = localStorage.getItem("clip-memo-items");
-      const items = savedItems ? JSON.parse(savedItems) : [];
-
-      if (items.length > 0) {
-        // 부드러운 페이드아웃 후 리다이렉션
+      try {
+        // 로컬 스토리지 접근 전 작은 지연 추가 (스플래시 화면이 표시되도록)
         await new Promise((resolve) => setTimeout(resolve, 300));
-        router.push("/memo");
-      } else {
+
+        const savedItems = localStorage.getItem("clip-memo-items");
+        const items = savedItems ? JSON.parse(savedItems) : [];
+
+        if (items.length > 0) {
+          // 사용자에게 저장된 메모가 있으면 메모 페이지로 리다이렉션
+          router.push("/memo");
+        } else {
+          // 저장된 메모가 없으면 랜딩 페이지 표시
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("Error checking memos:", error);
+        // 오류 발생해도 랜딩 페이지는 표시
         setIsLoading(false);
       }
     };
 
+    // 즉시 확인 시작
     checkMemos();
+
+    // 백그라운드에서 오프라인 모드인지 확인
+    const checkOfflineMode = () => {
+      if (!navigator.onLine) {
+        console.log("App started in offline mode");
+        // 오프라인 모드 처리를 위한 추가 로직 가능
+      }
+    };
+
+    checkOfflineMode();
   }, [router]);
 
   return (
@@ -334,7 +355,8 @@ export default function LandingPage() {
                     },
                     {
                       title: "PWA 지원",
-                      description: "앱처럼 설치하여 더욱 편리하게 사용하세요.오프라인에서도 기록은 계속돼요. 메모로 언제나 생산성을 유지하세요.",
+                      description:
+                        "앱처럼 설치하여 더욱 편리하게 사용하세요.오프라인에서도 기록은 계속돼요. 메모로 언제나 생산성을 유지하세요.",
                       icon: (
                         <path
                           strokeLinecap="round"
