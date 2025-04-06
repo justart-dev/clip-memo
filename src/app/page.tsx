@@ -167,9 +167,9 @@ export default function LandingPage() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900">
+          <div className="relative min-h-screen">
             {/* Header */}
-            <header className="fixed top-0 left-0 right-0 z-50 bg-gray-50 dark:bg-gray-900 backdrop-blur-md">
+            <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md">
               <nav className="flex items-center h-16 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="flex items-center space-x-2">
                   <Image

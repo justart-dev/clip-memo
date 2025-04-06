@@ -53,7 +53,18 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
-        <meta name="theme-color" content="#ffffff" />
+
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: light)"
+          content="#ffffff"
+        />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="#ffffff"
+        />
+
         <meta
           name="google-site-verification"
           content="vhwJw57Gjn2GqP4ls2gFNnU2QPZLp9OwT6g7aOxP3yM"
@@ -100,9 +111,6 @@ export default function RootLayout({
               z-index: 9999;
               transition: opacity 0.5s ease-out;
             }
-            .dark #splash-screen {
-              background-color: #111827;
-            }
             #splash-screen.fade-out {
               opacity: 0;
             }
@@ -118,9 +126,6 @@ export default function RootLayout({
               margin-bottom: 20px;
               color: #000000;
             }
-            .dark .splash-title {
-              color: #FFFFFF;
-            }
             .splash-spinner {
               width: 40px;
               height: 40px;
@@ -128,10 +133,6 @@ export default function RootLayout({
               border-radius: 50%;
               border-left-color: #4F46E5;
               animation: spin 1s linear infinite;
-            }
-            .dark .splash-spinner {
-              border: 4px solid rgba(129, 140, 248, 0.2);
-              border-left-color: #818CF8;
             }
             @keyframes pulse {
               0%, 100% {

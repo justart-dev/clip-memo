@@ -21,7 +21,7 @@ export default function Home() {
   const [showBanner, setShowBanner] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
-  
+
   // 메모 관리 훅 사용
   const {
     items,
@@ -42,7 +42,7 @@ export default function Home() {
     confirmDelete,
     handleAddCategory,
     handleDeleteCategory,
-    handleEditCategory
+    handleEditCategory,
   } = useMemoManager();
 
   // 배너 상태 초기화 및 로딩 상태 관리
@@ -124,7 +124,10 @@ export default function Home() {
     }
   };
 
-  const handleEditCategoryWithToast = (oldCategory: string, newCategory: string) => {
+  const handleEditCategoryWithToast = (
+    oldCategory: string,
+    newCategory: string
+  ) => {
     try {
       handleEditCategory(oldCategory, newCategory);
       toast.success("카테고리가 수정되었습니다");
@@ -156,7 +159,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+    <main className="flex flex-col min-h-screen bg-gradient-to-br ">
       <header className="fixed top-0 left-0 right-0 z-50 shadow-sm backdrop-blur-lg bg-white/80">
         {showBanner && (
           <div className="flex items-center justify-between px-4 py-3 text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 animate-fade-in">
@@ -176,7 +179,7 @@ export default function Home() {
                 />
               </svg>
               <p className="text-sm font-medium">
-              피드백은 언제나 환영입니다 :)
+                피드백은 언제나 환영입니다 :)
               </p>
             </div>
             <button
@@ -210,7 +213,7 @@ export default function Home() {
               클립 메모
             </h1>
             <p className="text-sm leading-relaxed text-muted-foreground">
-            필요한 내용을 클릭 한 번에 복사하고, 생산성을 높여보세요!
+              필요한 내용을 클릭 한 번에 복사하고, 생산성을 높여보세요!
             </p>
           </header>
 
@@ -218,7 +221,10 @@ export default function Home() {
             <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px]">
               <SearchBar onSearch={setSearchQuery} />
             </div>
-            <AddMemoDialog categories={categories} onAdd={handleAddNewWithToast}>
+            <AddMemoDialog
+              categories={categories}
+              onAdd={handleAddNewWithToast}
+            >
               <button className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:scale-105 hover:shadow-lg">
                 <svg
                   width="24"
@@ -386,7 +392,10 @@ export default function Home() {
                     <p className="mt-2 text-sm text-gray-500">
                       상단의 + 버튼을 클릭하여 새로운 메모를 추가할 수 있습니다
                     </p>
-                    <AddMemoDialog categories={categories} onAdd={handleAddNewWithToast}>
+                    <AddMemoDialog
+                      categories={categories}
+                      onAdd={handleAddNewWithToast}
+                    >
                       <button className="px-4 py-2 mt-6 text-white transition-colors duration-300 bg-black rounded-lg cursor-pointer hover:bg-gray-900">
                         새 메모 작성하기
                       </button>
