@@ -28,8 +28,8 @@ export function MemoCard({ item, onEdit, onDelete, onCopy }: MemoCardProps) {
 
   return (
     <>
-      <Card className="relative group">
-        <CardContent className="p-4">
+      <Card className="relative group min-h-[150px] my-1">
+        <CardContent className="p-5 h-full flex flex-col">
           <div className="flex items-start justify-between">
             <div className="flex-1 mr-8">
               <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">

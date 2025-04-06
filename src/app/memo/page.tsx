@@ -48,8 +48,9 @@ export default function Home() {
   // 배너 상태 초기화 및 로딩 상태 관리
   useEffect(() => {
     try {
-      const bannerClosed = localStorage.getItem(STORAGE_KEY_BANNER_CLOSED);
-      setShowBanner(bannerClosed !== "true");
+      // const bannerClosed = localStorage.getItem(STORAGE_KEY_BANNER_CLOSED);
+      // setShowBanner(bannerClosed !== "true");
+      setShowBanner(true);
       setIsMounted(true);
     } catch (error) {
       console.error("Error loading banner state:", error);
@@ -146,7 +147,7 @@ export default function Home() {
 
   const handleCloseBanner = () => {
     setShowBanner(false);
-    localStorage.setItem(STORAGE_KEY_BANNER_CLOSED, "true");
+    // localStorage.setItem(STORAGE_KEY_BANNER_CLOSED, "true");
   };
 
   // 데이터 로딩 중일 때 로딩 상태 표시
@@ -160,7 +161,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col min-h-screen bg-gradient-to-br ">
-      <header className="fixed top-0 left-0 right-0 z-50 shadow-sm backdrop-blur-lg bg-white/80">
+      <header className="fixed top-0 left-0 right-0 z-40 shadow-sm backdrop-blur-lg bg-white/80">
         {showBanner && (
           <div className="flex items-center justify-between px-4 py-3 text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 animate-fade-in">
             <div className="flex items-center gap-3 max-w-[1024px] mx-auto w-full">
@@ -179,7 +180,15 @@ export default function Home() {
                 />
               </svg>
               <p className="text-sm font-medium">
-                피드백은 언제나 환영입니다 :)
+                <a
+                  // href="https://www.naver.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline transition-all decoration-dotted decoration-white/70 hover:decoration-white"
+                >
+                  피드백
+                </a>
+                은 언제나 환영입니다 :)
               </p>
             </div>
             <button
@@ -367,7 +376,7 @@ export default function Home() {
           </section>
 
           <section aria-label="메모 목록" className="flex-1 overflow-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
               {items.length === 0 ? (
                 <div className="col-span-full">
                   <div className="flex flex-col items-center justify-center py-16 text-center transition-colors duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:border-gray-200">

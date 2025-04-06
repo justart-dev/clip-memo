@@ -68,7 +68,7 @@ const ListItem = ({ item, onCopy, onEdit, onDelete }: ListItemProps) => {
 
   return (
     <>
-      <div className="bg-card rounded-xl border border-border shadow-sm p-5 hover:shadow-md transition-all duration-300 animate-fade-in hover:translate-y-[-2px]">
+      <div className="bg-card rounded-xl border border-border shadow-sm p-5 hover:shadow-md transition-all duration-300 animate-fade-in hover:translate-y-[-2px] min-h-[150px] flex flex-col my-1">
         <div className="flex items-start justify-between mb-3">
           <h3 className="text-lg font-medium text-card-foreground">
             {item.title}
