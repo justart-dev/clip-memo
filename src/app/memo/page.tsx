@@ -48,9 +48,8 @@ export default function Home() {
   // 배너 상태 초기화 및 로딩 상태 관리
   useEffect(() => {
     try {
-      // const bannerClosed = localStorage.getItem(STORAGE_KEY_BANNER_CLOSED);
-      // setShowBanner(bannerClosed !== "true");
-      setShowBanner(true);
+      const bannerClosed = localStorage.getItem(STORAGE_KEY_BANNER_CLOSED);
+      setShowBanner(bannerClosed !== "true");
       setIsMounted(true);
     } catch (error) {
       console.error("Error loading banner state:", error);
@@ -147,7 +146,12 @@ export default function Home() {
 
   const handleCloseBanner = () => {
     setShowBanner(false);
-    // localStorage.setItem(STORAGE_KEY_BANNER_CLOSED, "true");
+    localStorage.setItem(STORAGE_KEY_BANNER_CLOSED, "true");
+  };
+
+  const handleOpenBanner = () => {
+    setShowBanner(true);
+    localStorage.setItem(STORAGE_KEY_BANNER_CLOSED, "false");
   };
 
   // 데이터 로딩 중일 때 로딩 상태 표시
@@ -161,30 +165,20 @@ export default function Home() {
 
   return (
     <main className="flex flex-col min-h-screen bg-gradient-to-br ">
-      <header className="fixed top-0 left-0 right-0 z-40 shadow-sm backdrop-blur-lg bg-white/80">
-        {showBanner && (
-          <div className="flex items-center justify-between px-4 py-3 text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 animate-fade-in">
-            <div className="flex items-center gap-3 max-w-[1024px] mx-auto w-full">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="text-sm font-medium">
+      <header
+        className={`fixed top-0 left-0 right-0 z-40 backdrop-blur-lg bg-white/80 transition-all duration-300 ${
+          !showBanner ? "py-2" : "shadow-sm"
+        }`}
+      >
+        {showBanner ? (
+          <div className="flex items-center justify-between px-4 py-3 text-white bg-black animate-fade-in">
+            <div className="flex-1 text-center max-w-[1024px] mx-auto">
+              <p className="text-sm font-medium tracking-wide sm:text-base">
                 <a
-                  // href="https://www.naver.com"
+                  href="https://tally.so/r/wkzL91"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline transition-all decoration-dotted decoration-white/70 hover:decoration-white"
+                  className="font-semibold underline transition-all decoration-dotted decoration-white/70 hover:decoration-white"
                 >
                   피드백
                 </a>
@@ -193,29 +187,31 @@ export default function Home() {
             </div>
             <button
               onClick={handleCloseBanner}
-              className="text-white transition-colors cursor-pointer hover:text-blue-100"
-              aria-label="배너 닫기"
+              className="px-3 py-1 ml-3 text-xs font-medium text-white transition-all border rounded-full cursor-pointer border-white/30 hover:bg-white/10 hover:border-white focus:outline-none focus:ring-1 focus:ring-white/30"
+              aria-label="배너 숨기기"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              숨기기
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-end px-4 max-w-[1024px] mx-auto w-full">
+            <button
+              onClick={handleOpenBanner}
+              className="flex items-center px-4 py-1.5 text-xs font-medium text-white transition-all bg-black rounded-full shadow-md hover:shadow-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 transform hover:scale-105"
+              aria-label="배너 열기"
+              title="피드백 배너 열기"
+            >
+              <span>피드백하기</span>
             </button>
           </div>
         )}
       </header>
 
-      <section className="flex flex-col flex-1 mt-[5vh]">
+      <section
+        className={`flex flex-col flex-1 ${
+          showBanner ? "mt-[10vh]" : "mt-[7vh]"
+        } transition-all duration-300`}
+      >
         <div className="max-w-[1024px] w-full mx-auto px-5">
           <header className={`pt-10 pb-6 bg-transparent`}>
             <h1 className="mb-2 text-3xl font-bold text-transparent text-foreground bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text">

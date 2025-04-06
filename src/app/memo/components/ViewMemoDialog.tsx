@@ -20,11 +20,11 @@ export function ViewMemoDialog({
 }: ViewMemoDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[700px] w-[90vw] max-h-[80vh] min-h-[450px]">
+      <DialogContent className="max-w-[700px] w-[90vw] max-h-[80vh] min-h-[320px]">
         <DialogHeader className="mb-2">
           <DialogTitle className="text-xl font-bold">{item.title}</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-full max-h-[65vh] min-h-[350px] pr-4">
+        <ScrollArea className="h-full max-h-[65vh] min-h-[220px] pr-4">
           <div className="text-base leading-relaxed text-gray-600 whitespace-pre-wrap dark:text-gray-300">
             {item.content}
           </div>
