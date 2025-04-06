@@ -173,16 +173,30 @@ export default function Home() {
         {showBanner ? (
           <div className="flex items-center justify-between px-4 py-3 text-white bg-black animate-fade-in">
             <div className="flex-1 text-center max-w-[1024px] mx-auto">
-              <p className="text-sm font-medium tracking-wide sm:text-base">
+              <p className="flex items-center justify-center gap-1 text-sm font-medium tracking-wide sm:text-base">
                 <a
                   href="https://tally.so/r/wkzL91"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold underline transition-all decoration-dotted decoration-white/70 hover:decoration-white"
+                  className="inline-flex items-center gap-1.5 font-semibold transition-all hover:text-blue-400 underline decoration-dotted decoration-white/70 hover:decoration-blue-400"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-message-circle"
+                  >
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                  </svg>
                   피드백
                 </a>
-                은 언제나 환영입니다 :)
+                <span> 은 언제나 환영입니다 :)</span>
               </p>
             </div>
             <button
@@ -197,10 +211,24 @@ export default function Home() {
           <div className="flex items-center justify-end px-4 max-w-[1024px] mx-auto w-full">
             <button
               onClick={handleOpenBanner}
-              className="flex items-center px-4 py-1.5 text-xs font-medium text-white transition-all bg-black rounded-full shadow-md hover:shadow-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 transform hover:scale-105"
+              className="flex items-center px-4 py-1.5 text-xs font-medium text-white transition-all bg-black rounded-full shadow-md hover:shadow-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 transform hover:scale-105 gap-1.5 border border-white/10 animate-pulse hover:animate-none hover:border-blue-400 hover:text-blue-400"
               aria-label="배너 열기"
               title="피드백 배너 열기"
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-message-circle"
+              >
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
               <span>피드백하기</span>
             </button>
           </div>
