@@ -34,6 +34,9 @@ const TabBar = ({
             WebkitAppearance: "none",
             backgroundColor:
               activeTab === tab ? undefined : "transparent !important",
+            overflow: "hidden",
+            WebkitBorderRadius: "9999px",
+            borderRadius: "9999px",
           }}
           onClick={() => onTabChange(tab)}
         >
