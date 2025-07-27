@@ -59,6 +59,10 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
         style={{
           WebkitAppearance: "none",
           backgroundColor: "transparent !important",
+          overflow: "hidden",
+          WebkitBorderRadius: "9999px",
+          borderRadius: "9999px",
+          border: "1px solid hsl(var(--input))",
         }}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
