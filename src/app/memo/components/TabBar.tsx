@@ -30,6 +30,7 @@ const TabBar = ({
               ? "bg-primary text-primary-foreground shadow-sm scale-105"
               : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
           }`}
+          style={{ WebkitAppearance: 'none', backgroundColor: activeTab === tab ? undefined : 'transparent' }}
           onClick={() => onTabChange(tab)}
         >
           {tab}
