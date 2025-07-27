@@ -139,6 +139,12 @@ const ListItem = ({ item, onCopy, onEdit, onDelete }: ListItemProps) => {
           <button
             onClick={handleCopy}
             className="px-3 py-1.5 bg-primary text-primary-foreground rounded-full text-xs hover:bg-primary/90 transition-colors flex items-center gap-1 shadow-sm"
+            style={{
+              WebkitAppearance: "none",
+              overflow: "hidden",
+              WebkitBorderRadius: "9999px",
+              borderRadius: "9999px",
+            }}
           >
             <svg
               className="w-3.5 h-3.5"

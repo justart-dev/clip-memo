@@ -212,6 +212,12 @@ export default function Home() {
             <button
               onClick={handleOpenBanner}
               className="flex items-center px-4 py-1.5 text-xs font-medium text-white transition-all bg-black rounded-full shadow-md hover:shadow-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 transform hover:scale-105 gap-1.5 border border-white/10 animate-pulse hover:animate-none hover:border-blue-400 hover:text-blue-400"
+              style={{
+                WebkitAppearance: "none",
+                overflow: "hidden",
+                WebkitBorderRadius: "9999px",
+                borderRadius: "9999px",
+              }}
               aria-label="배너 열기"
               title="피드백 배너 열기"
             >
@@ -258,7 +264,15 @@ export default function Home() {
               categories={categories}
               onAdd={handleAddNewWithToast}
             >
-              <button className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:scale-105 hover:shadow-lg">
+              <button 
+                className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:scale-105 hover:shadow-lg"
+                style={{
+                  WebkitAppearance: "none",
+                  overflow: "hidden",
+                  WebkitBorderRadius: "9999px",
+                  borderRadius: "9999px",
+                }}
+              >
                 <svg
                   width="24"
                   height="24"
@@ -309,6 +323,12 @@ export default function Home() {
                 >
                   <button
                     className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
+                    style={{
+                      WebkitAppearance: "none",
+                      overflow: "hidden",
+                      WebkitBorderRadius: "9999px",
+                      borderRadius: "9999px",
+                    }}
                     title="카테고리 추가"
                   >
                     <svg
@@ -335,6 +355,12 @@ export default function Home() {
                 >
                   <button
                     className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
+                    style={{
+                      WebkitAppearance: "none",
+                      overflow: "hidden",
+                      WebkitBorderRadius: "9999px",
+                      borderRadius: "9999px",
+                    }}
                     title="카테고리 수정"
                   >
                     <svg
@@ -367,6 +393,12 @@ export default function Home() {
                 >
                   <button
                     className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1 border border-border/40"
+                    style={{
+                      WebkitAppearance: "none",
+                      overflow: "hidden",
+                      WebkitBorderRadius: "9999px",
+                      borderRadius: "9999px",
+                    }}
                     title="카테고리 삭제"
                   >
                     <svg

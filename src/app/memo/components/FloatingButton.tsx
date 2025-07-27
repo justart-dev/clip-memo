@@ -11,6 +11,12 @@ const FloatingButton = ({ onClick }: FloatingButtonProps) => {
     <button
       onClick={onClick}
       className="fixed top-24 right-6 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition-all duration-300 hover:scale-110 hover:shadow-xl z-20"
+      style={{
+        WebkitAppearance: "none",
+        overflow: "hidden",
+        WebkitBorderRadius: "9999px",
+        borderRadius: "9999px",
+      }}
       aria-label="새 메모 추가"
     >
       <svg
