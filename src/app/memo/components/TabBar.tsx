@@ -30,18 +30,10 @@ const TabBar = ({
               ? "bg-primary text-primary-foreground shadow-sm scale-105"
               : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
           }`}
-          style={{ 
-            WebkitAppearance: 'none', 
-            backgroundColor: activeTab === tab ? undefined : 'transparent !important',
-            WebkitTapHighlightColor: 'transparent',
-            WebkitFocusRingColor: 'transparent',
-            WebkitBackgroundClip: 'padding-box',
-            WebkitBorderRadius: '9999px',
-            borderRadius: '9999px',
-            outline: 'none',
-            boxShadow: activeTab === tab ? undefined : 'none',
-            MozAppearance: 'none',
-            msOverflowStyle: 'none'
+          style={{
+            WebkitAppearance: "none",
+            backgroundColor:
+              activeTab === tab ? undefined : "transparent !important",
           }}
           onClick={() => onTabChange(tab)}
         >
