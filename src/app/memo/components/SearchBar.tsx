@@ -65,7 +65,6 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
           WebkitBorderRadius: '9999px',
           borderRadius: '9999px',
           outline: 'none',
-          boxShadow: 'none',
           border: '1px solid hsl(var(--input))',
           MozAppearance: 'none',
           msOverflowStyle: 'none'
