@@ -27,7 +27,7 @@ export function useLocalStorage<T>(
       console.error(`Error reading localStorage key "${key}":`, error);
       setError(`데이터를 불러오는 중 오류가 발생했습니다: ${key}`);
     }
-  }, [key]);
+  }, [key, initialValue]);
 
   // 값 설정 함수 
   const setValue: SetValue<T> = (value) => {
