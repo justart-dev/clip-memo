@@ -35,12 +35,6 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     type: "website",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
 };
 
 export default function RootLayout({
@@ -52,17 +46,17 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
 
         <meta
           name="theme-color"
           media="(prefers-color-scheme: light)"
-          content="#ffffff"
+          content="#000000"
         />
         <meta
           name="theme-color"
           media="(prefers-color-scheme: dark)"
-          content="#ffffff"
+          content="#000000"
         />
 
         <meta
