@@ -166,10 +166,4 @@ src/
 
 ## 📄 라이선스
 
-이 프로젝트는 [MIT 라이선스](LICENSE)를 따릅니다.
-
----
-
-<div align="center">
-  <p>© 2025 Clip Memo. All rights reserved.</p>
-</div>
+This project is licensed under the MIT License.
