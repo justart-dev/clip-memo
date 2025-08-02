@@ -75,6 +75,7 @@ interface Testimonial {
   author: string;
   role: string;
   avatar: string;
+  rating: number;
 }
 
 const testimonials: Testimonial[] = [
@@ -82,22 +83,25 @@ const testimonials: Testimonial[] = [
     content: "클립보드 복사 기능이 편하고 깔끔하네요!",
     author: "이OO",
     role: "데이터 사이언티스트",
+    rating: 4.5,
     avatar:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' rx='24' fill='%230EA5E9'/%3E%3Cpath d='M24 13C19.0294 13 15 17.0294 15 22C15 24.9003 16.3588 27.4659 18.5012 29.0556C19.4961 29.8295 18.9767 31.3223 17.7796 31.6249C15.5186 32.1812 13.6057 33.3251 12.1896 34.9111C11.1537 36.0764 12.0241 38 13.6622 38H34.3378C35.9759 38 36.8463 36.0764 35.8104 34.9111C34.3943 33.3251 32.4814 32.1812 30.2204 31.6249C29.0233 31.3223 28.5039 29.8295 29.4988 29.0556C31.6412 27.4659 33 24.9003 33 22C33 17.0294 28.9706 13 24 13Z' fill='white'/%3E%3Cpath d='M21 21C21 21 22.5 22.5 24 22.5C25.5 22.5 27 21 27 21' stroke='%230EA5E9' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='18' r='1.5' fill='%230EA5E9'/%3E%3Ccircle cx='29' cy='18' r='1.5' fill='%230EA5E9'/%3E%3Cpath d='M20 16L28 16M24 16V19' stroke='%230EA5E9' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M22 25C22 25 23 26 24 26C25 26 26 25 26 25' stroke='%230EA5E9' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M15 22C15 22 17 23 19 23C21 23 23 22 23 22' stroke='%230EA5E9' stroke-width='1.5' stroke-linecap='round' opacity='0.7'/%3E%3Cpath d='M25 22C25 22 27 23 29 23C31 23 33 22 33 22' stroke='%230EA5E9' stroke-width='1.5' stroke-linecap='round' opacity='0.7'/%3E%3C/svg%3E",
+      "https://api.dicebear.com/7.x/notionists/svg?seed=lee&backgroundColor=0ea5e9&backgroundType=gradientLinear",
   },
   {
     content: "오프라인에서도 잘 작동해요. 일상적인 메모 도구로 완벽합니다.",
     author: "박OO",
     role: "웹 개발자",
+    rating: 4.5,
     avatar:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' rx='24' fill='%23EC4899'/%3E%3Cpath d='M24 13C19.0294 13 15 17.0294 15 22C15 24.9003 16.3588 27.4659 18.5012 29.0556C19.4961 29.8295 18.9767 31.3223 17.7796 31.6249C15.5186 32.1812 13.6057 33.3251 12.1896 34.9111C11.1537 36.0764 12.0241 38 13.6622 38H34.3378C35.9759 38 36.8463 36.0764 35.8104 34.9111C34.3943 33.3251 32.4814 32.1812 30.2204 31.6249C29.0233 31.3223 28.5039 29.8295 29.4988 29.0556C31.6412 27.4659 33 24.9003 33 22C33 17.0294 28.9706 13 24 13Z' fill='white'/%3E%3Cpath d='M21 21C21 21 22.5 22.5 24 22.5C25.5 22.5 27 21 27 21' stroke='%23EC4899' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='18' r='1.5' fill='%23EC4899'/%3E%3Ccircle cx='29' cy='18' r='1.5' fill='%23EC4899'/%3E%3Cpath d='M20 16L28 16' stroke='%23EC4899' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E",
+      "https://api.dicebear.com/7.x/notionists/svg?seed=park&backgroundColor=ec4899&backgroundType=gradientLinear",
   },
   {
     content: "심플하면서도 필요한 기능은 다 있네요",
     author: "김OO",
     role: "밥풀 대표",
+    rating: 5,
     avatar:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' rx='24' fill='%2310B981'/%3E%3Cpath d='M24 13C19.0294 13 15 17.0294 15 22C15 24.9003 16.3588 27.4659 18.5012 29.0556C19.4961 29.8295 18.9767 31.3223 17.7796 31.6249C15.5186 32.1812 13.6057 33.3251 12.1896 34.9111C11.1537 36.0764 12.0241 38 13.6622 38H34.3378C35.9759 38 36.8463 36.0764 35.8104 34.9111C34.3943 33.3251 32.4814 32.1812 30.2204 31.6249C29.0233 31.3223 28.5039 29.8295 29.4988 29.0556C31.6412 27.4659 33 24.9003 33 22C33 17.0294 28.9706 13 24 13Z' fill='white'/%3E%3Cpath d='M21 21C21 21 22.5 22.5 24 22.5C25.5 22.5 27 21 27 21' stroke='%2310B981' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='18' r='1.5' fill='%2310B981'/%3E%3Ccircle cx='29' cy='18' r='1.5' fill='%2310B981'/%3E%3Cpath d='M20 15H28M24 15V17' stroke='%2310B981' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E",
+      "https://api.dicebear.com/7.x/notionists/svg?seed=kim&backgroundColor=10b981&backgroundType=gradientLinear",
   },
 ];
 
@@ -169,17 +173,17 @@ export default function LandingPage() {
         >
           <div className="relative min-h-screen">
             {/* Header */}
-            <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md">
+            <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm dark:bg-gray-950/80">
               <nav className="flex items-center h-16 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3">
                   <Image
                     src="/icons/icon-192x192.svg"
                     alt="Clip Memo Logo"
                     width={32}
                     height={32}
-                    className="w-8 h-8"
+                    className="w-7 h-7 rounded-md"
                   />
-                  <div className="text-xl font-bold text-gray-900 dark:text-white">
+                  <div className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-50">
                     Clip Memo
                   </div>
                 </div>
@@ -199,10 +203,10 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="inline-flex items-center px-4 py-2 mb-4 space-x-2 text-sm font-medium text-gray-900 bg-gray-100 rounded-full dark:bg-gray-800/30 dark:text-gray-300"
+                    className="inline-flex items-center px-3.5 py-1.5 mb-4 text-xs font-medium tracking-wide text-gray-600 uppercase rounded-full border border-gray-200 dark:border-gray-700 dark:text-gray-400"
                   >
-                    <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-indigo-600 rounded-full dark:bg-indigo-400 animate-pulse" />
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
                       새로운 메모의 시작
                     </span>
                   </motion.span>
@@ -210,7 +214,7 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mb-8 text-6xl font-bold tracking-tight text-gray-900 lg:text-7xl dark:text-white"
+                    className="mb-8 text-5xl font-bold tracking-tight text-gray-900 lg:text-6.5xl dark:text-gray-50"
                   >
                     <motion.span
                       initial={{ opacity: 0, y: 20 }}
@@ -219,15 +223,16 @@ export default function LandingPage() {
                       className="block"
                     >
                       메모를{" "}
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 dark:from-indigo-400 dark:via-indigo-300 dark:to-indigo-400">
-                        더 쉽게
+                      <span className="relative">
+                        <span className="relative z-10">더 쉽게</span>
+                        <span className="absolute bottom-0 left-0 w-full h-3 bg-gray-100 dark:bg-gray-800 -z-0 opacity-70" />
                       </span>
                     </motion.span>
                     <motion.span
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4, duration: 0.6 }}
-                      className="block mt-2 text-5xl text-gray-700 lg:text-6xl dark:text-gray-300"
+                      className="block mt-2 text-4xl text-gray-600 lg:text-5.5xl dark:text-gray-300"
                     >
                       더 빠르게
                     </motion.span>
@@ -236,7 +241,7 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="text-xl leading-relaxed text-gray-600 sm:text-2xl dark:text-gray-300"
+                    className="text-lg leading-relaxed text-gray-600 sm:text-xl dark:text-gray-400"
                   >
                     복잡한 기능은 잊어보세요. 클립 메모와 함께라면
                     <br className="hidden md:block" />단 한 번의 클릭으로 메모를
@@ -251,38 +256,45 @@ export default function LandingPage() {
                     <Button
                       asChild
                       size="lg"
-                      className="h-16 px-12 text-lg transition-all duration-300 border-0 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 rounded-2xl hover:shadow-xl hover:shadow-indigo-500/20"
+                      className="h-16 px-12 text-lg transition-all duration-300 border-0 bg-gray-900 hover:bg-gray-700 rounded-2xl hover:shadow-xl hover:shadow-gray-500/20 text-white"
                     >
                       <Link
                         href="/memo"
                         className="flex items-center justify-center gap-2"
                       >
                         무료로 시작하기
-                        <motion.svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{
-                            repeat: Infinity,
-                            duration: 1.5,
-                            ease: "easeInOut",
-                          }}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13 7l5 5m0 0l-5 5m5-5H6"
-                          />
-                        </motion.svg>
                       </Link>
                     </Button>
                   </motion.div>
                 </motion.div>
               </div>
             </section>
+
+            <motion.div 
+              className="flex justify-center -mt-24 mb-2"
+              animate={{
+                y: [0, 10, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <svg
+                className="w-6 h-6 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                />
+              </svg>
+            </motion.div>
 
             {/* Features Section */}
             <section className="relative py-24 -mt-32">
@@ -297,10 +309,10 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="inline-flex items-center px-4 py-2 mb-4 space-x-2 text-sm font-medium text-indigo-600 rounded-full bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-300"
+                    className="inline-flex items-center px-4 py-2 mb-4 space-x-2 text-sm font-medium text-gray-600 rounded-full bg-gray-100 dark:bg-gray-800 dark:text-gray-400"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-indigo-600 rounded-full dark:bg-indigo-400 animate-pulse" />
+                      <span className="w-2 h-2 bg-gray-400 rounded-full dark:bg-gray-700 animate-pulse" />
                       특별한 기능
                     </span>
                   </motion.span>
@@ -311,7 +323,7 @@ export default function LandingPage() {
                     className="mb-8 text-4xl font-bold text-gray-900 sm:text-5xl dark:text-white"
                   >
                     더 쉽게,{" "}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 dark:from-indigo-400 dark:via-indigo-300 dark:to-indigo-400">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-gray-50 dark:via-gray-300 dark:to-gray-50">
                       더 빠르게
                     </span>
                   </motion.h2>
@@ -325,7 +337,7 @@ export default function LandingPage() {
                   </motion.p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {[
                     {
                       title: "원클릭 복사",
@@ -356,7 +368,7 @@ export default function LandingPage() {
                     {
                       title: "PWA 지원",
                       description:
-                        "앱처럼 설치하여 더욱 편리하게 사용하세요.오프라인에서도 기록은 계속돼요. 메모로 언제나 생산성을 유지하세요.",
+                        "앱처럼 설치하여 더욱 편리하게 사용하세요.오프라인에서도 기록은 계속돼요.",
                       icon: (
                         <path
                           strokeLinecap="round"
@@ -421,31 +433,35 @@ export default function LandingPage() {
                     },
                   ].map((feature, index) => (
                     <motion.div
-                      key={feature.description}
+                      key={index}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      transition={{ duration: 0.5, delay: 0.1 * index }}
+                      className="group h-full"
                     >
-                      <Card className="relative bg-gray-50 dark:bg-gray-800 border-none shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 h-[280px] group">
-                        <div className="absolute top-0 right-0 flex items-center justify-center w-12 h-12 mr-6 -mt-6 transition-all duration-300 transform bg-gray-900 dark:bg-gray-700 rounded-2xl -rotate-12 group-hover:rotate-0">
-                          <svg
-                            className="w-6 h-6 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            {feature.icon}
-                          </svg>
-                        </div>
-                        <CardHeader>
-                          <CardTitle className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
-                            {feature.title}
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-lg text-gray-600 dark:text-gray-300">
-                            {feature.description}
-                          </p>
+                      <Card className="h-full transition-all duration-200 border border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600 dark:bg-gray-800/30">
+                        <CardContent className="p-4">
+                          <div className="flex flex-col h-full">
+                            <div className="flex items-center gap-3 mb-2">
+                              <div className="flex items-center justify-center w-8 h-8 text-gray-900 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-50">
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  {feature.icon}
+                                </svg>
+                              </div>
+                              <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                                {feature.title}
+                              </h3>
+                            </div>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                              {feature.description}
+                            </p>
+                          </div>
                         </CardContent>
                       </Card>
                     </motion.div>
@@ -455,22 +471,22 @@ export default function LandingPage() {
             </section>
 
             {/* FAQ Section */}
-            <section className="relative py-24 -mt-32">
-              <div className="relative w-full max-w-4xl px-4 py-32 mx-auto sm:px-6 lg:px-8">
+            <section className="relative py-16 sm:py-24 -mt-16 sm:-mt-24">
+              <div className="relative w-full max-w-4xl px-4 mx-auto sm:px-6 lg:px-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="mb-24 text-center"
+                  className="mb-12 sm:mb-16 text-center"
                 >
                   <motion.span
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="inline-flex items-center px-4 py-2 mb-4 space-x-2 text-sm font-medium text-indigo-600 rounded-full bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-300"
+                    className="inline-flex items-center px-3 py-1.5 text-xs font-medium tracking-wide text-gray-600 rounded-full bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
                   >
-                    <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-indigo-600 rounded-full dark:bg-indigo-400 animate-pulse" />
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-gray-400 rounded-full dark:bg-gray-500" />
                       FAQ
                     </span>
                   </motion.span>
@@ -478,10 +494,10 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mb-8 text-4xl font-bold text-gray-900 sm:text-5xl dark:text-white"
+                    className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl dark:text-white"
                   >
                     자주 묻는{" "}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 dark:from-indigo-400 dark:via-indigo-300 dark:to-indigo-400">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-gray-50 dark:via-gray-300 dark:to-gray-50">
                       질문
                     </span>
                   </motion.h2>
@@ -489,7 +505,7 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="text-xl text-gray-600 sm:text-2xl dark:text-gray-300"
+                    className="mt-3 text-base text-gray-600 sm:text-lg dark:text-gray-300"
                   >
                     궁금하신 점을 확인해보세요
                   </motion.p>
@@ -497,8 +513,8 @@ export default function LandingPage() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="p-8 shadow-2xl bg-gray-50 dark:bg-gray-800 rounded-3xl"
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="max-w-3xl mx-auto p-5 sm:p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800/50 rounded-xl shadow-sm"
                 >
                   {faqs.map((faq, index) => (
                     <motion.div
@@ -514,35 +530,6 @@ export default function LandingPage() {
               </div>
             </section>
 
-            {/* Stats Section */}
-            {/* <section className="relative py-24 -mt-32">
-                    <div className="relative px-4 py-32 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                        {[
-                          { number: "10K+", label: "활성 사용자" },
-                          { number: "100K+", label: "저장된 메모" },
-                          { number: "4.9/5", label: "사용자 평점" },
-                          { number: "24/7", label: "무료 사용" },
-                        ].map((stat, index) => (
-                          <motion.div
-                            key={stat.label}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="text-center"
-                          >
-                            <div className="text-4xl font-bold text-indigo-600 dark:text-indigo-400">
-                              {stat.number}
-                            </div>
-                            <div className="mt-2 text-lg text-gray-600 dark:text-gray-300">
-                              {stat.label}
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  </section> */}
-
             {/* Testimonials Section */}
             <section className="relative py-24 -mt-32">
               <div className="relative px-4 py-32 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -556,10 +543,10 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="inline-flex items-center px-4 py-2 mb-4 space-x-2 text-sm font-medium text-indigo-600 rounded-full bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-300"
+                    className="inline-flex items-center px-3.5 py-1.5 mb-4 text-xs font-medium tracking-wide text-gray-600 uppercase rounded-full border border-gray-200 dark:border-gray-700 dark:text-gray-400"
                   >
-                    <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-indigo-600 rounded-full dark:bg-indigo-400 animate-pulse" />
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
                       사용자 후기
                     </span>
                   </motion.span>
@@ -567,7 +554,7 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mb-8 text-4xl font-bold text-gray-900 sm:text-5xl dark:text-white"
+                    className="mb-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4.5xl"
                   >
                     클립 메모와 함께하는 분들
                   </motion.h2>
@@ -581,39 +568,80 @@ export default function LandingPage() {
                   </motion.p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                   {testimonials.map((testimonial, index) => (
                     <motion.div
                       key={testimonial.author}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="group h-full"
                     >
-                      <Card className="transition-all border border-gray-200 shadow-xl dark:border-gray-600 bg-gray-50 dark:bg-gray-800 hover:shadow-2xl hover:-translate-y-1">
-                        <CardContent className="p-6">
-                          <div className="flex items-center mb-4">
-                            <div className="relative">
-                              <div className="absolute transition duration-1000 bg-gray-200 -inset-1 dark:bg-gray-700 rounded-2xl blur opacity-30 group-hover:opacity-100 group-hover:duration-200" />
+                      <Card className="h-full transition-all duration-200 border border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600 dark:bg-gray-800/30">
+                        <CardContent className="p-5">
+                          <div className="flex items-start gap-4">
+                            <div className="flex-shrink-0 mt-1">
                               <Image
                                 src={testimonial.avatar}
                                 alt={testimonial.author}
-                                width={56}
-                                height={56}
-                                className="relative rounded-2xl"
+                                width={40}
+                                height={40}
+                                className="w-10 h-10 rounded-full"
                               />
                             </div>
-                            <div className="ml-4">
-                              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                                {testimonial.author}
-                              </h3>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
-                                {testimonial.role}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="relative">
-                            <div className="relative">
-                              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <h3 className="font-medium text-gray-900 dark:text-gray-50">
+                                    {testimonial.author}
+                                  </h3>
+                                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    {testimonial.role}
+                                  </p>
+                                </div>
+                                <div className="flex items-center space-x-0.5">
+                                  {[1, 2, 3, 4, 5].map((star) => {
+                                    const isHalfStar =
+                                      star > Math.floor(testimonial.rating) &&
+                                      star - 0.5 <= testimonial.rating;
+                                    const isFilled =
+                                      star <= Math.floor(testimonial.rating);
+
+                                    return (
+                                      <div key={star} className="relative">
+                                        <svg
+                                          className={`w-3.5 h-3.5 ${
+                                            isFilled
+                                              ? "text-amber-400"
+                                              : "text-gray-300"
+                                          }`}
+                                          fill="currentColor"
+                                          viewBox="0 0 20 20"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        {isHalfStar && (
+                                          <div className="absolute inset-0 w-1/2 overflow-hidden">
+                                            <svg
+                                              className="w-3.5 h-3.5 text-amber-400"
+                                              fill="currentColor"
+                                              viewBox="0 0 20 20"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                  <span className="ml-1 text-xs text-gray-500">
+                                    {testimonial.rating.toFixed(1)}
+                                  </span>
+                                </div>
+                              </div>
+                              <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
                                 {testimonial.content}
                               </p>
                             </div>
@@ -639,10 +667,10 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="inline-flex items-center px-4 py-2 mb-4 space-x-2 text-sm font-medium text-indigo-600 rounded-full bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-300"
+                    className="inline-flex items-center px-3.5 py-1.5 mb-4 text-xs font-medium tracking-wide text-gray-600 uppercase rounded-full border border-gray-200 dark:border-gray-700 dark:text-gray-400"
                   >
-                    <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-indigo-600 rounded-full dark:bg-indigo-400 animate-pulse" />
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
                       시작하기
                     </span>
                   </motion.span>
@@ -653,15 +681,16 @@ export default function LandingPage() {
                     className="mb-8 text-4xl font-bold text-gray-900 sm:text-5xl dark:text-white"
                   >
                     지금 바로{" "}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 dark:from-indigo-400 dark:via-indigo-300 dark:to-indigo-400">
-                      시작하세요
+                    <span className="relative">
+                      <span className="relative z-10">시작하세요</span>
+                      <span className="absolute bottom-0 left-0 w-full h-3 bg-gray-100 dark:bg-gray-800 -z-0 opacity-70" />
                     </span>
                   </motion.h2>
                   <motion.p
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="mb-12 text-xl text-gray-600 sm:text-2xl dark:text-gray-300"
+                    className="mb-8 text-lg text-gray-600 sm:text-xl dark:text-gray-400"
                   >
                     더 이상 복잡한 메모 앱은 그만!
                     <br />
@@ -675,32 +704,13 @@ export default function LandingPage() {
                     <Button
                       asChild
                       size="lg"
-                      className="h-16 px-12 text-lg transition-all duration-300 border-0 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 rounded-2xl hover:shadow-xl hover:shadow-indigo-500/20"
+                      className="h-14 px-8 text-base font-medium transition-all duration-200 bg-gray-900 border border-gray-900 rounded-lg hover:bg-gray-800 dark:bg-gray-50 dark:text-gray-900 dark:border-gray-50 dark:hover:bg-gray-100 group"
                     >
                       <Link
                         href="/memo"
                         className="flex items-center justify-center gap-2"
                       >
                         무료로 시작하기
-                        <motion.svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{
-                            repeat: Infinity,
-                            duration: 1.5,
-                            ease: "easeInOut",
-                          }}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13 7l5 5m0 0l-5 5m5-5H6"
-                          />
-                        </motion.svg>
                       </Link>
                     </Button>
                   </motion.div>
