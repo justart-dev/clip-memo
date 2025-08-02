@@ -270,15 +270,15 @@ export default function LandingPage() {
               </div>
             </section>
 
-            <motion.div 
-              className="flex justify-center -mt-24 mb-2"
+            <motion.div
+              className="flex justify-center -mt-32 mb-2"
               animate={{
                 y: [0, 10, 0],
               }}
               transition={{
                 duration: 1.5,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
             >
               <svg
@@ -655,7 +655,7 @@ export default function LandingPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="relative py-24 -mt-32">
+            <section className="relative py-16 sm:py-24 -mt-32">
               <div className="relative w-full px-4 py-32 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
