@@ -127,6 +127,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  /* 스크롤바로 인한 레이아웃 시프트 방지 */
+  html {
+    overflow-y: scroll; /* 항상 스크롤바 공간 확보 */
+    scrollbar-gutter: stable; /* 안정적인 스크롤바 여백 */
+  }
+  
   body {
     @apply bg-background text-foreground;
   }
