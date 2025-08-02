@@ -255,8 +255,15 @@ export default function Home() {
             <h1 className="mb-2 text-3xl font-bold text-transparent text-foreground bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text">
               클립 메모
             </h1>
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              필요한 내용을 클릭 한 번에 복사하고, 생산성을 높여보세요!
+            <p className="text-sm leading-relaxed text-muted-foreground max-w-md">
+              필요한 내용을
+              <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
+                클릭 한 번
+              </span>
+              에 복사하고,
+              <span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
+                생산성을 높여보세요.
+              </span>
             </p>
           </header>
 
