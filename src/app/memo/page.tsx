@@ -22,11 +22,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 
-  // 페이지 진입 시 스크롤 상단으로 이동
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // 메모 관리 훅 사용
   const {
     items,
