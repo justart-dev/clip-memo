@@ -83,10 +83,21 @@ export function EditMemoDialog({
                     handleSubmit();
                   }
                 }}
+                onFocus={(e) => {
+                  // 텍스트 선택 방지 - 커서를 끝으로 이동
+                  const target = e.target;
+                  setTimeout(() => {
+                    target.setSelectionRange(
+                      target.value.length,
+                      target.value.length
+                    );
+                  }, 0);
+                }}
               />
             </div>
-            <div className="grid gap-2 flex-1">
+            <div className="flex flex-col gap-2 flex-1">
               <Textarea
+                className="flex-1 resize-none"
                 placeholder="내용을 입력하세요"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -96,7 +107,7 @@ export function EditMemoDialog({
                     handleSubmit();
                   }
                 }}
-                className="min-h-[200px] h-full resize-none"
+                rows={8}
               />
             </div>
             <div className="grid gap-2">
