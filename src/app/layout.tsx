@@ -156,7 +156,7 @@ export default function RootLayout({
                     splashScreen.style.display = 'none';
                   }, 500); // 페이드 아웃 애니메이션 시간
                 }
-              }, 1000); // 최소 1초 동안 스플래시 화면 표시
+              }, 2500); // 최소 2.5초 동안 스플래시 화면 표시
             });
 
             // 오프라인 상태 감지 및 처리
