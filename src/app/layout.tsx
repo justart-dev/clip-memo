@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Image from "next/image";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import PWARegister from "./pwa";
@@ -51,6 +50,8 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
+        {/* 스플래시 로고 preload */}
+        <link rel="preload" href="/icons/icon-192x192.svg" as="image" />
 
         <meta
           name="google-site-verification"
@@ -105,6 +106,10 @@ export default function RootLayout({
               width: 80px;
               height: 80px;
               margin-bottom: 20px;
+              background-image: url('/icons/icon-192x192.svg');
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: center;
             }
             .splash-title {
               font-size: 1.5rem;
@@ -180,14 +185,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <div id="splash-screen">
-          <Image
-            src="/icons/icon-192x192.svg"
-            alt="Clip Memo Logo"
-            width={80}
-            height={80}
-            className="splash-logo"
-            priority
-          />
+          <div className="splash-logo" aria-label="Clip Memo Logo"></div>
           <div className="splash-title">Clip Memo</div>
         </div>
         <PWARegister />
