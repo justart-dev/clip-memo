@@ -96,7 +96,7 @@ export default function RootLayout({
               justify-content: center;
               background-color: #ffffff;
               z-index: 9999;
-              transition: opacity 0.5s ease-out;
+              transition: opacity 1s ease-out;
             }
             #splash-screen.fade-out {
               opacity: 0;
@@ -105,7 +105,6 @@ export default function RootLayout({
               width: 80px;
               height: 80px;
               margin-bottom: 20px;
-              animation: pulse 2s infinite;
             }
             .splash-title {
               font-size: 1.5rem;
