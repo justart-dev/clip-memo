@@ -55,14 +55,14 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
       <input
         type="text"
         placeholder="검색어를 입력해주세요"
-        className="w-full py-3.5 pl-12 pr-4 text-md bg-transparent border border-input rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 shadow-sm"
+        className="w-full py-3.5 pl-12 pr-4 text-md bg-transparent border border-gray-250 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 shadow-sm"
         style={{
           WebkitAppearance: "none",
           backgroundColor: "transparent !important",
           overflow: "hidden",
           WebkitBorderRadius: "9999px",
           borderRadius: "9999px",
-          border: "1px solid hsl(var(--input))",
+          border: "1px solid #e5e7eb",
         }}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
