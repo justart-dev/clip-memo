@@ -23,27 +23,22 @@ interface NavigatorWithStandalone extends Navigator {
 
 // PWA가 설치되었는지 확인하는 함수
 const isPWAInstalled = (): boolean => {
-  // 1. display-mode 확인 (standalone, fullscreen, minimal-ui 모두 PWA로 간주)
+  // 현재 PWA 환경에서 실행 중인 경우
   if (
     window.matchMedia("(display-mode: standalone)").matches ||
     window.matchMedia("(display-mode: fullscreen)").matches ||
-    window.matchMedia("(display-mode: minimal-ui)").matches
-  ) {
-    return true;
-  }
-
-  // 2. iOS Safari에서 홈 화면에 추가된 경우 확인
-  if (
+    window.matchMedia("(display-mode: minimal-ui)").matches ||
     ("standalone" in window.navigator &&
-      (window.navigator as NavigatorWithStandalone).standalone === true) || // iOS Safari
-    window.matchMedia("(display-mode: standalone)").matches // 다른 브라우저
+      (window.navigator as NavigatorWithStandalone).standalone === true)
   ) {
     return true;
   }
 
-  // 3. localStorage에 설치 상태가 저장되어 있는지 확인
-  if (localStorage.getItem("pwa-installed") === "true") {
-    return true;
+  // 브라우저 환경에서는 localStorage만으로는 판단하지 않음
+  // PWA가 실제로 설치되어 있다면 Service Worker 등록 상태를 확인
+  if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
+    // localStorage에 설치 기록이 있더라도 실제 PWA 환경이 아니면 false
+    return false;
   }
 
   return false;
@@ -118,6 +113,25 @@ const InstallPWA = () => {
         setSupportsPWA(true);
         setPromptInstall(savedPrompt);
       }
+
+      // PWA 기본 조건 확인 (beforeinstallprompt 이벤트가 없어도 표시)
+      const checkPWASupport = () => {
+        // Service Worker 지원 여부 확인
+        const hasServiceWorker = 'serviceWorker' in navigator;
+        // HTTPS 또는 localhost 여부 확인
+        const isSecure = location.protocol === 'https:' || location.hostname === 'localhost';
+        // manifest.json 존재 여부는 HTML에서 링크되어 있다고 가정
+        
+        console.log("PWA support check:", { hasServiceWorker, isSecure, isPWAInstalled: isPWAInstalled() });
+        
+        // PWA가 설치되지 않았고, 기본 조건을 만족하면 설치 버튼 표시
+        if (hasServiceWorker && isSecure && !isPWAInstalled()) {
+          setSupportsPWA(true);
+        }
+      };
+
+      // 초기 PWA 지원 확인
+      checkPWASupport();
 
       const handler = (e: BeforeInstallPromptEvent) => {
         console.log("beforeinstallprompt event fired", e);
@@ -201,20 +215,37 @@ const InstallPWA = () => {
       return;
     }
 
-    if (!promptInstall) return;
-
-    promptInstall.prompt();
-    promptInstall.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === "accepted") {
-        console.log("User accepted the install prompt");
-        setIsInstalled(true);
-        localStorage.setItem("pwa-installed", "true");
-        // 설치 완료 후 저장된 프롬프트 제거
-        window.deferredPrompt = null;
+    // beforeinstallprompt 이벤트가 있는 경우 사용
+    if (promptInstall) {
+      promptInstall.prompt();
+      promptInstall.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the install prompt");
+          setIsInstalled(true);
+          localStorage.setItem("pwa-installed", "true");
+          // 설치 완료 후 저장된 프롬프트 제거
+          window.deferredPrompt = null;
+        } else {
+          console.log("User dismissed the install prompt");
+        }
+      });
+    } else {
+      // beforeinstallprompt 이벤트가 없는 경우 브라우저별 안내
+      const userAgent = navigator.userAgent.toLowerCase();
+      if (userAgent.includes('chrome')) {
+        alert(
+          "Chrome 브라우저의 주소창 오른쪽에 있는\n'앱 설치' 아이콘을 클릭하거나,\n메뉴(⋮) > '앱 설치'를 선택해주세요."
+        );
+      } else if (userAgent.includes('samsung')) {
+        alert(
+          "Samsung Internet의 메뉴를 열고\n'앱 설치' 또는 '홈 화면에 추가'를\n선택해주세요."
+        );
       } else {
-        console.log("User dismissed the install prompt");
+        alert(
+          "브라우저 메뉴에서\n'홈 화면에 추가' 또는 '앱 설치'를\n선택해주세요."
+        );
       }
-    });
+    }
   };
 
   const handleDismiss = (e: React.MouseEvent) => {
@@ -225,18 +256,66 @@ const InstallPWA = () => {
     // 닫기 버튼을 눌러도 프롬프트는 유지
   };
 
+  const handleReinstall = (e: React.MouseEvent) => {
+    e.preventDefault();
+    console.log("Reinstall button clicked");
+    
+    // 로컬스토리지 설치 상태 제거
+    localStorage.removeItem("pwa-installed");
+    
+    // 상태 초기화
+    setIsInstalled(false);
+    
+    // iOS인 경우 설치 안내
+    if (isIOS) {
+      setSupportsPWA(true);
+      alert(
+        "Safari 브라우저의 '공유' 버튼을 눌러\n'홈 화면에 추가'를 선택해주세요."
+      );
+      return;
+    }
+    
+    // Android/Chrome인 경우 저장된 프롬프트나 새로운 프롬프트 확인
+    const savedPrompt = window.deferredPrompt;
+    if (savedPrompt) {
+      setSupportsPWA(true);
+      setPromptInstall(savedPrompt);
+      savedPrompt.prompt();
+      savedPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the reinstall prompt");
+          setIsInstalled(true);
+          localStorage.setItem("pwa-installed", "true");
+          window.deferredPrompt = null;
+        } else {
+          console.log("User dismissed the reinstall prompt");
+        }
+      });
+    } else {
+      // 프롬프트가 없는 경우 설치 버튼 상태로 변경
+      setSupportsPWA(true);
+    }
+  };
+
   // PWA 환경인 경우 항상 숨김
   if (environment === "pwa" || environment === "ios-pwa") {
     return null;
   }
 
-  // 설치할 수 없고, 설치되지도 않은 경우 숨김
-  if (!supportsPWA && !isInstalled) {
-    return null;
-  }
-
-  // 브라우저에서 접속했고, 이미 설치된 경우 PWA 사용 안내 메시지 표시
-  if (isInstalled && environment === "browser") {
+  // 브라우저 환경에서 PWA 설치 여부에 따른 처리
+  if (environment === "browser") {
+    // localStorage에 설치 기록이 있지만 실제로는 삭제된 경우를 감지
+    const hasStorageRecord = localStorage.getItem("pwa-installed") === "true";
+    const actuallyInstalled = isPWAInstalled();
+    
+    // localStorage 기록과 실제 상태가 다르면 localStorage 정리
+    if (hasStorageRecord && !actuallyInstalled) {
+      localStorage.removeItem("pwa-installed");
+      setIsInstalled(false);
+    }
+    
+    // PWA가 실제로 설치되어 있거나 localStorage에 기록이 있는 경우 안내 메시지
+    if (hasStorageRecord || actuallyInstalled) {
     return (
       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-md">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 animate-slide-up relative">
@@ -287,14 +366,22 @@ const InstallPWA = () => {
               </p>
             </div>
           </div>
+          <div className="mt-4">
+            <button
+              onClick={handleReinstall}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            >
+              재설치하기
+            </button>
+          </div>
         </div>
       </div>
     );
-  }
-
-  // 설치 버튼 표시 (브라우저 환경에서만)
-  if (environment === "browser" && !isInstalled) {
-    console.log("Rendering PWA install button - supportsPWA:", supportsPWA);
+    }
+    
+    // 설치 가능한 경우 설치 버튼 표시
+    if (supportsPWA) {
+      console.log("Rendering PWA install button - supportsPWA:", supportsPWA);
     return (
       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-md">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 animate-slide-up relative">
@@ -354,6 +441,7 @@ const InstallPWA = () => {
         </div>
       </div>
     );
+    }
   }
 
   return null;
