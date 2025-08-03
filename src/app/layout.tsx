@@ -85,14 +85,9 @@ export default function RootLayout({
         <style
           dangerouslySetInnerHTML={{
             __html: `
-            /* 즉시 나타나는 흰색 배경 - 모든 것을 덮음 */
-            body {
+            /* 페이지 전체를 흰색 배경으로 덮어 CM 로고 숨김 */
+            html, body {
               background-color: #ffffff !important;
-            }
-            
-            /* 스플래시 이전 모든 요소 숨김 */
-            body:not(.splash-loaded) > *:not(#splash-screen) {
-              opacity: 0 !important;
             }
             
             #splash-screen {
@@ -161,9 +156,6 @@ export default function RootLayout({
             __html: `
             // 스플래시 화면 처리 스크립트
             window.addEventListener('load', function() {
-              // 스플래시 로드 완료 표시
-              document.body.classList.add('splash-loaded');
-              
               // 페이지가 완전히 로드된 후 약간의 지연 시간을 두고 스플래시 화면 숨기기
               setTimeout(function() {
                 const splashScreen = document.getElementById('splash-screen');
