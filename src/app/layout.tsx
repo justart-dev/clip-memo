@@ -45,12 +45,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
-        {/* iOS Safari status bar color */}
+        {/* iOS Safari status bar color - 우선순위를 위해 최상단 배치 */}
         <meta name="theme-color" content="#ffffff" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
 
         <meta
           name="google-site-verification"
