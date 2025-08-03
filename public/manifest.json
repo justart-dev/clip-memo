@@ -1,6 +1,6 @@
 {
-  "name": "클립 메모",
-  "short_name": "클립메모",
+  "name": "Clip Memo",
+  "short_name": "Clip Memo",
   "description": "클립보드 기능이 있는 현대적인 메모 애플리케이션",
   "start_url": "/",
   "display": "standalone",
