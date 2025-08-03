@@ -204,7 +204,7 @@ export default function Home() {
                   </span>
                 </a>
                 <span className="text-white text-xs sm:text-sm min-w-0 truncate">
-                  5초면 충분해요!
+                  10초면 충분해요!
                 </span>
               </div>
             </div>
