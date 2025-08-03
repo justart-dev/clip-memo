@@ -154,9 +154,9 @@ export default function RootLayout({
                   splashScreen.classList.add('fade-out');
                   setTimeout(function() {
                     splashScreen.style.display = 'none';
-                  }, 500); // 페이드 아웃 애니메이션 시간
+                  }, 1000); // 페이드 아웃 애니메이션 시간
                 }
-              }, 2500); // 최소 2.5초 동안 스플래시 화면 표시
+              }, 1500); // 최소 1.5초 동안 스플래시 화면 표시
             });
 
             // 오프라인 상태 감지 및 처리
