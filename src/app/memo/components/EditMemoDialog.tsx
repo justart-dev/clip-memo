@@ -63,16 +63,16 @@ export function EditMemoDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] min-h-[450px]">
-        <form onSubmit={handleSubmit} className="h-full flex flex-col">
+      <DialogContent className="sm:max-w-[425px]">
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>메모 수정</DialogTitle>
             <DialogDescription>
               메모를 수정하세요. 모든 필드를 채워주세요.
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4 space-y-4 h-full">
-            <div className="space-y-2">
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
               <Input
                 placeholder="제목을 입력하세요"
                 value={title}
@@ -83,21 +83,10 @@ export function EditMemoDialog({
                     handleSubmit();
                   }
                 }}
-                onFocus={(e) => {
-                  // 텍스트 선택 방지 - 커서를 끝으로 이동
-                  const target = e.target;
-                  setTimeout(() => {
-                    target.setSelectionRange(
-                      target.value.length,
-                      target.value.length
-                    );
-                  }, 0);
-                }}
               />
             </div>
-            <div className="space-y-2 h-64">
+            <div className="grid gap-2">
               <Textarea
-                className="h-full resize-none"
                 placeholder="내용을 입력하세요"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -107,9 +96,10 @@ export function EditMemoDialog({
                     handleSubmit();
                   }
                 }}
+                className="h-[140px] resize-none"
               />
             </div>
-            <div className="space-y-2">
+            <div className="grid gap-2">
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger>
                   <SelectValue placeholder="카테고리 선택" />
