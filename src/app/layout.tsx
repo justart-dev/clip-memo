@@ -50,8 +50,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
-        {/* 스플래시 로고 preload */}
-        <link rel="preload" href="/icons/icon-192x192.svg" as="image" />
 
         <meta
           name="google-site-verification"
