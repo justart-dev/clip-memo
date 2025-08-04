@@ -252,9 +252,14 @@ export default function Home() {
       >
         <div className="max-w-[1024px] w-full mx-auto px-5">
           <header className={`pt-10 pb-6 bg-transparent`}>
-            <h1 className="mb-2 text-3xl font-bold text-transparent text-foreground bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text">
-              클립 메모
-            </h1>
+            <div className="flex items-center justify-between mb-2">
+              <h1 className="text-3xl font-bold text-transparent text-foreground bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text">
+                클립 메모
+              </h1>
+              <div className="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
+                {items.length}개의 메모
+              </div>
+            </div>
             <p className="text-sm leading-relaxed text-muted-foreground max-w-md">
               필요한 내용을
               <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
