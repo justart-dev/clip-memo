@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Item } from "../types";
 import { ViewMemoDialog } from "./ViewMemoDialog";
 import { Eye, Edit2, Trash2 } from "lucide-react";
+import { linkify } from "../utils/linkify";
 
 interface ListItemProps {
   item: Item;
@@ -130,7 +131,7 @@ const ListItem = ({ item, onCopy, onEdit, onDelete }: ListItemProps) => {
           </div>
         </div>
         <p className="mb-2 overflow-hidden text-sm text-gray-600 dark:text-gray-400 text-ellipsis whitespace-nowrap">
-          {item.content}
+          {linkify(item.content)}
         </p>
         <div className="flex items-center justify-between">
           <p className="text-xs text-gray-500 dark:text-gray-400">

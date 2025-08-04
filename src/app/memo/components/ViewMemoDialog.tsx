@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import { Item } from "../types";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { linkify } from "../utils/linkify";
 
 interface ViewMemoDialogProps {
   item: Item;
@@ -26,7 +27,7 @@ export function ViewMemoDialog({
         </DialogHeader>
         <ScrollArea className="h-full max-h-[65vh] min-h-[180px] pr-4">
           <div className="text-base leading-relaxed text-gray-600 whitespace-pre-wrap dark:text-gray-300">
-            {item.content}
+            {linkify(item.content)}
           </div>
         </ScrollArea>
       </DialogContent>
