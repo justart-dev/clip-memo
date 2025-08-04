@@ -135,7 +135,7 @@ export function PullToRefresh({
     <div className="relative h-full overflow-hidden">
       {/* Pull Indicator */}
       <div 
-        className="absolute left-0 right-0 top-0 flex items-center justify-center transition-all duration-300 ease-out z-10"
+        className="absolute left-0 right-0 top-0 flex items-center justify-center transition-all duration-300 ease-out z-50"
         style={{
           transform: `translateY(${pullDistance - 50}px)`,
           opacity: pullDistance > 15 ? Math.min(pullDistance / 60, 1) : 0

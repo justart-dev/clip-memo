@@ -192,9 +192,8 @@ export default function Home() {
   }
 
   return (
-    <PullToRefresh onRefresh={handleRefresh}>
-      <main className="flex flex-col min-h-screen bg-gradient-to-br ">
-        <header
+    <main className="flex flex-col min-h-screen bg-gradient-to-br ">
+      <header
         className={`fixed top-0 left-0 right-0 z-40 backdrop-blur-lg bg-white/80 transition-all duration-300 ${
           !showBanner ? "py-2" : "shadow-sm"
         }`}
@@ -274,11 +273,12 @@ export default function Home() {
         )}
       </header>
 
-      <section
-        className={`flex flex-col flex-1 ${
-          showBanner ? "mt-[10vh]" : "mt-[7vh]"
-        } transition-all duration-300`}
-      >
+      <PullToRefresh onRefresh={handleRefresh}>
+        <section
+          className={`flex flex-col flex-1 ${
+            showBanner ? "mt-[10vh]" : "mt-[7vh]"
+          } transition-all duration-300`}
+        >
         <div className="max-w-[1024px] w-full mx-auto px-5">
           <header className={`pt-10 pb-6 bg-transparent`}>
             <div className="flex items-center justify-between mb-2">
@@ -559,7 +559,8 @@ export default function Home() {
             </div>
           </section>
         </div>
-      </section>
+        </section>
+      </PullToRefresh>
 
       {selectedItem && (
         <EditMemoDialog
@@ -571,12 +572,11 @@ export default function Home() {
         />
       )}
 
-        <DeleteConfirmDialog
-          open={deleteDialogOpen}
-          onOpenChange={setDeleteDialogOpen}
-          onConfirm={confirmDeleteWithToast}
-        />
-      </main>
-    </PullToRefresh>
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={confirmDeleteWithToast}
+      />
+    </main>
   );
 }
