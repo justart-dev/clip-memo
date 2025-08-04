@@ -14,6 +14,7 @@ import { DeleteCategoryDialog } from "./components/DeleteCategoryDialog";
 import { EditCategoryDialog } from "./components/EditCategoryDialog";
 import Loading from "@/components/Loading";
 import { useMemoManager } from "./hooks/useMemoManager";
+import { PullToRefresh } from "@/components/PullToRefresh";
 
 const STORAGE_KEY_BANNER_CLOSED = "clip-memo-banner-closed";
 
@@ -154,6 +155,33 @@ export default function Home() {
     localStorage.setItem(STORAGE_KEY_BANNER_CLOSED, "false");
   };
 
+  const handleRefresh = async () => {
+    // Service Worker 업데이트 및 캐시 클리어
+    try {
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) {
+          await registration.update();
+          
+          if ('caches' in window) {
+            const cacheNames = await caches.keys();
+            await Promise.all(
+              cacheNames.map(cacheName => caches.delete(cacheName))
+            );
+          }
+        }
+      }
+      
+      // 약간의 지연 후 페이지 새로고침
+      await new Promise(resolve => setTimeout(resolve, 500));
+      window.location.reload();
+      
+    } catch (error) {
+      console.error('Refresh failed:', error);
+      window.location.reload();
+    }
+  };
+
   // 데이터 로딩 중일 때 로딩 상태 표시
   if (isLoading) {
     return <Loading />;
@@ -164,8 +192,9 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col min-h-screen bg-gradient-to-br ">
-      <header
+    <PullToRefresh onRefresh={handleRefresh}>
+      <main className="flex flex-col min-h-screen bg-gradient-to-br ">
+        <header
         className={`fixed top-0 left-0 right-0 z-40 backdrop-blur-lg bg-white/80 transition-all duration-300 ${
           !showBanner ? "py-2" : "shadow-sm"
         }`}
@@ -542,11 +571,12 @@ export default function Home() {
         />
       )}
 
-      <DeleteConfirmDialog
-        open={deleteDialogOpen}
-        onOpenChange={setDeleteDialogOpen}
-        onConfirm={confirmDeleteWithToast}
-      />
-    </main>
+        <DeleteConfirmDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDeleteWithToast}
+        />
+      </main>
+    </PullToRefresh>
   );
 }
