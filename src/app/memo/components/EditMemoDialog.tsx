@@ -71,8 +71,8 @@ export function EditMemoDialog({
               메모를 수정하세요. 모든 필드를 채워주세요.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4 flex-1">
-            <div className="grid gap-2">
+          <div className="py-4 space-y-4 h-full">
+            <div className="space-y-2">
               <Input
                 placeholder="제목을 입력하세요"
                 value={title}
@@ -95,9 +95,9 @@ export function EditMemoDialog({
                 }}
               />
             </div>
-            <div className="flex flex-col gap-2 flex-1">
+            <div className="space-y-2 h-64">
               <Textarea
-                className="flex-1 resize-none"
+                className="h-full resize-none"
                 placeholder="내용을 입력하세요"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -107,10 +107,9 @@ export function EditMemoDialog({
                     handleSubmit();
                   }
                 }}
-                rows={8}
               />
             </div>
-            <div className="grid gap-2">
+            <div className="space-y-2">
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger>
                   <SelectValue placeholder="카테고리 선택" />
