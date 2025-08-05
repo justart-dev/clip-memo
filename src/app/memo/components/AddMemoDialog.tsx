@@ -112,7 +112,7 @@ export function AddMemoDialog({
                     handleSubmit();
                   }
                 }}
-                className="min-h-[140px]"
+                className="resize-none"
               />
             </div>
             <div className="grid gap-2">
