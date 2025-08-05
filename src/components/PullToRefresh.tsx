@@ -9,17 +9,17 @@ interface PullToRefreshProps {
   resistance?: number;
 }
 
-export function PullToRefresh({ 
-  onRefresh, 
-  children, 
-  threshold = 70,
-  resistance = 0.5 
+export function PullToRefresh({
+  onRefresh,
+  children,
+  threshold = 90,
+  resistance = 0.3,
 }: PullToRefreshProps) {
   const [pulling, setPulling] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [canPull, setCanPull] = useState(false);
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const startY = useRef(0);
   const currentY = useRef(0);
@@ -28,9 +28,12 @@ export function PullToRefresh({
   const checkScrollPosition = () => {
     if (containerRef.current) {
       const scrollTop = containerRef.current.scrollTop;
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-                      ('ontouchstart' in window) || 
-                      (navigator.maxTouchPoints > 0);
+      const isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        ) ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0;
       setCanPull(scrollTop <= 0 && isMobile);
     }
   };
@@ -39,17 +42,17 @@ export function PullToRefresh({
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener('scroll', checkScrollPosition);
+    container.addEventListener("scroll", checkScrollPosition);
     checkScrollPosition(); // 초기 확인
 
     return () => {
-      container.removeEventListener('scroll', checkScrollPosition);
+      container.removeEventListener("scroll", checkScrollPosition);
     };
   }, []);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!canPull) return;
-    
+
     startY.current = e.touches[0].clientY;
     currentY.current = startY.current;
   };
@@ -76,7 +79,7 @@ export function PullToRefresh({
       try {
         await onRefresh();
       } catch (error) {
-        console.error('Refresh failed:', error);
+        console.error("Refresh failed:", error);
       } finally {
         setRefreshing(false);
       }
@@ -88,10 +91,10 @@ export function PullToRefresh({
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!canPull) return;
-    
+
     startY.current = e.clientY;
     currentY.current = startY.current;
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!canPull || refreshing) return;
 
@@ -114,7 +117,7 @@ export function PullToRefresh({
         try {
           await onRefresh();
         } catch (error) {
-          console.error('Refresh failed:', error);
+          console.error("Refresh failed:", error);
         } finally {
           setRefreshing(false);
         }
@@ -122,23 +125,23 @@ export function PullToRefresh({
 
       setPulling(false);
       setPullDistance(0);
-      
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
   };
 
   return (
     <div className="relative h-full overflow-hidden">
       {/* Pull Indicator */}
-      <div 
+      <div
         className="absolute left-0 right-0 top-0 flex items-center justify-center transition-all duration-300 ease-out z-50"
         style={{
           transform: `translateY(${pullDistance - 50}px)`,
-          opacity: pullDistance > 15 ? Math.min(pullDistance / 60, 1) : 0
+          opacity: pullDistance > 15 ? Math.min(pullDistance / 60, 1) : 0,
         }}
       >
         <div className="flex items-center justify-center gap-3 px-4 py-3 bg-white rounded-full shadow-sm border border-gray-100">
@@ -153,7 +156,11 @@ export function PullToRefresh({
           </div>
           {pullDistance > 40 && (
             <span className="text-xs font-medium text-gray-700 animate-fade-in">
-              {refreshing ? '새로고침 중' : pulling ? '놓으면 새로고침' : '아래로 당기세요'}
+              {refreshing
+                ? "새로고침 중"
+                : pulling
+                ? "놓으면 새로고침"
+                : "아래로 당기세요"}
             </span>
           )}
         </div>
@@ -165,7 +172,10 @@ export function PullToRefresh({
         className="h-full overflow-auto"
         style={{
           transform: `translateY(${refreshing ? 50 : pullDistance * 0.8}px)`,
-          transition: refreshing || (!pulling && pullDistance === 0) ? 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none'
+          transition:
+            refreshing || (!pulling && pullDistance === 0)
+              ? "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+              : "none",
         }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
