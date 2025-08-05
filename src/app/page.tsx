@@ -395,13 +395,10 @@ export default function LandingPage() {
                       title: (
                         <div className="flex items-center gap-2">
                           데이터 백업
-                          <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-                            Coming Soon
-                          </span>
                         </div>
                       ),
                       description:
-                        "메모를 파일로 내보내고 가져와서 안전하게 보관하세요.",
+                        "메모를 클립보드에 복사하여 손쉽게 복구할 수 있습니다.",
                       icon: (
                         <path
                           strokeLinecap="round"
