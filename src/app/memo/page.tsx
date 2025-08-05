@@ -256,7 +256,7 @@ export default function Home() {
   }
 
   if (!isMounted) {
-    return null; // or a loading spinner
+    return <Loading />; // 로딩 스피너 표시
   }
 
   return (
@@ -354,7 +354,7 @@ export default function Home() {
                   클립 메모
                 </h1>
                 <div className="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
-                  {items.length}개의 메모
+                  {isMounted ? `${items.length}개의 메모` : "메모"}
                 </div>
               </div>
               <p className="text-sm leading-relaxed text-muted-foreground max-w-md">
@@ -547,7 +547,14 @@ export default function Home() {
 
             <section aria-label="메모 목록" className="flex-1 overflow-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
-                {items.length === 0 ? (
+                {!isMounted ? (
+                  <div className="col-span-full">
+                    <div className="flex flex-col items-center justify-center py-16">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                      <p className="mt-4 text-gray-500">로딩 중...</p>
+                    </div>
+                  </div>
+                ) : items.length === 0 ? (
                   <div className="col-span-full">
                     <div className="flex flex-col items-center justify-center py-16 text-center transition-colors duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:border-gray-200">
                       <div className="p-6 mb-6 rounded-full bg-gray-50">
