@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Item } from "../types";
 import { ViewMemoDialog } from "./ViewMemoDialog";
-import { Eye, Edit2, Trash2 } from "lucide-react";
+import { Eye, Edit2, Trash2, Copy } from "lucide-react";
 import { linkify } from "../utils/linkify";
 
 interface ListItemProps {
@@ -11,9 +11,10 @@ interface ListItemProps {
   onCopy: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  onDuplicate: (item: Item) => void;
 }
 
-const ListItem = ({ item, onCopy, onEdit, onDelete }: ListItemProps) => {
+const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showViewDialog, setShowViewDialog] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -67,6 +68,11 @@ const ListItem = ({ item, onCopy, onEdit, onDelete }: ListItemProps) => {
     onDelete();
   };
 
+  const handleDuplicateClick = () => {
+    setShowMenu(false);
+    onDuplicate(item);
+  };
+
   return (
     <>
       <div className="bg-card rounded-xl border border-border shadow-sm p-5 hover:shadow-md transition-all duration-300 animate-fade-in hover:translate-y-[-2px] min-h-[150px] flex flex-col my-1">
@@ -117,6 +123,13 @@ const ListItem = ({ item, onCopy, onEdit, onDelete }: ListItemProps) => {
                   >
                     <Edit2 className="w-4 h-4 mr-2" />
                     편집
+                  </button>
+                  <button
+                    className="flex items-center w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100"
+                    onClick={handleDuplicateClick}
+                  >
+                    <Copy className="w-4 h-4 mr-2" />
+                    복제하기
                   </button>
                   <button
                     className="flex items-center w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-gray-100"

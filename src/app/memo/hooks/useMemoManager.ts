@@ -36,6 +36,7 @@ export interface MemoManagerResult {
   handleAddNew: (newItem: Omit<Item, 'id'>) => void;
   handleEdit: (editedItem: Item) => void;
   handleDelete: (item: Item) => void;
+  handleDuplicate: (item: Item) => void;
   confirmDelete: () => void;
   
   // 카테고리 관리 함수
@@ -134,6 +135,32 @@ export function useMemoManager(): MemoManagerResult {
   const handleDelete = (item: Item) => {
     setSelectedItem(item);
     setDeleteDialogOpen(true);
+  };
+
+  // 메모 복제 함수
+  const handleDuplicate = (item: Item) => {
+    try {
+      // 복제된 메모는 새로운 ID와 제목에 "(복제)" 추가
+      const duplicatedItem: Item = {
+        ...item,
+        id: uuidv4(),
+        title: `${item.title} (복제)`,
+      };
+
+      // 스토리지 용량 체크
+      const currentStorage = JSON.stringify([...items, duplicatedItem]).length;
+      if (currentStorage > MAX_STORAGE_SIZE) {
+        throw new Error('저장 공간이 부족합니다. 일부 메모를 삭제해주세요.');
+      }
+
+      setItems([...items, duplicatedItem]);
+      return true;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('메모 복제 중 오류가 발생했습니다');
+    }
   };
 
   // 메모 삭제 확인 함수
@@ -266,6 +293,7 @@ export function useMemoManager(): MemoManagerResult {
     handleAddNew,
     handleEdit,
     handleDelete,
+    handleDuplicate,
     confirmDelete,
     
     // 카테고리 관리 함수

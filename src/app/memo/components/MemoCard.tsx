@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Eye, Edit2, Trash } from "lucide-react";
+import { MoreHorizontal, Eye, Edit2, Trash, Copy } from "lucide-react";
 import { ViewMemoDialog } from "./ViewMemoDialog";
 import { Item } from "../types";
 
@@ -16,9 +16,10 @@ interface MemoCardProps {
   onEdit: (item: Item) => void;
   onDelete: (item: Item) => void;
   onCopy: () => void;
+  onDuplicate: (item: Item) => void;
 }
 
-export function MemoCard({ item, onEdit, onDelete, onCopy }: MemoCardProps) {
+export function MemoCard({ item, onEdit, onDelete, onCopy, onDuplicate }: MemoCardProps) {
   const [showViewDialog, setShowViewDialog] = useState(false);
 
   const handleCopy = () => {
@@ -65,6 +66,10 @@ export function MemoCard({ item, onEdit, onDelete, onCopy }: MemoCardProps) {
               <DropdownMenuItem onClick={() => onEdit(item)}>
                 <Edit2 className="w-4 h-4 mr-2" />
                 수정하기
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDuplicate(item)}>
+                <Copy className="w-4 h-4 mr-2" />
+                복제하기
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onDelete(item)}>
                 <Trash className="w-4 h-4 mr-2" />

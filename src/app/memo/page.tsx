@@ -44,6 +44,7 @@ export default function Home() {
     handleAddCategory,
     handleDeleteCategory,
     handleEditCategory,
+    handleDuplicate,
   } = useMemoManager();
 
   // 배너 상태 초기화 및 로딩 상태 관리
@@ -143,6 +144,19 @@ export default function Home() {
 
   const handleCopy = () => {
     toast.success("클립보드에 복사되었습니다.");
+  };
+
+  const handleDuplicateWithToast = (item: Item) => {
+    try {
+      handleDuplicate(item);
+      toast.success("메모가 복제되었습니다");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("메모 복제 중 오류가 발생했습니다");
+      }
+    }
   };
 
   const handleCloseBanner = () => {
@@ -526,6 +540,7 @@ export default function Home() {
                         setEditDialogOpen(true);
                       }}
                       onDelete={() => handleDelete(item)}
+                      onDuplicate={handleDuplicateWithToast}
                     />
                   </div>
                 ))
