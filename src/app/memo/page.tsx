@@ -64,12 +64,12 @@ export default function Home() {
   const handleAddNewWithToast = (newItem: Omit<Item, "id">) => {
     try {
       handleAddNew(newItem);
-      toast.success("메모가 추가되었습니다");
+      toast.success("메모가 추가되었습니다.");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("메모 추가 중 오류가 발생했습니다");
+        toast.error("메모 추가 중 오류가 발생했습니다.");
       }
     }
   };
@@ -77,12 +77,12 @@ export default function Home() {
   const handleAddCategoryWithToast = (category: string) => {
     try {
       handleAddCategory(category);
-      toast.success("카테고리가 추가되었습니다");
+      toast.success("카테고리가 추가되었습니다.");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("카테고리 추가 중 오류가 발생했습니다");
+        toast.error("카테고리 추가 중 오류가 발생했습니다.");
       }
     }
   };
@@ -90,12 +90,12 @@ export default function Home() {
   const handleDeleteCategoryWithToast = (category: string) => {
     try {
       handleDeleteCategory(category);
-      toast.success("카테고리가 삭제되었습니다");
+      toast.success("카테고리가 삭제되었습니다.");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("카테고리 삭제 중 오류가 발생했습니다");
+        toast.error("카테고리 삭제 중 오류가 발생했습니다.");
       }
     }
   };
@@ -103,12 +103,12 @@ export default function Home() {
   const handleEditWithToast = (editedItem: Item) => {
     try {
       handleEdit(editedItem);
-      toast.success("메모가 수정되었습니다");
+      toast.success("메모가 수정되었습니다.");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("메모 수정 중 오류가 발생했습니다");
+        toast.error("메모 수정 중 오류가 발생했습니다.");
       }
     }
   };
@@ -137,7 +137,7 @@ export default function Home() {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("카테고리 수정 중 오류가 발생했습니다");
+        toast.error("카테고리 수정 중 오류가 발생했습니다.");
       }
     }
   };
@@ -149,12 +149,12 @@ export default function Home() {
   const handleDuplicateWithToast = (item: Item) => {
     try {
       handleDuplicate(item);
-      toast.success("메모가 복제되었습니다");
+      toast.success("메모가 복제되었습니다.");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("메모 복제 중 오류가 발생했습니다");
+        toast.error("메모 복제 중 오류가 발생했습니다.");
       }
     }
   };
@@ -192,6 +192,61 @@ export default function Home() {
     } catch (error) {
       console.error("Refresh failed:", error);
       window.location.reload();
+    }
+  };
+
+  const handleBackupToClipboard = async () => {
+    try {
+      const backupData = {
+        timestamp: new Date().toISOString(),
+        version: "1.0",
+        items: items,
+        categories: categories,
+      };
+
+      await navigator.clipboard.writeText(JSON.stringify(backupData, null, 2));
+      toast.success("메모 데이터가 클립보드에 백업되었습니다.");
+    } catch (error) {
+      console.error("Backup failed:", error);
+      toast.error("백업 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleRestoreFromClipboard = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      const backupData = JSON.parse(clipboardText);
+
+      // 백업 데이터 유효성 검증
+      if (!backupData.items || !Array.isArray(backupData.items)) {
+        throw new Error("올바른 백업 데이터가 아닙니다.");
+      }
+
+      // 복구 확인
+      const confirmed = window.confirm(
+        `${backupData.items.length}개의 메모를 복구하시겠습니까?\n현재 메모는 모두 덮어쓰여집니다.`
+      );
+
+      if (!confirmed) return;
+
+      // localStorage에 복구
+      localStorage.setItem("clip-memo-items", JSON.stringify(backupData.items));
+      if (backupData.categories) {
+        localStorage.setItem(
+          "clip-memo-categories",
+          JSON.stringify(backupData.categories)
+        );
+      }
+
+      // 페이지 새로고침으로 데이터 반영
+      window.location.reload();
+    } catch (error) {
+      console.error("Restore failed:", error);
+      if (error instanceof SyntaxError) {
+        toast.error("클립보드에 올바른 백업 데이터가 없습니다.");
+      } else {
+        toast.error("복구 중 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -310,7 +365,8 @@ export default function Home() {
                 복사하고,
                 <span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
                   생산성을
-                </span>높여보세요.
+                </span>
+                높여보세요.
               </p>
             </header>
 
@@ -571,6 +627,50 @@ export default function Home() {
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* 백업/복구 기능 */}
+              <div className="my-8 pt-6 border-t border-gray-100">
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={handleBackupToClipboard}
+                    className="flex items-center gap-2 px-3 py-2 text-xs text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                      />
+                    </svg>
+                    백업하기
+                  </button>
+                  <button
+                    onClick={handleRestoreFromClipboard}
+                    className="flex items-center gap-2 px-3 py-2 text-xs text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    복구하기
+                  </button>
+                </div>
               </div>
             </section>
           </div>
