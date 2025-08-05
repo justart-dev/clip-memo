@@ -172,26 +172,25 @@ export default function Home() {
   const handleRefresh = async () => {
     // Service Worker 업데이트 및 캐시 클리어
     try {
-      if ('serviceWorker' in navigator) {
+      if ("serviceWorker" in navigator) {
         const registration = await navigator.serviceWorker.getRegistration();
         if (registration) {
           await registration.update();
-          
-          if ('caches' in window) {
+
+          if ("caches" in window) {
             const cacheNames = await caches.keys();
             await Promise.all(
-              cacheNames.map(cacheName => caches.delete(cacheName))
+              cacheNames.map((cacheName) => caches.delete(cacheName))
             );
           }
         }
       }
-      
+
       // 약간의 지연 후 페이지 새로고침
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       window.location.reload();
-      
     } catch (error) {
-      console.error('Refresh failed:', error);
+      console.error("Refresh failed:", error);
       window.location.reload();
     }
   };
@@ -293,287 +292,288 @@ export default function Home() {
             showBanner ? "mt-[10vh]" : "mt-[7vh]"
           } transition-all duration-300`}
         >
-        <div className="max-w-[1024px] w-full mx-auto px-5">
-          <header className={`pt-10 pb-6 bg-transparent`}>
-            <div className="flex items-center justify-between mb-2">
-              <h1 className="text-3xl font-bold text-transparent text-foreground bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text">
-                클립 메모
-              </h1>
-              <div className="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
-                {items.length}개의 메모
-              </div>
-            </div>
-            <p className="text-sm leading-relaxed text-muted-foreground max-w-md">
-              필요한 내용을
-              <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
-                클릭 한 번
-              </span>
-              에 복사하고,
-              <span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
-                생산성을 높여보세요.
-              </span>
-            </p>
-          </header>
-
-          <nav className="flex items-center gap-4 mb-6">
-            <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px]">
-              <SearchBar onSearch={setSearchQuery} />
-            </div>
-            <AddMemoDialog
-              categories={categories}
-              onAdd={handleAddNewWithToast}
-            >
-              <button
-                className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:scale-105 hover:shadow-lg"
-                style={{
-                  WebkitAppearance: "none",
-                  overflow: "hidden",
-                  WebkitBorderRadius: "9999px",
-                  borderRadius: "9999px",
-                }}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-white"
-                >
-                  <path
-                    d="M12 4V20M4 12H20"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </AddMemoDialog>
-          </nav>
-
-          <section
-            aria-label="카테고리 관리"
-            className="p-3 mb-4 transition-shadow duration-300 bg-white border border-gray-100 shadow-sm sm:p-6 sm:mb-6 rounded-xl hover:shadow-md"
-          >
-            <div className="flex flex-wrap items-center gap-2 mb-3 sm:gap-3 sm:mb-4">
-              <div className="flex items-center gap-2">
-                <svg
-                  className="w-4 h-4 text-gray-900 sm:w-5 sm:h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-                  />
-                </svg>
-                <p className="text-sm font-semibold text-gray-900 sm:text-base">
-                  카테고리
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-1.5 sm:gap-2 ml-auto">
-                <AddCategoryDialog
-                  onAdd={handleAddCategoryWithToast}
-                  categories={categories}
-                >
-                  <button
-                    className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
-                    style={{
-                      WebkitAppearance: "none",
-                      overflow: "hidden",
-                      WebkitBorderRadius: "9999px",
-                      borderRadius: "9999px",
-                    }}
-                    title="카테고리 추가"
-                  >
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current sm:w-3 sm:h-3"
-                    >
-                      <path
-                        d="M12 4V20M4 12H20"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span>추가</span>
-                  </button>
-                </AddCategoryDialog>
-                <EditCategoryDialog
-                  categories={categories}
-                  onEdit={handleEditCategoryWithToast}
-                >
-                  <button
-                    className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
-                    style={{
-                      WebkitAppearance: "none",
-                      overflow: "hidden",
-                      WebkitBorderRadius: "9999px",
-                      borderRadius: "9999px",
-                    }}
-                    title="카테고리 수정"
-                  >
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current sm:w-3 sm:h-3"
-                    >
-                      <path
-                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span>수정</span>
-                  </button>
-                </EditCategoryDialog>
-                <DeleteCategoryDialog
-                  categories={categories}
-                  onDelete={handleDeleteCategoryWithToast}
-                >
-                  <button
-                    className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1 border border-border/40"
-                    style={{
-                      WebkitAppearance: "none",
-                      overflow: "hidden",
-                      WebkitBorderRadius: "9999px",
-                      borderRadius: "9999px",
-                    }}
-                    title="카테고리 삭제"
-                  >
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current sm:w-3 sm:h-3"
-                    >
-                      <path
-                        d="M6 7V18C6 19.1046 6.89543 20 8 20H16C17.1046 20 18 19.1046 18 18V7M6 7H5M6 7H8M18 7H19M18 7H16M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7M8 7H16M10 11V16M14 11V16"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span>삭제</span>
-                  </button>
-                </DeleteCategoryDialog>
-              </div>
-            </div>
-
-            <div className="pt-1">
-              <TabBar
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-                categories={categories}
-              />
-            </div>
-          </section>
-
-          <section aria-label="메모 목록" className="flex-1 overflow-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
-              {items.length === 0 ? (
-                <div className="col-span-full">
-                  <div className="flex flex-col items-center justify-center py-16 text-center transition-colors duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:border-gray-200">
-                    <div className="p-6 mb-6 rounded-full bg-gray-50">
-                      <svg
-                        className="w-20 h-20 text-gray-200"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                        ></path>
-                      </svg>
-                    </div>
-                    <p className="text-lg font-medium text-gray-900">
-                      첫 번째 메모를 작성해보세요
-                    </p>
-                    <p className="mt-2 text-sm text-gray-500">
-                      상단의 + 버튼을 클릭하여 새로운 메모를 추가할 수 있습니다
-                    </p>
-                    <AddMemoDialog
-                      categories={categories}
-                      onAdd={handleAddNewWithToast}
-                    >
-                      <button className="px-4 py-2 mt-6 text-white transition-colors duration-300 bg-black rounded-lg cursor-pointer hover:bg-gray-900">
-                        새 메모 작성하기
-                      </button>
-                    </AddMemoDialog>
-                  </div>
+          <div className="max-w-[1024px] w-full mx-auto px-5">
+            <header className={`pt-10 pb-6 bg-transparent`}>
+              <div className="flex items-center justify-between mb-2">
+                <h1 className="text-3xl font-bold text-transparent text-foreground bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text">
+                  클립 메모
+                </h1>
+                <div className="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
+                  {items.length}개의 메모
                 </div>
-              ) : filteredItems.length > 0 ? (
-                filteredItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
+              </div>
+              <p className="text-sm leading-relaxed text-muted-foreground max-w-md">
+                필요한 내용을
+                <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
+                  클릭 한 번에
+                </span>
+                복사하고,
+                <span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
+                  생산성을
+                </span>높여보세요.
+              </p>
+            </header>
+
+            <nav className="flex items-center gap-4 mb-6">
+              <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px]">
+                <SearchBar onSearch={setSearchQuery} />
+              </div>
+              <AddMemoDialog
+                categories={categories}
+                onAdd={handleAddNewWithToast}
+              >
+                <button
+                  className="flex items-center justify-center w-12 h-12 transition-all duration-300 bg-black rounded-full hover:scale-105 hover:shadow-lg"
+                  style={{
+                    WebkitAppearance: "none",
+                    overflow: "hidden",
+                    WebkitBorderRadius: "9999px",
+                    borderRadius: "9999px",
+                  }}
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-white"
                   >
-                    <ListItem
-                      item={item}
-                      onCopy={handleCopy}
-                      onEdit={() => {
-                        setSelectedItem(item);
-                        setEditDialogOpen(true);
-                      }}
-                      onDelete={() => handleDelete(item)}
-                      onDuplicate={handleDuplicateWithToast}
+                    <path
+                      d="M12 4V20M4 12H20"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
-                  </div>
-                ))
-              ) : (
-                <div className="col-span-full">
-                  <div className="flex flex-col items-center justify-center py-16 text-center transition-colors duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:border-gray-200">
-                    <div className="p-6 mb-6 rounded-full bg-gray-50">
+                  </svg>
+                </button>
+              </AddMemoDialog>
+            </nav>
+
+            <section
+              aria-label="카테고리 관리"
+              className="p-3 mb-4 transition-shadow duration-300 bg-white border border-gray-100 shadow-sm sm:p-6 sm:mb-6 rounded-xl hover:shadow-md"
+            >
+              <div className="flex flex-wrap items-center gap-2 mb-3 sm:gap-3 sm:mb-4">
+                <div className="flex items-center gap-2">
+                  <svg
+                    className="w-4 h-4 text-gray-900 sm:w-5 sm:h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                    />
+                  </svg>
+                  <p className="text-sm font-semibold text-gray-900 sm:text-base">
+                    카테고리
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 ml-auto">
+                  <AddCategoryDialog
+                    onAdd={handleAddCategoryWithToast}
+                    categories={categories}
+                  >
+                    <button
+                      className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
+                      style={{
+                        WebkitAppearance: "none",
+                        overflow: "hidden",
+                        WebkitBorderRadius: "9999px",
+                        borderRadius: "9999px",
+                      }}
+                      title="카테고리 추가"
+                    >
                       <svg
-                        className="w-20 h-20 text-gray-200"
-                        fill="none"
-                        stroke="currentColor"
+                        width="10"
+                        height="10"
                         viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current sm:w-3 sm:h-3"
                       >
                         <path
+                          d="M12 4V20M4 12H20"
+                          strokeWidth="2.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                    </div>
-                    <p className="text-lg font-medium text-gray-900">
-                      앗! 찾으시는 메모가 없네요
-                    </p>
-                    <p className="mt-2 text-sm text-gray-500">
-                      다른 키워드로 한 번 더 찾아볼까요? 🔍
-                    </p>
-                  </div>
+                      <span>추가</span>
+                    </button>
+                  </AddCategoryDialog>
+                  <EditCategoryDialog
+                    categories={categories}
+                    onEdit={handleEditCategoryWithToast}
+                  >
+                    <button
+                      className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1"
+                      style={{
+                        WebkitAppearance: "none",
+                        overflow: "hidden",
+                        WebkitBorderRadius: "9999px",
+                        borderRadius: "9999px",
+                      }}
+                      title="카테고리 수정"
+                    >
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current sm:w-3 sm:h-3"
+                      >
+                        <path
+                          d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span>수정</span>
+                    </button>
+                  </EditCategoryDialog>
+                  <DeleteCategoryDialog
+                    categories={categories}
+                    onDelete={handleDeleteCategoryWithToast}
+                  >
+                    <button
+                      className="px-2 sm:px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 flex items-center justify-center gap-1 border border-border/40"
+                      style={{
+                        WebkitAppearance: "none",
+                        overflow: "hidden",
+                        WebkitBorderRadius: "9999px",
+                        borderRadius: "9999px",
+                      }}
+                      title="카테고리 삭제"
+                    >
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current sm:w-3 sm:h-3"
+                      >
+                        <path
+                          d="M6 7V18C6 19.1046 6.89543 20 8 20H16C17.1046 20 18 19.1046 18 18V7M6 7H5M6 7H8M18 7H19M18 7H16M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7M8 7H16M10 11V16M14 11V16"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span>삭제</span>
+                    </button>
+                  </DeleteCategoryDialog>
                 </div>
-              )}
-            </div>
-          </section>
-        </div>
+              </div>
+
+              <div className="pt-1">
+                <TabBar
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+                  categories={categories}
+                />
+              </div>
+            </section>
+
+            <section aria-label="메모 목록" className="flex-1 overflow-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 py-4 pb-[calc(4rem+env(safe-area-inset-bottom))]">
+                {items.length === 0 ? (
+                  <div className="col-span-full">
+                    <div className="flex flex-col items-center justify-center py-16 text-center transition-colors duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:border-gray-200">
+                      <div className="p-6 mb-6 rounded-full bg-gray-50">
+                        <svg
+                          className="w-20 h-20 text-gray-200"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <p className="text-lg font-medium text-gray-900">
+                        첫 번째 메모를 작성해보세요
+                      </p>
+                      <p className="mt-2 text-sm text-gray-500">
+                        상단의 + 버튼을 클릭하여 새로운 메모를 추가할 수
+                        있습니다
+                      </p>
+                      <AddMemoDialog
+                        categories={categories}
+                        onAdd={handleAddNewWithToast}
+                      >
+                        <button className="px-4 py-2 mt-6 text-white transition-colors duration-300 bg-black rounded-lg cursor-pointer hover:bg-gray-900">
+                          새 메모 작성하기
+                        </button>
+                      </AddMemoDialog>
+                    </div>
+                  </div>
+                ) : filteredItems.length > 0 ? (
+                  filteredItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
+                    >
+                      <ListItem
+                        item={item}
+                        onCopy={handleCopy}
+                        onEdit={() => {
+                          setSelectedItem(item);
+                          setEditDialogOpen(true);
+                        }}
+                        onDelete={() => handleDelete(item)}
+                        onDuplicate={handleDuplicateWithToast}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-span-full">
+                    <div className="flex flex-col items-center justify-center py-16 text-center transition-colors duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:border-gray-200">
+                      <div className="p-6 mb-6 rounded-full bg-gray-50">
+                        <svg
+                          className="w-20 h-20 text-gray-200"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                      <p className="text-lg font-medium text-gray-900">
+                        앗! 찾으시는 메모가 없네요
+                      </p>
+                      <p className="mt-2 text-sm text-gray-500">
+                        다른 키워드로 한 번 더 찾아볼까요? 🔍
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
         </section>
       </PullToRefresh>
 
