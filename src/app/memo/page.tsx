@@ -262,7 +262,7 @@ export default function Home() {
   return (
     <main className="flex flex-col min-h-screen bg-gradient-to-br ">
       <header
-        className={`fixed top-0 left-0 right-0 z-40 backdrop-blur-lg bg-white/80 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-40 bg-white transition-all duration-300 ${
           !showBanner ? "py-2" : "shadow-sm"
         }`}
       >

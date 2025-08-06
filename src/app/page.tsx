@@ -173,7 +173,7 @@ export default function LandingPage() {
         >
           <div className="relative min-h-screen">
             {/* Header */}
-            <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm dark:bg-gray-950/80">
+            <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-950">
               <nav className="flex items-center h-16 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="flex items-center space-x-3">
                   <Image
