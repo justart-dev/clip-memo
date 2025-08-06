@@ -353,6 +353,19 @@ export default function LandingPage() {
                       ),
                     },
                     {
+                      title: "메모 검색",
+                      description:
+                        "키워드로 원하는 메모를 쉽게 찾을 수 있습니다.",
+                      icon: (
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      ),
+                    },
+                    {
                       title: "태그 관리",
                       description:
                         "메모를 태그로 분류하고 체계적으로 관리하세요.",
@@ -395,6 +408,9 @@ export default function LandingPage() {
                       title: (
                         <div className="flex items-center gap-2">
                           데이터 백업
+                          <span className="px-1.5 py-0.5 text-[8px] font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full">
+                            NEW
+                          </span>
                         </div>
                       ),
                       description:
@@ -405,26 +421,6 @@ export default function LandingPage() {
                           strokeLinejoin="round"
                           strokeWidth={2}
                           d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
-                        />
-                      ),
-                    },
-                    {
-                      title: (
-                        <div className="flex items-center gap-2">
-                          다크 모드
-                          <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-                            Coming Soon
-                          </span>
-                        </div>
-                      ),
-                      description:
-                        "눈의 피로를 줄여주는 다크 테마를 지원합니다.",
-                      icon: (
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                         />
                       ),
                     },
