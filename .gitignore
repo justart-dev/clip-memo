@@ -43,3 +43,8 @@ next-env.d.ts
 # Claude Code
 CLAUDE.md
 .claude/
+
+# PWA auto-generated files
+public/sw.js
+public/fallback-*.js
+public/workbox-*.js
