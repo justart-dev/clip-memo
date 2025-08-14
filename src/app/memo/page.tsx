@@ -372,7 +372,7 @@ export default function Home() {
 
             <nav className="flex items-center gap-4 mb-6">
               <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px]">
-                <SearchBar onSearch={setSearchQuery} />
+                <SearchBar onSearch={setSearchQuery} items={items} />
               </div>
               <AddMemoDialog
                 categories={categories}
