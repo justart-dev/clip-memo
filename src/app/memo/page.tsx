@@ -409,7 +409,8 @@ export default function Home() {
 
             <section
               aria-label="카테고리 관리"
-              className="p-3 mb-4 transition-shadow duration-300 bg-white border border-gray-100 shadow-sm sm:p-6 sm:mb-6 rounded-xl hover:shadow-md"
+              className="p-3 mb-4 transition-shadow duration-300 bg-white border border-gray-100 shadow-sm sm:p-6 sm:mb-6 rounded-xl hover:shadow-md relative"
+              style={{ zIndex: 0 }}
             >
               <div className="flex flex-wrap items-center gap-2 mb-3 sm:gap-3 sm:mb-4">
                 <div className="flex items-center gap-2">

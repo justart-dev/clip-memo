@@ -246,6 +246,7 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
       className={`relative w-full transition-all duration-300 ${
         isFocused ? "scale-[1.02]" : ""
       }`}
+      style={{ isolation: 'isolate', zIndex: 1 }}
     >
       <button
         onClick={handleSearchSubmit}
@@ -315,7 +316,12 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
       {showAutocomplete && autocompleteItems.length > 0 && (
         <div
           ref={autocompleteRef}
-          className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-[100] max-h-64 overflow-y-auto"
+          className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-[1000] max-h-64 overflow-y-auto"
+          style={{ 
+            position: 'absolute',
+            zIndex: 9999,
+            isolation: 'isolate'
+          }}
         >
           {autocompleteItems.map((item, index) => (
             <button
