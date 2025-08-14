@@ -62,6 +62,12 @@ const faqs: FAQItem[] = [
     
 사용자들의 소중한 피드백을 통해 지속적으로 발전하고 있으며, 여러분의 의견이 더 나은 서비스를 만드는 원동력이 됩니다. 상단의 피드백 버튼을 통해 언제든 의견을 공유해주세요!`,
   },
+  {
+    question: "숨겨진 기능이 있다던데, 정말인가요?",
+    answer: `소소한 이스터에그를 숨겨두었답니다. 직접 발견해보세요!
+
+#모바일 #OOO #새로고침 #pull`,
+  },
 ];
 
 interface Testimonial {
@@ -348,9 +354,9 @@ export default function LandingPage() {
                       ),
                     },
                     {
-                      title: "메모 검색",
+                      title: "스마트 검색",
                       description:
-                        "키워드로 원하는 메모를 쉽게 찾을 수 있습니다. 자동완성 기능으로 더욱 빠르게 검색하세요.",
+                        "키워드로 원하는 메모를 쉽게 찾을 수 있습니다. 자동완성 기능을 통해 더욱 빠르게 검색하세요.",
                       icon: (
                         <path
                           strokeLinecap="round"
