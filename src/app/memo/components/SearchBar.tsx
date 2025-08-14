@@ -5,7 +5,7 @@ import { Item } from "../types";
 
 interface AutocompleteItem {
   text: string;
-  type: 'title' | 'content';
+  type: "title" | "content";
   source: Item;
   priority: number;
 }
@@ -19,14 +19,18 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
-  const [autocompleteItems, setAutocompleteItems] = useState<AutocompleteItem[]>([]);
+  const [autocompleteItems, setAutocompleteItems] = useState<
+    AutocompleteItem[]
+  >([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  
+
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<HTMLDivElement>(null);
 
   // 자동완성 항목 생성 함수
-  const generateAutocompleteItems = (searchQuery: string): AutocompleteItem[] => {
+  const generateAutocompleteItems = (
+    searchQuery: string
+  ): AutocompleteItem[] => {
     if (!searchQuery.trim() || searchQuery.length < 2) {
       return [];
     }
@@ -41,13 +45,13 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
       if (titleLower.includes(query)) {
         const text = item.title;
         if (!seenTexts.has(text.toLowerCase())) {
-          // 시작 부분 매칭에 더 높은 우선순위 부여
+          // 제목 매칭에 가장 높은 우선순위 부여
           const startsWithMatch = titleLower.startsWith(query);
           suggestions.push({
             text,
-            type: 'title',
+            type: "title",
             source: item,
-            priority: startsWithMatch ? 3 : 2
+            priority: startsWithMatch ? 100 : 90, // 제목 매칭에 매우 높은 우선순위 부여
           });
           seenTexts.add(text.toLowerCase());
         }
@@ -57,36 +61,38 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
       const contentWords = item.content
         .toLowerCase()
         .split(/[\s\n\r\t.,!?;:()[\]{}"'`]+/)
-        .filter(word => word.length >= 3); // 최소 3글자 이상만
-        
+        .filter((word) => word.length >= 2); // 최소 2글자 이상으로 변경
+
       contentWords.forEach((word) => {
         if (word.includes(query) && !seenTexts.has(word)) {
           const startsWithMatch = word.startsWith(query);
           const exactMatch = word === query;
-          
+
           suggestions.push({
             text: word,
-            type: 'content',
+            type: "content",
             source: item,
-            priority: exactMatch ? 4 : startsWithMatch ? 2 : 1
+            priority: exactMatch ? 30 : startsWithMatch ? 20 : 10, // 내용 매칭 우선순위 조정
           });
           seenTexts.add(word);
         }
       });
     });
 
-    // 우선순위와 관련성으로 정렬
+    // 우선순위에 따라 정렬 (높은 우선순위가 먼저 오도록)
     return suggestions
       .sort((a, b) => {
-        // 우선순위가 높을수록 앞으로
+        // 1. 우선순위가 높은 순으로 정렬
         if (a.priority !== b.priority) return b.priority - a.priority;
-        // 같은 우선순위면 제목 매칭을 우선
-        if (a.type === 'title' && b.type === 'content') return -1;
-        if (a.type === 'content' && b.type === 'title') return 1;
-        // 길이가 짧을수록 앞으로
+
+        // 2. 같은 우선순위면 제목 매칭을 우선
+        if (a.type === "title" && b.type !== "title") return -1;
+        if (a.type !== "title" && b.type === "title") return 1;
+
+        // 3. 길이가 짧은 순으로 정렬 (더 정확한 매칭 우선)
         return a.text.length - b.text.length;
       })
-      .slice(0, 6); // 최대 6개 제안으로 줄여서 더 정확한 결과만
+      .slice(0, 5); // 최대 5개 제안
   };
 
   const handleSearchSubmit = () => {
@@ -106,13 +112,13 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex(prev => 
+        setSelectedIndex((prev) =>
           prev < autocompleteItems.length - 1 ? prev + 1 : -1
         );
         break;
       case "ArrowUp":
         e.preventDefault();
-        setSelectedIndex(prev => 
+        setSelectedIndex((prev) =>
           prev > -1 ? prev - 1 : autocompleteItems.length - 1
         );
         break;
@@ -155,12 +161,12 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
   const handleInputChange = (value: string) => {
     setQuery(value);
     setSelectedIndex(-1);
-    
+
     // 이전 타이머 클리어
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
-    
+
     if (value.trim().length >= 2) {
       // 300ms 디바운스로 성능 최적화
       debounceTimerRef.current = setTimeout(() => {
@@ -204,15 +210,21 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
   // 검색어 하이라이트 함수
   const highlightText = (text: string, searchTerm: string) => {
     if (!searchTerm.trim()) return text;
-    
-    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+
+    const regex = new RegExp(
+      `(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+      "gi"
+    );
     const parts = text.split(regex);
-    
+
     return (
       <>
-        {parts.map((part, index) => 
+        {parts.map((part, index) =>
           regex.test(part) ? (
-            <mark key={index} className="bg-yellow-200 text-gray-900 rounded px-0.5">
+            <mark
+              key={index}
+              className="bg-yellow-200 text-gray-900 rounded px-0.5"
+            >
               {part}
             </mark>
           ) : (
@@ -237,8 +249,8 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -246,7 +258,7 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
       className={`relative w-full transition-all duration-300 ${
         isFocused ? "scale-[1.02]" : ""
       }`}
-      style={{ isolation: 'isolate', zIndex: 1 }}
+      style={{ isolation: "isolate", zIndex: 1 }}
     >
       <button
         onClick={handleSearchSubmit}
@@ -311,42 +323,46 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
           </svg>
         </button>
       )}
-      
+
       {/* 자동완성 드롭다운 */}
       {showAutocomplete && autocompleteItems.length > 0 && (
         <div
           ref={autocompleteRef}
           className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-[1000] max-h-64 overflow-y-auto"
-          style={{ 
-            position: 'absolute',
+          style={{
+            position: "absolute",
             zIndex: 9999,
-            isolation: 'isolate'
+            isolation: "isolate",
           }}
         >
           {autocompleteItems.map((item, index) => (
             <button
               key={`${item.text}-${index}`}
               className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors flex items-center gap-3 ${
-                selectedIndex === index ? 'bg-gray-100' : ''
+                selectedIndex === index ? "bg-gray-100" : ""
               }`}
               onClick={() => selectAutocompleteItem(index)}
               onMouseEnter={() => setSelectedIndex(index)}
             >
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${
-                  item.type === 'title' ? 'bg-blue-400' : 'bg-green-400'
-                }`} />
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    item.type === "title" ? "bg-blue-400" : "bg-green-400"
+                  }`}
+                />
                 <span className="text-sm text-gray-900">
                   {highlightText(item.text, query)}
                 </span>
               </div>
               <div className="ml-auto flex items-center gap-1">
-                <span className={`text-xs px-2 py-0.5 rounded-full ${
-                  item.type === 'title' 
-                    ? 'bg-blue-100 text-blue-700' 
-                    : 'bg-green-100 text-green-700'
-                }`}>
-                  {item.type === 'title' ? '제목' : '내용'}
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${
+                    item.type === "title"
+                      ? "bg-blue-100 text-blue-700"
+                      : "bg-green-100 text-green-700"
+                  }`}
+                >
+                  {item.type === "title" ? "제목" : "내용"}
                 </span>
                 <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
                   {item.source.category}
@@ -354,7 +370,7 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
               </div>
             </button>
           ))}
-          
+
           {/* 키보드 힌트 */}
           <div className="px-4 py-2 bg-gray-50 border-t border-gray-100">
             <div className="flex items-center justify-between text-xs text-gray-500">
