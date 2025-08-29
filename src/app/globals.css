@@ -4,6 +4,22 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* 스크롤바 스타일 제거 */
+::-webkit-scrollbar {
+  width: 0px;  /* 스크롤바 너비를 0으로 설정하여 숨김 */
+  height: 0px; /* 가로 스크롤바도 함께 숨김 */
+}
+
+/* Firefox용 스크롤바 숨김 */
+* {
+  scrollbar-width: none;
+}
+
+/* IE/Edge용 스크롤바 숨김 */
+* {
+  -ms-overflow-style: none;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
