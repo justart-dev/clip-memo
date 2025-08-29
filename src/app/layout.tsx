@@ -101,6 +101,26 @@ export default function RootLayout({
             .animate-fade-in {
               animation: fade-in 0.3s ease-out;
             }
+            
+            /* 토스트 위치 강제 고정 */
+            [data-sonner-toaster] {
+              position: fixed !important;
+              top: 80px !important;
+              left: 0 !important;
+              right: 0 !important;
+              width: 100% !important;
+              display: flex !important;
+              justify-content: center !important;
+              align-items: flex-start !important;
+              transform: none !important;
+              z-index: 10000 !important;
+            }
+            
+            [data-sonner-toast] {
+              position: relative !important;
+              max-width: calc(100vw - 2rem) !important;
+              margin: 0 auto !important;
+            }
           `,
           }}
         />
