@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -83,9 +82,7 @@ export function AddMemoDialog({
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>새 메모 작성</DialogTitle>
-            <DialogDescription>
-              새로운 메모를 작성하세요.
-            </DialogDescription>
+            <DialogDescription>새로운 메모를 작성하세요.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
