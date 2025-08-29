@@ -25,13 +25,30 @@ const withPWA = withPWAInit({
     {
       urlPattern: /\/api\//,
       handler: 'NetworkFirst',
+      method: 'GET',
       options: {
         cacheName: 'api-cache',
         expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 60 * 60 * 24 // 24 hours
-        }
+          maxEntries: 30,
+          maxAgeSeconds: 60 * 60 * 6 // 6 hours
+        },
+        networkTimeoutSeconds: 3
       }
+    },
+    {
+      urlPattern: /\/api\//,
+      handler: 'NetworkOnly',
+      method: 'POST'
+    },
+    {
+      urlPattern: /\/api\//,
+      handler: 'NetworkOnly', 
+      method: 'PUT'
+    },
+    {
+      urlPattern: /\/api\//,
+      handler: 'NetworkOnly',
+      method: 'DELETE'
     }
   ]
 });

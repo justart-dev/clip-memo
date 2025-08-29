@@ -56,14 +56,10 @@ export function PWARegister() {
             }
           }
 
-          // 페이지가 컨트롤되지 않는 경우 (첫 방문 시) 새로고침
-          if (!navigator.serviceWorker.controller) {
-            // 이 코드는 서비스 워커가 설치된 후 첫 방문 시에만 실행됨
-            // 서비스 워커가 페이지를 제어할 수 있도록 함
-            navigator.serviceWorker.addEventListener("controllerchange", () => {
-              console.log("Service worker is now controlling the page");
-            });
-          }
+          // 컨트롤러 변경 이벤트 처리
+          navigator.serviceWorker.addEventListener("controllerchange", () => {
+            console.log("Service worker is now controlling the page");
+          });
         } catch (error) {
           console.error("Service Worker registration failed:", error);
         }

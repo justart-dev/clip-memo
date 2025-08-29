@@ -21,27 +21,15 @@ interface NavigatorWithStandalone extends Navigator {
   standalone?: boolean;
 }
 
-// PWA가 설치되었는지 확인하는 함수
+// PWA가 설치되었는지 확인하는 함수 (단순화)
 const isPWAInstalled = (): boolean => {
-  // 현재 PWA 환경에서 실행 중인 경우
-  if (
+  return (
     window.matchMedia("(display-mode: standalone)").matches ||
     window.matchMedia("(display-mode: fullscreen)").matches ||
     window.matchMedia("(display-mode: minimal-ui)").matches ||
     ("standalone" in window.navigator &&
       (window.navigator as NavigatorWithStandalone).standalone === true)
-  ) {
-    return true;
-  }
-
-  // 브라우저 환경에서는 localStorage만으로는 판단하지 않음
-  // PWA가 실제로 설치되어 있다면 Service Worker 등록 상태를 확인
-  if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
-    // localStorage에 설치 기록이 있더라도 실제 PWA 환경이 아니면 false
-    return false;
-  }
-
-  return false;
+  );
 };
 
 // 현재 실행 환경을 확인하는 함수
@@ -77,12 +65,9 @@ const InstallPWA = () => {
 
   // 컴포넌트 마운트 시 설치 상태 확인
   useEffect(() => {
-    console.log("InstallPWA component mounted");
-
     // 현재 환경 확인
     const currentEnv = getEnvironment();
     setEnvironment(currentEnv);
-    console.log("Current environment:", currentEnv);
 
     // PWA 환경이면 설치 버튼을 표시하지 않음
     if (currentEnv === "pwa" || currentEnv === "ios-pwa") {
@@ -91,53 +76,29 @@ const InstallPWA = () => {
       return;
     }
 
-    // 설치 상태 확인 및 설정
-    const checkInstallState = () => {
-      const installed = isPWAInstalled();
-      console.log("Is PWA installed check result:", installed);
-      setIsInstalled(installed);
-      if (installed) {
-        setSupportsPWA(false);
-      }
-    };
-
-    // 초기 확인
-    checkInstallState();
+    // 설치 상태 확인
+    const installed = isPWAInstalled();
+    setIsInstalled(installed);
+    if (installed) {
+      setSupportsPWA(false);
+    }
 
     // iOS가 아닌 경우에만 beforeinstallprompt 이벤트 처리
     if (!isIOS) {
       // 저장된 deferredPrompt 확인
       const savedPrompt = window.deferredPrompt;
-      if (savedPrompt && !isPWAInstalled()) {
-        console.log("Found saved install prompt");
+      if (savedPrompt && !installed) {
         setSupportsPWA(true);
         setPromptInstall(savedPrompt);
+      } else if (!installed && 'serviceWorker' in navigator && 
+                 (location.protocol === 'https:' || location.hostname === 'localhost')) {
+        // PWA 기본 조건을 만족하면 설치 버튼 표시
+        setSupportsPWA(true);
       }
 
-      // PWA 기본 조건 확인 (beforeinstallprompt 이벤트가 없어도 표시)
-      const checkPWASupport = () => {
-        // Service Worker 지원 여부 확인
-        const hasServiceWorker = 'serviceWorker' in navigator;
-        // HTTPS 또는 localhost 여부 확인
-        const isSecure = location.protocol === 'https:' || location.hostname === 'localhost';
-        // manifest.json 존재 여부는 HTML에서 링크되어 있다고 가정
-        
-        console.log("PWA support check:", { hasServiceWorker, isSecure, isPWAInstalled: isPWAInstalled() });
-        
-        // PWA가 설치되지 않았고, 기본 조건을 만족하면 설치 버튼 표시
-        if (hasServiceWorker && isSecure && !isPWAInstalled()) {
-          setSupportsPWA(true);
-        }
-      };
-
-      // 초기 PWA 지원 확인
-      checkPWASupport();
-
       const handler = (e: BeforeInstallPromptEvent) => {
-        console.log("beforeinstallprompt event fired", e);
         e.preventDefault();
         if (!isPWAInstalled()) {
-          // 전역 변수에 저장
           window.deferredPrompt = e;
           setSupportsPWA(true);
           setPromptInstall(e);
@@ -145,31 +106,25 @@ const InstallPWA = () => {
         }
       };
 
-      // 디버깅용 - 이벤트 리스너가 등록되었는지 확인
-      console.log("Adding beforeinstallprompt event listener");
       window.addEventListener("beforeinstallprompt", handler);
 
       // appinstalled 이벤트 리스너 추가
       const handleAppInstalled = () => {
-        console.log("App was installed");
         setIsInstalled(true);
         setSupportsPWA(false);
         setEnvironment("pwa");
-        localStorage.setItem("pwa-installed", "true");
-        // 설치 완료 후 저장된 프롬프트 제거
         window.deferredPrompt = null;
       };
 
       window.addEventListener("appinstalled", handleAppInstalled);
 
       return () => {
-        console.log("Removing event listeners");
         window.removeEventListener("beforeinstallprompt", handler);
         window.removeEventListener("appinstalled", handleAppInstalled);
       };
     } else {
       // iOS의 경우 PWA 설치 가능하고 설치되지 않은 경우에만 표시
-      setSupportsPWA(!isPWAInstalled());
+      setSupportsPWA(!installed);
     }
 
     // 가시성 변경 시 재확인 (앱 설치 후 돌아올 때 감지)
@@ -180,8 +135,6 @@ const InstallPWA = () => {
         if (newEnv === "pwa" || newEnv === "ios-pwa") {
           setIsInstalled(true);
           setSupportsPWA(false);
-        } else {
-          checkInstallState();
         }
       }
     };
@@ -193,17 +146,6 @@ const InstallPWA = () => {
     };
   }, [isIOS]);
 
-  // 디버깅용 - 상태 변경 시 로깅
-  useEffect(() => {
-    console.log(
-      "State updated - environment:",
-      environment,
-      "supportsPWA:",
-      supportsPWA,
-      "isInstalled:",
-      isInstalled
-    );
-  }, [environment, supportsPWA, isInstalled]);
 
   const handleInstallClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -220,13 +162,8 @@ const InstallPWA = () => {
       promptInstall.prompt();
       promptInstall.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
-          console.log("User accepted the install prompt");
           setIsInstalled(true);
-          localStorage.setItem("pwa-installed", "true");
-          // 설치 완료 후 저장된 프롬프트 제거
           window.deferredPrompt = null;
-        } else {
-          console.log("User dismissed the install prompt");
         }
       });
     } else {
@@ -250,23 +187,14 @@ const InstallPWA = () => {
 
   const handleDismiss = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log("Dismiss button clicked");
     setSupportsPWA(false);
-    setIsInstalled(false);
-    // 닫기 버튼을 눌러도 프롬프트는 유지
   };
 
   const handleReinstall = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log("Reinstall button clicked");
     
-    // 로컬스토리지 설치 상태 제거
-    localStorage.removeItem("pwa-installed");
-    
-    // 상태 초기화
     setIsInstalled(false);
     
-    // iOS인 경우 설치 안내
     if (isIOS) {
       setSupportsPWA(true);
       alert(
@@ -275,7 +203,6 @@ const InstallPWA = () => {
       return;
     }
     
-    // Android/Chrome인 경우 저장된 프롬프트나 새로운 프롬프트 확인
     const savedPrompt = window.deferredPrompt;
     if (savedPrompt) {
       setSupportsPWA(true);
@@ -283,16 +210,11 @@ const InstallPWA = () => {
       savedPrompt.prompt();
       savedPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
-          console.log("User accepted the reinstall prompt");
           setIsInstalled(true);
-          localStorage.setItem("pwa-installed", "true");
           window.deferredPrompt = null;
-        } else {
-          console.log("User dismissed the reinstall prompt");
         }
       });
     } else {
-      // 프롬프트가 없는 경우 설치 버튼 상태로 변경
       setSupportsPWA(true);
     }
   };
@@ -302,20 +224,9 @@ const InstallPWA = () => {
     return null;
   }
 
-  // 브라우저 환경에서 PWA 설치 여부에 따른 처리
+  // 브라우저 환경에서 설치된 앱 사용 안내 또는 설치 버튼 표시
   if (environment === "browser") {
-    // localStorage에 설치 기록이 있지만 실제로는 삭제된 경우를 감지
-    const hasStorageRecord = localStorage.getItem("pwa-installed") === "true";
-    const actuallyInstalled = isPWAInstalled();
-    
-    // localStorage 기록과 실제 상태가 다르면 localStorage 정리
-    if (hasStorageRecord && !actuallyInstalled) {
-      localStorage.removeItem("pwa-installed");
-      setIsInstalled(false);
-    }
-    
-    // PWA가 실제로 설치되어 있거나 localStorage에 기록이 있는 경우 안내 메시지
-    if (hasStorageRecord || actuallyInstalled) {
+    if (isInstalled) {
     return (
       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-md">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 animate-slide-up relative">
@@ -381,7 +292,6 @@ const InstallPWA = () => {
     
     // 설치 가능한 경우 설치 버튼 표시
     if (supportsPWA) {
-      console.log("Rendering PWA install button - supportsPWA:", supportsPWA);
     return (
       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-md">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 animate-slide-up relative">
