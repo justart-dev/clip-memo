@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Item } from "../types";
 
 interface EditMemoDialogProps {
@@ -37,12 +37,20 @@ export function EditMemoDialog({
   const [title, setTitle] = useState(item.title);
   const [content, setContent] = useState(item.content);
   const [category, setCategory] = useState(item.category);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (open) {
       setTitle(item.title);
       setContent(item.content);
       setCategory(item.category);
+      
+      // 모바일에서 키보드 올리기 위해 약간의 지연 후 포커스
+      setTimeout(() => {
+        if (contentRef.current) {
+          contentRef.current.focus();
+        }
+      }, 100);
     }
   }, [open, item]);
 
@@ -63,7 +71,7 @@ export function EditMemoDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={(e) => e.preventDefault()}>
+      <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>메모 수정</DialogTitle>
@@ -87,6 +95,7 @@ export function EditMemoDialog({
             </div>
             <div className="grid gap-2">
               <Textarea
+                ref={contentRef}
                 placeholder="내용을 입력하세요"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
