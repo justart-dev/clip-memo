@@ -49,11 +49,11 @@ export function EditMemoDialog({
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
 
-    if (!title || !content) return;
+    if (!content) return;
 
     onEdit({
       id: item.id,
-      title,
+      title: title || "기본 메모",
       content,
       category,
     });
@@ -68,7 +68,7 @@ export function EditMemoDialog({
           <DialogHeader>
             <DialogTitle>메모 수정</DialogTitle>
             <DialogDescription>
-              메모를 수정하세요. 모든 필드를 채워주세요.
+              메모를 수정하세요.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -124,7 +124,7 @@ export function EditMemoDialog({
             >
               취소
             </Button>
-            <Button type="submit" disabled={!title || !content}>
+            <Button type="submit" disabled={!content}>
               수정하기
             </Button>
           </DialogFooter>

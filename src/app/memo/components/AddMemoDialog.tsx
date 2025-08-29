@@ -39,10 +39,10 @@ export function AddMemoDialog({
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
 
-    if (!title || !content) return;
+    if (!content) return;
 
     onAdd({
-      title,
+      title: title || "기본 메모",
       content,
       category,
     });
@@ -84,7 +84,7 @@ export function AddMemoDialog({
           <DialogHeader>
             <DialogTitle>새 메모 작성</DialogTitle>
             <DialogDescription>
-              새로운 메모를 작성하세요. 모든 필드를 채워주세요.
+              새로운 메모를 작성하세요.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -140,7 +140,7 @@ export function AddMemoDialog({
             >
               취소
             </Button>
-            <Button type="submit" disabled={!title || !content}>
+            <Button type="submit" disabled={!content}>
               추가하기
             </Button>
           </DialogFooter>
