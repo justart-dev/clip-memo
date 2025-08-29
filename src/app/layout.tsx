@@ -83,69 +83,10 @@ export default function RootLayout({
         <style
           dangerouslySetInnerHTML={{
             __html: `
-            /* 페이지 전체를 흰색 배경으로 덮어 CM 로고 숨김 */
             html, body {
               background-color: #ffffff !important;
             }
             
-            #splash-screen {
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              background-color: #ffffff;
-              z-index: 9999;
-              transition: opacity 1s ease-out;
-            }
-            #splash-screen.fade-out {
-              opacity: 0;
-            }
-            .splash-logo {
-              width: 80px;
-              height: 80px;
-              margin-bottom: 20px;
-              background-image: url('/icons/icon-192x192.svg');
-              background-size: contain;
-              background-repeat: no-repeat;
-              background-position: center;
-            }
-            .splash-title {
-              font-size: 1.5rem;
-              font-weight: bold;
-              margin-bottom: 20px;
-              color: #000000;
-            }
-            .splash-spinner {
-              width: 40px;
-              height: 40px;
-              border: 4px solid rgba(79, 70, 229, 0.2);
-              border-radius: 50%;
-              border-left-color: #4F46E5;
-              animation: spin 1s linear infinite;
-            }
-            @keyframes pulse {
-              0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-              }
-              50% {
-                opacity: 0.8;
-                transform: scale(0.95);
-              }
-            }
-            @keyframes spin {
-              0% {
-                transform: rotate(0deg);
-              }
-              100% {
-                transform: rotate(360deg);
-              }
-            }
             @keyframes fade-in {
               0% {
                 opacity: 0;
@@ -162,48 +103,8 @@ export default function RootLayout({
           `,
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            // 스플래시 화면 처리 스크립트
-            window.addEventListener('load', function() {
-              // 페이지가 완전히 로드된 후 약간의 지연 시간을 두고 스플래시 화면 숨기기
-              setTimeout(function() {
-                const splashScreen = document.getElementById('splash-screen');
-                if (splashScreen) {
-                  splashScreen.classList.add('fade-out');
-                  setTimeout(function() {
-                    splashScreen.style.display = 'none';
-                  }, 1000); // 페이드 아웃 애니메이션 시간
-                }
-              }, 1500); // 최소 1.5초 동안 스플래시 화면 표시
-            });
-
-            // 오프라인 상태 감지 및 처리
-            window.addEventListener('online', function() {
-              console.log('온라인 상태가 되었습니다.');
-              if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                // 백그라운드 동기화 요청
-                navigator.serviceWorker.ready.then(function(registration) {
-                  if ('sync' in registration) {
-                    registration.sync.register('sync-memos');
-                  }
-                });
-              }
-            });
-
-            window.addEventListener('offline', function() {
-              console.log('오프라인 상태가 되었습니다.');
-            });
-          `,
-          }}
-        />
       </head>
       <body className={inter.className}>
-        <div id="splash-screen">
-          <div className="splash-logo" aria-label="Clip Memo Logo"></div>
-          <div className="splash-title">Clip Memo</div>
-        </div>
         <PWARegister />
         {children}
         <ClientInstallPWAWrapper />

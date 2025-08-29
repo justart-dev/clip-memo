@@ -12,7 +12,6 @@ import { DeleteConfirmDialog } from "./components/DeleteConfirmDialog";
 import { AddCategoryDialog } from "./components/AddCategoryDialog";
 import { DeleteCategoryDialog } from "./components/DeleteCategoryDialog";
 import { EditCategoryDialog } from "./components/EditCategoryDialog";
-import Loading from "@/components/Loading";
 import { useMemoManager } from "./hooks/useMemoManager";
 import { PullToRefresh } from "@/components/PullToRefresh";
 
@@ -20,7 +19,6 @@ const STORAGE_KEY_BANNER_CLOSED = "clip-memo-banner-closed";
 
 export default function Home() {
   const [showBanner, setShowBanner] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 
   // 메모 관리 훅 사용
@@ -47,16 +45,15 @@ export default function Home() {
     handleDuplicate,
   } = useMemoManager();
 
-  // 배너 상태 초기화 및 로딩 상태 관리
+  // 배너 상태 초기화
   useEffect(() => {
     try {
       const bannerClosed = localStorage.getItem(STORAGE_KEY_BANNER_CLOSED);
       setShowBanner(bannerClosed !== "true");
-      setIsMounted(true);
     } catch (error) {
       console.error("Error loading banner state:", error);
     } finally {
-      setIsLoading(false);
+      setIsMounted(true);
     }
   }, []);
 
@@ -242,13 +239,9 @@ export default function Home() {
     }
   };
 
-  // 데이터 로딩 중일 때 로딩 상태 표시
-  if (isLoading) {
-    return <Loading />;
-  }
-
+  // 마운트되지 않은 경우 아무것도 렌더링하지 않음
   if (!isMounted) {
-    return <Loading />; // 로딩 스피너 표시
+    return null;
   }
 
   return (
