@@ -45,7 +45,8 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         {/* iOS Safari status bar color - 우선순위를 위해 최상단 배치 */}
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="manifest" href="/manifest.json" />
@@ -84,8 +85,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
             html, body {
-              background-color: #ffffff !important;
+              background-color: #ffffff;
             }
+            
+            @media (prefers-color-scheme: dark) {
+              html, body {
+                background-color: #000000 !important;
+              }
+            }
+            
             
             @keyframes fade-in {
               0% {
