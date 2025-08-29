@@ -89,19 +89,6 @@ export function AddMemoDialog({
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Input
-                placeholder="제목을 입력하세요"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSubmit();
-                  }
-                }}
-              />
-            </div>
-            <div className="grid gap-2">
               <Textarea
                 placeholder="내용을 입력하세요"
                 value={content}
@@ -112,7 +99,7 @@ export function AddMemoDialog({
                     handleSubmit();
                   }
                 }}
-                className="resize-none"
+                className="resize-none min-h-32"
               />
             </div>
             <div className="grid gap-2">
