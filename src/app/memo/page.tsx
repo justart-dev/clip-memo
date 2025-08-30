@@ -145,7 +145,7 @@ export default function Home() {
     if (copyToastTimeoutRef.current) {
       clearTimeout(copyToastTimeoutRef.current);
     }
-    
+
     // 디바운스를 사용하여 중복 토스트 방지 (100ms)
     copyToastTimeoutRef.current = setTimeout(() => {
       toast.success("클립보드에 복사되었습니다.");
@@ -185,7 +185,7 @@ export default function Home() {
           await registration.update();
         }
       }
-      
+
       // 페이지 새로고침
       window.location.reload();
     } catch (error) {
