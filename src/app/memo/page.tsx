@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Item } from "./types";
 import SearchBar from "./components/SearchBar";
 import TabBar from "./components/TabBar";
@@ -20,6 +20,7 @@ const STORAGE_KEY_BANNER_CLOSED = "clip-memo-banner-closed";
 export default function Home() {
   const [showBanner, setShowBanner] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  const copyToastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // 메모 관리 훅 사용
   const {
@@ -140,7 +141,16 @@ export default function Home() {
   };
 
   const handleCopy = () => {
-    toast.success("클립보드에 복사되었습니다.");
+    // 이전 토스트 타이머가 있다면 취소
+    if (copyToastTimeoutRef.current) {
+      clearTimeout(copyToastTimeoutRef.current);
+    }
+    
+    // 디바운스를 사용하여 중복 토스트 방지 (100ms)
+    copyToastTimeoutRef.current = setTimeout(() => {
+      toast.success("클립보드에 복사되었습니다.");
+      copyToastTimeoutRef.current = null;
+    }, 100);
   };
 
   const handleDuplicateWithToast = (item: Item) => {
