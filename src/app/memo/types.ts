@@ -3,4 +3,5 @@ export interface Item {
   title: string;
   content: string;
   category: string;
+  createdAt: string;
 }

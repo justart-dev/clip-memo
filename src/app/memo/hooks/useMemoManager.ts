@@ -63,19 +63,28 @@ export function useMemoManager(): MemoManagerResult {
   // 필터링된 메모 목록
   const filteredItems = useMemo(
     () =>
-      items.filter((item) => {
-        if (activeTab !== '전체' && item.category !== activeTab) return false;
+      items
+        .filter((item) => {
+          if (activeTab !== '전체' && item.category !== activeTab) return false;
 
-        if (searchQuery) {
-          const query = searchQuery.toLowerCase();
-          return (
-            item.title.toLowerCase().includes(query) ||
-            item.content.toLowerCase().includes(query)
-          );
-        }
+          if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            return (
+              item.title.toLowerCase().includes(query) ||
+              item.content.toLowerCase().includes(query)
+            );
+          }
 
-        return true;
-      }),
+          return true;
+        })
+        .sort((a, b) => {
+          // createdAt이 없는 기존 메모들은 뒤로 보내고, 있는 메모들은 최신순으로 정렬
+          if (!a.createdAt && !b.createdAt) return 0;
+          if (!a.createdAt) return 1;
+          if (!b.createdAt) return -1;
+          
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        }),
     [items, activeTab, searchQuery]
   );
 
@@ -91,6 +100,7 @@ export function useMemoManager(): MemoManagerResult {
         id: uuidv4(),
         ...newItem,
         category: newItem.category || '기본',
+        createdAt: new Date().toISOString(),
       };
 
       // 스토리지 용량 체크
@@ -145,6 +155,7 @@ export function useMemoManager(): MemoManagerResult {
         ...item,
         id: uuidv4(),
         title: `${item.title} (복제)`,
+        createdAt: new Date().toISOString(),
       };
 
       // 스토리지 용량 체크
