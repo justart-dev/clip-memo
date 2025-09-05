@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Item } from "./types";
 import SearchBar from "./components/SearchBar";
 import TabBar from "./components/TabBar";
@@ -20,7 +20,6 @@ const STORAGE_KEY_BANNER_CLOSED = "clip-memo-banner-closed";
 export default function Home() {
   const [showBanner, setShowBanner] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
-  const copyToastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // 메모 관리 훅 사용
   const {
