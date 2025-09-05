@@ -102,21 +102,30 @@ export default function RootLayout({
               animation: fade-in 0.3s ease-out;
             }
             
-            /* 토스트 위치 조정 - 자연스러운 스택 */
+            /* 토스트 위치 조정 - 가운데 정렬 */
             [data-sonner-toaster] {
               position: fixed !important;
               top: 80px !important;
               left: 50% !important;
               transform: translateX(-50%) !important;
               z-index: 10000 !important;
+              width: auto !important;
+              max-width: calc(100vw - 2rem) !important;
             }
             
-            /* 토스트들이 세로로 자연스럽게 쌓이도록 */
+            /* 토스트들이 세로로 가운데 정렬되어 쌓이도록 */
             [data-sonner-toaster] ol {
               display: flex !important;
               flex-direction: column !important;
               align-items: center !important;
+              justify-content: center !important;
               gap: 8px !important;
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+            
+            [data-sonner-toast] {
+              text-align: center !important;
             }
           `,
           }}
