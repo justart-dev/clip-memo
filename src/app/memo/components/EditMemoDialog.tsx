@@ -64,6 +64,7 @@ export function EditMemoDialog({
       title: title || "기본 메모",
       content,
       category,
+      createdAt: item.createdAt,
     });
 
     onOpenChange(false);
