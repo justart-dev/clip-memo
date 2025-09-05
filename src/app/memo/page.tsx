@@ -141,17 +141,8 @@ export default function Home() {
   };
 
   const handleCopy = () => {
-    // 이전 토스트 타이머가 있다면 취소
-    if (copyToastTimeoutRef.current) {
-      clearTimeout(copyToastTimeoutRef.current);
-      copyToastTimeoutRef.current = null;
-    }
-
-    // 디바운스를 사용하여 중복 토스트 방지 (200ms로 증가)
-    copyToastTimeoutRef.current = setTimeout(() => {
-      toast.success("클립보드에 복사되었습니다.");
-      copyToastTimeoutRef.current = null;
-    }, 200);
+    // 즉시 토스트 표시 (중복 방지 제거)
+    toast.success("클립보드에 복사되었습니다.");
   };
 
   const handleDuplicateWithToast = (item: Item) => {
