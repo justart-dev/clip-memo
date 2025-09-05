@@ -102,21 +102,28 @@ export default function RootLayout({
               animation: fade-in 0.3s ease-out;
             }
             
-            /* 토스트 컨테이너만 가운데 위치 */
+            /* 토스트 컨테이너를 확실히 가운데 위치시키기 */
             [data-sonner-toaster] {
               position: fixed !important;
               top: 80px !important;
-              left: 50% !important;
-              transform: translateX(-50%) !important;
+              left: 0 !important;
+              right: 0 !important;
+              width: 100% !important;
+              display: flex !important;
+              justify-content: center !important;
               z-index: 10000 !important;
+              transform: none !important;
             }
             
-            /* 토스트들이 세로로 쌓이되 원래 UI 유지 */
+            /* 토스트 리스트를 세로로 쌓되 원래 UI 유지하며 가운데 정렬 */
             [data-sonner-toaster] ol {
               display: flex !important;
               flex-direction: column !important;
               align-items: center !important;
               gap: 8px !important;
+              width: auto !important;
+              margin: 0 !important;
+              padding: 0 !important;
             }
           `,
           }}
