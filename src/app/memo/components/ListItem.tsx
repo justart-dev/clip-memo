@@ -19,7 +19,6 @@ const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps
   const [showViewDialog, setShowViewDialog] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -43,20 +42,11 @@ const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    // 이전 타이머가 있다면 취소
-    if (copyTimeoutRef.current) {
-      clearTimeout(copyTimeoutRef.current);
-    }
-    
     // 클립보드에 내용 복사
     navigator.clipboard
       .writeText(item.content)
       .then(() => {
-        // 디바운스를 사용하여 중복 토스트 방지 (100ms)
-        copyTimeoutRef.current = setTimeout(() => {
-          onCopy();
-          copyTimeoutRef.current = null;
-        }, 100);
+        onCopy();
       })
       .catch((err) => {
         console.error("클립보드 복사 실패:", err);

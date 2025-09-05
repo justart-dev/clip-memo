@@ -102,24 +102,45 @@ export default function RootLayout({
               animation: fade-in 0.3s ease-out;
             }
             
-            /* 토스트 위치 강제 고정 */
+            /* 토스트 위치 강제 고정 - 중앙에 쌓이도록 */
             [data-sonner-toaster] {
               position: fixed !important;
               top: 80px !important;
-              left: 0 !important;
-              right: 0 !important;
-              width: 100% !important;
+              left: 50% !important;
+              transform: translateX(-50%) !important;
+              width: auto !important;
+              max-width: calc(100vw - 2rem) !important;
               display: flex !important;
-              justify-content: center !important;
-              align-items: flex-start !important;
-              transform: none !important;
+              flex-direction: column !important;
+              align-items: center !important;
+              justify-content: flex-start !important;
               z-index: 10000 !important;
+              pointer-events: none !important;
             }
             
             [data-sonner-toast] {
               position: relative !important;
-              max-width: calc(100vw - 2rem) !important;
-              margin: 0 auto !important;
+              margin: 4px 0 !important;
+              width: auto !important;
+              max-width: 400px !important;
+              pointer-events: auto !important;
+            }
+            
+            /* 토스트 리스트 항목들이 세로로 쌓이도록 강제 */
+            [data-sonner-toaster] ol {
+              display: flex !important;
+              flex-direction: column !important;
+              align-items: center !important;
+              gap: 4px !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              list-style: none !important;
+            }
+            
+            [data-sonner-toaster] li {
+              display: block !important;
+              width: auto !important;
+              margin: 0 !important;
             }
           `,
           }}
