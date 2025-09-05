@@ -128,7 +128,7 @@ export function useMemoManager(): MemoManagerResult {
       }
       
       const updatedItems = items.map((i) =>
-        i.id === editedItem.id ? editedItem : i
+        i.id === editedItem.id ? { ...editedItem, createdAt: new Date().toISOString() } : i
       );
       
       setItems(updatedItems);

@@ -44,6 +44,7 @@ export function AddMemoDialog({
       title: title || "기본 메모",
       content,
       category,
+      createdAt: new Date().toISOString(),
     });
 
     setTitle("");
