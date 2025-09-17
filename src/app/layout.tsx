@@ -115,6 +115,23 @@ export default function RootLayout({
               transform: none !important;
             }
             
+            /* 모바일에서 토스트 마진 적용 */
+            @media (max-width: 640px) {
+              [data-sonner-toaster] {
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                padding: 0 5% !important;
+                box-sizing: border-box !important;
+                transform: none !important;
+              }
+              
+              [data-sonner-toast] {
+                max-width: 100% !important;
+                margin: 0 auto !important;
+              }
+            }
+            
             /* 토스트 리스트를 세로로 쌓되 원래 UI 유지하며 가운데 정렬 */
             [data-sonner-toaster] ol {
               display: flex !important;
