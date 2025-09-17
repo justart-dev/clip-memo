@@ -148,3 +148,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* 토스트 모바일 스타일 */
+@media (max-width: 640px) {
+  [data-sonner-toaster] {
+    left: 5px !important;
+    right: 5px !important;
+    width: calc(100% - 10px) !important;
+  }
+  
+  [data-sonner-toast] {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
