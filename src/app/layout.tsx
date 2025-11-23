@@ -83,6 +83,18 @@ export default function RootLayout({
             }),
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('beforeinstallprompt', function(e) {
+                // Prevent the mini-infobar from appearing on mobile
+                e.preventDefault();
+                // Stash the event so it can be triggered later.
+                window.deferredPrompt = e;
+              });
+            `,
+          }}
+        />
         <style
           dangerouslySetInnerHTML={{
             __html: `
