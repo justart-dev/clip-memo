@@ -51,7 +51,7 @@ const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button
-                    className="p-1.5 transition-colors rounded-full text-gray-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-100 opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none"
+                    className="p-1.5 transition-colors rounded-full text-gray-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-100 outline-none"
                   >
                     <svg
                       className="w-5 h-5"
@@ -93,7 +93,7 @@ const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps
           <p className="mb-4 text-sm text-gray-600 dark:text-gray-400 line-clamp-3 flex-1 leading-relaxed">
             {linkify(item.content)}
           </p>
-          <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50 dark:border-gray-700/50">
+          <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-200 dark:border-gray-600">
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
               {item.category}
             </span>

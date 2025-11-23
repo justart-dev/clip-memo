@@ -25,10 +25,10 @@ const TabBar = ({
           key={tab}
           onClick={() => onTabChange(tab)}
           className={cn(
-            "relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            "relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border",
             activeTab === tab
-              ? "text-primary-foreground"
-              : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+              ? "text-primary-foreground border-primary/20"
+              : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 border-gray-200 dark:border-gray-700"
           )}
           style={{
             WebkitAppearance: "none",
