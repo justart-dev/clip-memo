@@ -176,14 +176,14 @@ export default function LandingPage() {
             <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-950">
               <nav className="flex items-center h-16 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="flex items-center space-x-3">
-                  <Image
+                  {/* <Image
                     src="/icons/icon-192x192.svg"
                     alt="Clip Memo Logo"
                     width={32}
                     height={32}
                     className="w-7 h-7 rounded-md"
-                  />
-                  <div className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-50">
+                  /> */}
+                  <div className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
                     Clip Memo
                   </div>
                 </div>
@@ -244,7 +244,8 @@ export default function LandingPage() {
                     className="max-w-2xl mx-auto text-base leading-relaxed text-gray-600 sm:text-lg lg:text-xl dark:text-gray-400"
                   >
                     복잡한 기능은 잊어보세요. 클립 메모와 함께라면
-                    <br className="hidden sm:block" />단 한 번의 클릭으로 메모를
+                 
+                    <br className="block" />단 한 번의 클릭으로 메모를
                     저장하고 공유할 수 있습니다.
                   </motion.p>
                   <motion.div
@@ -331,9 +332,9 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="max-w-2xl mx-auto text-xl text-gray-600 sm:text-2xl dark:text-gray-300"
+                    className="inline-block text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]"
                   >
-                    클립 메모만의 특별한 기능을 경험해보세요
+                    Clip Memo{' 만의 특별한 기능을 경험해보세요'}
                   </motion.p>
                 </motion.div>
 
@@ -549,7 +550,9 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="mb-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4.5xl"
                   >
-                    클립 메모와 함께하는 분들
+                    <div className="inline-block text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
+                      Clip Memo 
+                    </div>{' 와 함께하는 분들'}
                   </motion.h2>
                   <motion.p
                     initial={{ opacity: 0, y: 10 }}
@@ -687,7 +690,10 @@ export default function LandingPage() {
                   >
                     더 이상 복잡한 메모 앱은 그만!
                     <br />
-                    클립 메모와 함께 심플하고 효율적인 메모 생활을 시작하세요.
+                    <div className="inline-block text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
+                      Clip Memo 
+                    </div>
+                    {' 와 함께 심플하고 효율적인 메모 생활을 시작하세요.'}
                   </motion.p>
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}

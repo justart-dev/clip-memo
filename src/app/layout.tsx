@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Caveat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import PWARegister from "./pwa";
@@ -7,6 +7,10 @@ import ClientInstallPWAWrapper from "./ClientInstallPWAWrapper";
 import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"] });
+const caveat = Caveat({ 
+  subsets: ["latin"],
+  variable: "--font-caveat",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://clip-memo.vercel.app"),
@@ -146,7 +150,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={`${inter.className} ${caveat.variable}`} suppressHydrationWarning>
         <PWARegister />
         {children}
         <ClientInstallPWAWrapper />
