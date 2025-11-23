@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Caveat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import PWARegister from "./pwa";
 import ClientInstallPWAWrapper from "./ClientInstallPWAWrapper";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -151,7 +150,6 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} ${caveat.variable}`} suppressHydrationWarning>
-        <PWARegister />
         {children}
         <ClientInstallPWAWrapper />
         <Analytics />
