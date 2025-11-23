@@ -72,15 +72,15 @@ export function EditMemoDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit}>
+      <DialogContent className="sm:max-w-[425px] max-h-[85vh] flex flex-col">
+        <form onSubmit={handleSubmit} className="contents">
           <DialogHeader>
             <DialogTitle>메모 수정</DialogTitle>
             <DialogDescription>
               메모를 수정하세요.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
+          <div className="grid gap-4 py-4 flex-1 overflow-y-auto min-h-0 px-1">
             <div className="grid gap-2">
               <Input
                 placeholder="제목을 입력하세요"
