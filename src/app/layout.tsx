@@ -42,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         {/* iOS Safari status bar color - 우선순위를 위해 최상단 배치 */}
         <meta name="theme-color" content="#ffffff" />

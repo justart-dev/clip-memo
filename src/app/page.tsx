@@ -214,25 +214,25 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mb-8 text-5xl font-bold tracking-tight text-gray-900 lg:text-6.5xl dark:text-gray-50"
+                    className="mb-8 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl dark:text-gray-50"
                   >
                     <motion.span
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.6 }}
-                      className="block"
+                      className="block mb-2"
                     >
                       메모를{" "}
-                      <span className="relative">
+                      <span className="relative inline-block">
                         <span className="relative z-10">더 쉽게</span>
-                        <span className="absolute bottom-0 left-0 w-full h-3 bg-gray-100 dark:bg-gray-800 -z-0 opacity-70" />
+                        <span className="absolute bottom-1 left-0 w-full h-3 bg-gray-100 dark:bg-gray-800 -z-0 opacity-70" />
                       </span>
                     </motion.span>
                     <motion.span
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4, duration: 0.6 }}
-                      className="block mt-2 text-4xl text-gray-600 lg:text-5.5xl dark:text-gray-300"
+                      className="block text-3xl text-gray-600 sm:text-4xl lg:text-6xl dark:text-gray-300"
                     >
                       더 빠르게
                     </motion.span>
@@ -241,10 +241,10 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="text-lg leading-relaxed text-gray-600 sm:text-xl dark:text-gray-400"
+                    className="max-w-2xl mx-auto text-base leading-relaxed text-gray-600 sm:text-lg lg:text-xl dark:text-gray-400"
                   >
                     복잡한 기능은 잊어보세요. 클립 메모와 함께라면
-                    <br className="hidden md:block" />단 한 번의 클릭으로 메모를
+                    <br className="hidden sm:block" />단 한 번의 클릭으로 메모를
                     저장하고 공유할 수 있습니다.
                   </motion.p>
                   <motion.div
@@ -271,7 +271,7 @@ export default function LandingPage() {
             </section>
 
             <motion.div
-              className="flex justify-center -mt-32 mb-2"
+              className="flex justify-center -mt-20 mb-10 sm:-mt-32 sm:mb-2"
               animate={{
                 y: [0, 10, 0],
               }}
@@ -297,7 +297,7 @@ export default function LandingPage() {
             </motion.div>
 
             {/* Features Section */}
-            <section className="relative py-24 -mt-32">
+            <section className="relative py-16 sm:py-24">
               <div className="relative px-4 py-32 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -406,12 +406,12 @@ export default function LandingPage() {
                     },
                     {
                       title: (
-                        <div className="flex items-center gap-2">
+                        <span className="flex items-center gap-2">
                           데이터 백업
                           <span className="px-1.5 py-0.5 text-[8px] font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full">
                             NEW
                           </span>
-                        </div>
+                        </span>
                       ),
                       description:
                         "메모를 클립보드에 복사하여 손쉽게 복구할 수 있습니다.",
@@ -464,7 +464,7 @@ export default function LandingPage() {
             </section>
 
             {/* FAQ Section */}
-            <section className="relative py-16 sm:py-24 -mt-16 sm:-mt-24">
+            <section className="relative py-16 sm:py-24 bg-gray-50/50 dark:bg-gray-900/20">
               <div className="relative w-full max-w-4xl px-4 mx-auto sm:px-6 lg:px-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -524,7 +524,7 @@ export default function LandingPage() {
             </section>
 
             {/* Testimonials Section */}
-            <section className="relative py-24 -mt-16">
+            <section className="relative py-16 sm:py-24">
               <div className="relative px-4 py-32 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -561,7 +561,7 @@ export default function LandingPage() {
                   </motion.p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {testimonials.map((testimonial, index) => (
                     <motion.div
                       key={testimonial.author}
@@ -648,7 +648,7 @@ export default function LandingPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="relative py-16 sm:py-24 -mt-32">
+            <section className="relative py-16 sm:py-24">
               <div className="relative w-full px-4 py-32 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
