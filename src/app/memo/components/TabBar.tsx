@@ -2,6 +2,9 @@
 
 import React from "react";
 
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
 interface TabBarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -15,32 +18,37 @@ const TabBar = ({
   onTabChange,
   className = "",
 }: TabBarProps) => {
-  const tabs = categories;
-
   return (
-    <nav className={`flex flex-wrap gap-2 ${className}`} role="tablist">
-      {tabs.map((tab) => (
+    <nav className={cn("flex flex-wrap gap-2", className)} role="tablist">
+      {categories.map((tab) => (
         <button
           key={tab}
-          role="tab"
-          aria-selected={activeTab === tab}
-          aria-controls={`${tab}-panel`}
-          className={`px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-300 cursor-pointer ${
+          onClick={() => onTabChange(tab)}
+          className={cn(
+            "relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             activeTab === tab
-              ? "bg-primary text-primary-foreground shadow-sm scale-105"
-              : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-          }`}
+              ? "text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+          )}
           style={{
             WebkitAppearance: "none",
-            backgroundColor:
-              activeTab === tab ? undefined : "transparent !important",
-            overflow: "hidden",
-            WebkitBorderRadius: "9999px",
-            borderRadius: "9999px",
+            WebkitTapHighlightColor: "transparent",
           }}
-          onClick={() => onTabChange(tab)}
         >
-          {tab}
+          {activeTab === tab && (
+            <motion.div
+              layoutId="active-tab-pill"
+              className="absolute inset-0 bg-primary rounded-full"
+              initial={false}
+              transition={{
+                type: "spring",
+                stiffness: 500,
+                damping: 30,
+              }}
+              style={{ zIndex: -1 }}
+            />
+          )}
+          <span className="relative z-10">{tab}</span>
         </button>
       ))}
     </nav>
