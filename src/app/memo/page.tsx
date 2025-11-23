@@ -345,12 +345,11 @@ export default function Home() {
                 </div>
               </div>
               <p className="text-lg leading-relaxed text-muted-foreground max-w-md">
-                필요한 내용을
-                <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
+         <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
                   클릭 한 번에
                 </span>
                 복사하고,
-                <span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
+<span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
                   생산성을
                 </span>
                 높여보세요.
