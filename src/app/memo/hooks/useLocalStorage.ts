@@ -12,35 +12,23 @@ export function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): [T, SetValue<T>, string | null] {
-  // 상태 초기화 - 함수를 사용하여 초기 상태를 한 번만 설정
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    try {
-      if (typeof window === 'undefined') {
-        return initialValue;
-      }
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.error(`Error reading localStorage key "${key}":`, error);
-      return initialValue;
-    }
-  });
-  
+  // 상태 초기화 - hydration mismatch 방지를 위해 초기값으로 시작
+  const [storedValue, setStoredValue] = useState<T>(initialValue);
+
   const [error, setError] = useState<string | null>(null);
-  
-  // 로컬 스토리지 동기화
+
+  // 마운트 후 로컬 스토리지에서 값 로드
   useEffect(() => {
     try {
-      if (typeof window === 'undefined') {
-        return;
+      const item = localStorage.getItem(key);
+      if (item) {
+        setStoredValue(JSON.parse(item));
       }
-      localStorage.setItem(key, JSON.stringify(storedValue));
-      setError(null);
     } catch (error) {
-      console.error(`Error writing to localStorage key "${key}":`, error);
-      setError(`데이터를 저장하는 중 오류가 발생했습니다: ${key}`);
+      console.error(`Error reading localStorage key "${key}":`, error);
     }
-  }, [key, storedValue]);
+  }, [key]);  // 로컬 스토리지 동기화
+
 
   // 값 설정 함수 
   const setValue: SetValue<T> = (value) => {
