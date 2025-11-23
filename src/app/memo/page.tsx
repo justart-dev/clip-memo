@@ -338,18 +338,17 @@ export default function Home() {
             <header className={`pt-10 pb-6 bg-transparent`}>
               <div className="flex items-center justify-between mb-2">
                 <h1 className="inline-block text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
-                      Clip Memo 
-                    </h1>
+                  Clip Memo
+                </h1>
                 <div className="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
                   {isMounted ? `${items.length}개의 메모` : "메모"}
                 </div>
               </div>
-              <p className="text-lg leading-relaxed text-muted-foreground max-w-md">
-         <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
+              <p className="text-lg leading-relaxed text-muted-foreground max-w-md my-4">
+                <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
                   클릭 한 번에
-                </span>
-                복사하고,
-<span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
+                </span> 복사하고,
+                <span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
                   생산성을
                 </span>
                 높여보세요.
@@ -357,7 +356,7 @@ export default function Home() {
             </header>
 
             <nav className="flex items-center gap-4 mb-6">
-              <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px]">
+              <div className="flex-1 transform transition-all duration-300 hover:translate-y-[-2px] relative z-50">
                 <SearchBar onSearch={setSearchQuery} items={items} />
               </div>
               <AddMemoDialog

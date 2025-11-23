@@ -93,7 +93,7 @@ const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps
           <p className="mb-4 text-sm text-gray-600 dark:text-gray-400 line-clamp-3 flex-1 leading-relaxed">
             {linkify(item.content)}
           </p>
-          <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-200 dark:border-gray-600">
+          <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
               {item.category}
             </span>

@@ -12,6 +12,7 @@ interface BeforeInstallPromptEvent extends Event {
 declare global {
   interface Window {
     deferredPrompt: BeforeInstallPromptEvent | null;
+    MSStream?: unknown;
   }
 }
 
@@ -36,7 +37,7 @@ const isRunningInPWA = (): boolean => {
 // iOS 환경 확인
 const isIOS = (): boolean => {
   if (typeof window === "undefined") return false;
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 };
 
 const InstallPWA = () => {
