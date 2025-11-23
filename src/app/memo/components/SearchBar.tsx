@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
 import { Item } from "../types";
 
 interface AutocompleteItem {
@@ -24,7 +23,6 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
     AutocompleteItem[]
   >([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<HTMLDivElement>(null);
@@ -175,7 +173,6 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
         const suggestions = generateAutocompleteItems(value);
         setAutocompleteItems(suggestions);
         if (suggestions.length > 0) {
-          updateDropdownPosition();
           setShowAutocomplete(true);
         }
       }, 300);
@@ -194,21 +191,8 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
     };
   }, []);
 
-  // 드롭다운 위치 계산 함수
-  const updateDropdownPosition = () => {
-    if (inputRef.current) {
-      const rect = inputRef.current.getBoundingClientRect();
-      setDropdownPosition({
-        top: rect.bottom + window.scrollY + 8,
-        left: rect.left + window.scrollX,
-        width: rect.width
-      });
-    }
-  };
-
   const handleFocus = () => {
     setIsFocused(true);
-    updateDropdownPosition();
     if (query.trim().length >= 2 && autocompleteItems.length > 0) {
       setShowAutocomplete(true);
     }
@@ -253,7 +237,7 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
     );
   };
 
-  // 외부 클릭 시 자동완성 숨기기 및 스크롤/리사이즈 시 위치 업데이트
+  // 외부 클릭 시 자동완성 숨기기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -267,28 +251,12 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
       }
     };
 
-    const handleScroll = () => {
-      if (showAutocomplete) {
-        updateDropdownPosition();
-      }
-    };
-
-    const handleResize = () => {
-      if (showAutocomplete) {
-        updateDropdownPosition();
-      }
-    };
-
     document.addEventListener("mousedown", handleClickOutside);
-    window.addEventListener("scroll", handleScroll, true);
-    window.addEventListener("resize", handleResize);
     
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("scroll", handleScroll, true);
-      window.removeEventListener("resize", handleResize);
     };
-  }, [showAutocomplete]);
+  }, []);
 
   return (
     <div
@@ -359,21 +327,12 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
         </button>
       )}
 
-      {/* 자동완성 드롭다운 - Portal로 렌더링 */}
-      {showAutocomplete && autocompleteItems.length > 0 && typeof window !== 'undefined' &&
-        createPortal(
-          <div
-            ref={autocompleteRef}
-            className="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden max-h-64 overflow-y-auto"
-            style={{
-              position: "fixed",
-              top: dropdownPosition.top,
-              left: dropdownPosition.left,
-              width: dropdownPosition.width,
-              zIndex: 999999,
-              isolation: "isolate",
-            }}
-          >
+      {/* 자동완성 드롭다운 - absolute positioning relative to parent */}
+      {showAutocomplete && autocompleteItems.length > 0 && (
+        <div
+          ref={autocompleteRef}
+          className="absolute top-full left-0 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden max-h-64 overflow-y-auto z-50"
+        >
           {autocompleteItems.map((item, index) => (
             <button
               key={`${item.text}-${index}`}
@@ -389,7 +348,7 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
                     item.type === "title" ? "bg-blue-400" : "bg-green-400"
                   }`}
                 />
-                <span className="text-sm text-gray-900">
+                <span className="text-sm text-gray-900 max-w-[12ch] sm:max-w-none truncate overflow-hidden whitespace-nowrap">
                   {highlightText(item.text, query)}
                 </span>
               </div>
@@ -410,18 +369,16 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
             </button>
           ))}
 
-            {/* 키보드 힌트 */}
-            <div className="px-4 py-2 bg-gray-50 border-t border-gray-100">
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <span>↑↓ 선택</span>
-                <span>Enter 검색</span>
-                <span>Esc 닫기</span>
-              </div>
+          {/* 키보드 힌트 */}
+          <div className="px-4 py-2 bg-gray-50 border-t border-gray-100">
+            <div className="flex items-center justify-between text-xs text-gray-500">
+              <span>↑↓ 선택</span>
+              <span>Enter 검색</span>
+              <span>Esc 닫기</span>
             </div>
-          </div>,
-          document.body
-        )
-      }
+          </div>
+        </div>
+      )}
     </div>
   );
 };
