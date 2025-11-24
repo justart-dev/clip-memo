@@ -31,6 +31,8 @@ export default function Home() {
   const [showBanner, setShowBanner] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 
+
+
   // 메모 관리 훅 사용
   const {
     items,
@@ -256,14 +258,14 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F9FAFB] dark:bg-gray-900 flex flex-col relative">
+    <main className="min-h-screen bg-white dark:bg-gray-900 flex flex-col relative">
       {/* 배경 패턴 */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
       </div>
 
       {/* 상단 배너 및 헤더 영역 */}
-      <header className="sticky top-0 z-50 w-full bg-[#F9FAFB] dark:bg-gray-900 border-b border-gray-200/50 dark:border-gray-800/50">
+      <header className="sticky top-0 z-50 w-full bg-white dark:bg-gray-900 border-b border-gray-200/50 dark:border-gray-800/50">
         {showBanner && (
           <div className="relative overflow-hidden bg-black text-white border-b border-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
@@ -302,7 +304,7 @@ export default function Home() {
         
         {/* 헤더 컨트롤 영역 (언어 선택 등) */}
         {!showBanner && (
-          <div className="w-full bg-[#F9FAFB] dark:bg-gray-900">
+          <div className="w-full bg-white dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-end">
               <div className="flex items-center gap-2">
                 <DropdownMenu>
@@ -351,11 +353,11 @@ export default function Home() {
       <PullToRefresh onRefresh={handleRefresh}>
         <section
           className={`flex flex-col flex-1 ${
-            showBanner ? "mt-[10vh]" : "mt-[7vh]"
+            showBanner ? "mt-[6vh]" : "mt-[3vh]"
           } transition-all duration-300`}
         >
           <div className="max-w-[1024px] w-full mx-auto px-5">
-            <header className={`pt-10 pb-6 bg-transparent`}>
+            <header className={`pt-2 pb-6 bg-transparent`}>
               <div className="flex items-center justify-between mb-2">
                 <h1 className="inline-block text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
                   {t.memo.title}

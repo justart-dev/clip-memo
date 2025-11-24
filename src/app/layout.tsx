@@ -15,22 +15,22 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   metadataBase: new URL("https://clip-memo.vercel.app"),
   title: {
-    template: "%s | Clip Memo",
-    default: "Clip Memo | Quick Capture",
+    template: "Clip Memo | %s ",
+    default: "Clip Memo",
   },
   description:
     "Clip Memo로 복사하고 싶은 텍스트를 손쉽게 저장하고 관리하세요. 원클릭 복사 기능으로 필요할 때 즉시 사용할 수 있으며, 강력한 검색으로 저장된 텍스트를 빠르게 찾을 수 있습니다. PWA 지원으로 앱처럼 설치하여 사용할 수 있어 더욱 편리합니다. 자주 사용하는 텍스트를 Clip Memo와 함께 스마트하게 관리하세요.",
-  keywords: ["메모장", "클립보드", "복사", "생산성"],
-  authors: [{ name: "Clip Memo" }],
-  creator: "Clip Memo",
-  publisher: "Clip Memo",
+  keywords: ["메모장", "클립보드", "복사", "생산성","Memo","Clip","Copy","Quick Capture"],
+  authors: [{ name: "Justart" }],
+  creator: "Justart",
+  publisher: "Justart",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: "Clip Memo - 빠르게 복사하는 메모장",
+    title: "Clip Memo | Quick Capture",
     description:
       "Clip Memo로 복사하고 싶은 텍스트를 손쉽게 저장하고 관리하세요. 원클릭 복사 기능으로 필요할 때 즉시 사용할 수 있으며, 강력한 검색으로 저장된 텍스트를 빠르게 찾을 수 있습니다. PWA 지원으로 앱처럼 설치하여 사용할 수 있어 더욱 편리합니다. 자주 사용하는 텍스트를 Clip Memo와 함께 스마트하게 관리하세요.",
     url: "https://clip-memo.vercel.app",
