@@ -271,8 +271,8 @@ export default function Home() {
                 <div className="flex items-center gap-4">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold tracking-tight">Clip Memo v2.0</span>
-                      <span className="px-2 py-0.5 text-[10px] font-medium bg-white text-black rounded-full">NEW</span>
+                      <span className="px-2 py-0.5 text-[10px] font-medium bg-white text-black rounded-full">{t.common.banner_new}</span>
+                      <span className="text-sm font-bold tracking-tight">{t.common.banner_message}</span>
                     </div>
                   </div>
                 </div>
@@ -364,15 +364,16 @@ export default function Home() {
                   {isMounted ? `${items.length}${t.memo.count_suffix}` : t.common.loading}
                 </div>
               </div>
-              <p className="text-lg leading-relaxed text-muted-foreground max-w-md my-4">
-                <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
-                  {t.landing.description_1}
-                </span> {t.landing.description_2}
-                <span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
-                  {t.landing.description_3}
-                </span>
-                {t.landing.description_4}
-              </p>
+              <div className="flex flex-col items-start gap-1 my-4">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 text-[10px] font-bold text-white bg-black rounded-full dark:bg-white dark:text-black">
+                    v2.0
+                  </span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {t.landing.hero.badge}
+                  </span>
+                </div>
+              </div>
             </header>
 
             <nav className="flex items-center gap-4 mb-6">
@@ -618,6 +619,7 @@ export default function Home() {
                   </div>
                 )}
               </div>
+
 
               {/* 백업/복구 기능 */}
               <div className="my-8 pt-6 border-t border-gray-100">

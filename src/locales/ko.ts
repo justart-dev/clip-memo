@@ -18,22 +18,120 @@ export const ko = {
     loading: "로딩 중...",
     new: "새로 만들기",
     unknown: "알 수 없음",
+    banner_new: "NEW",
+    banner_message: "영어 버전이 출시되었습니다.",
   },
   landing: {
-    title: "Clip Memo",
-    subtitle: "빠르게 복사하는 메모장",
-    description_1: "클릭 한 번에",
-    description_2: "복사하고,",
-    description_3: "생산성을",
-    description_4: "높여보세요.",
-    start_button: "시작하기",
+    hero: {
+      badge: "새로운 메모의 시작",
+      title_prefix: "메모를",
+      title_highlight: "더 쉽게",
+      title_suffix: "더 빠르게",
+      description: "복잡한 기능은 잊어보세요. 클립 메모와 함께라면 단 한 번의 클릭으로 메모를 저장하고 공유할 수 있습니다.",
+      cta_button: "무료로 시작하기",
+    },
     features: {
-      copy: "원클릭 복사",
-      copy_desc: "메모를 클릭하는 순간 클립보드에 복사됩니다.",
-      search: "빠른 검색",
-      search_desc: "강력한 검색 기능으로 필요한 메모를 즉시 찾으세요.",
-      pwa: "앱처럼 사용",
-      pwa_desc: "설치하여 네이티브 앱처럼 편리하게 사용하세요.",
+      badge: "특별한 기능",
+      title_prefix: "더 쉽게,",
+      title_highlight: "더 빠르게",
+      subtitle_prefix: "Clip Memo",
+      subtitle_suffix: " 만의 특별한 기능을 경험해보세요",
+      items: {
+        copy: {
+          title: "원클릭 복사",
+          desc: "드래그할 필요 없이 클릭 한 번으로 클립보드에 복사됩니다.",
+        },
+        search: {
+          title: "스마트 검색",
+          desc: "키워드로 원하는 메모를 쉽게 찾을 수 있습니다. 자동완성 기능을 통해 더욱 빠르게 검색하세요.",
+        },
+        tag: {
+          title: "태그 관리",
+          desc: "메모를 태그로 분류하고 체계적으로 관리하세요.",
+        },
+        pwa: {
+          title: "PWA 지원",
+          desc: "앱처럼 설치하여 더욱 편리하게 사용하세요. 오프라인에서도 기록은 계속돼요.",
+        },
+        local: {
+          title: "로컬 저장",
+          desc: "모든 데이터는 브라우저에 안전하게 저장됩니다.",
+        },
+        backup: {
+          title: "데이터 백업",
+          badge: "NEW",
+          desc: "메모를 클립보드에 복사하여 손쉽게 복구할 수 있습니다.",
+        },
+      },
+    },
+    faq: {
+      badge: "FAQ",
+      title_prefix: "자주 묻는",
+      title_highlight: "질문",
+      description: "궁금하신 점을 확인해보세요",
+      items: [
+        {
+          question: "클립 메모는 무엇인가요?",
+          answer: "클립 메모는 복잡한 기능 없이 메모의 핵심에만 집중한 간단하고 빠른 웹 앱입니다.\n\n클릭 한 번으로 메모를 클립보드에 복사할 수 있고, URL이 포함된 메모는 클릭하면 바로 해당 사이트로 이동할 수 있습니다.\n\n또한, 자동완성 기능으로 원하는 메모를 빠르게 찾을 수 있어요.\n\n카테고리별로 메모를 체계적으로 관리할 수 있으며, 인터넷 연결 없이도 오프라인에서 언제든 사용할 수 있어 일상적인 메모 관리 도구로 완벽합니다.",
+        },
+        {
+          question: "검색 자동완성은 어떻게 작동하나요?",
+          answer: "2글자 이상 입력하면 메모 제목과 내용에서 일치하는 항목을 최대 5개까지 추천합니다. 제목 매칭을 우선하며, 그 이후에는 내부 알고리즘에 의해 추천됩니다.",
+        },
+        {
+          question: "데이터는 안전한가요?",
+          answer: "모든 메모는 브라우저 로컬 스토리지에 저장되어 개인정보가 외부로 유출되지 않습니다.\n\n단, 브라우저 데이터 초기화 시 메모가 삭제되므로 중요한 내용은 백업 기능을 활용하세요.",
+        },
+        {
+          question: "앱으로 설치할 수 있나요?",
+          answer: "네, PWA 기술로 웹에서 앱처럼 설치 가능합니다.\n\n• PC: 브라우저 주소창의 설치 아이콘 클릭\n• iPhone: 공유 버튼 → \"홈 화면에 추가\"\n• Android: 브라우저 메뉴 → \"앱 설치\"\n\n설치하면 오프라인에서도 사용할 수 있어요.",
+        },
+        {
+          question: "백업과 복구는 어떻게 하나요?",
+          answer: "메모 하단의 '백업하기' 버튼을 클릭하면 모든 메모가 클립보드에 복사됩니다. 복구할 때는 백업 데이터를 복사한 후 '복구하기' 버튼을 클릭하면 됩니다.",
+        },
+        {
+          question: "무료로 사용할 수 있나요?",
+          answer: "네, 클립 메모는 완전 무료로 제공됩니다. 광고도 없고 숨겨진 비용도 없습니다.\n\n사용자들의 소중한 피드백을 통해 지속적으로 발전하고 있으며, 여러분의 의견이 더 나은 서비스를 만드는 원동력이 됩니다. 상단의 피드백 버튼을 통해 언제든 의견을 공유해주세요!",
+        },
+        {
+          question: "숨겨진 기능이 있다던데, 정말인가요?",
+          answer: "소소한 이스터에그를 숨겨두었답니다. 직접 발견해보세요!\n\n#모바일 #OOO #새로고침 #pull",
+        },
+      ],
+    },
+    testimonials: {
+      badge: "사용자 후기",
+      title_before: "",
+      title_highlight: "Clip Memo",
+      title_after: "와 함께하는 분들",
+      description: "실제 사용자들의 생생한 후기를 만나보세요",
+      items: [
+        {
+          content: "클립보드 복사 기능이 편하고 깔끔하네요!",
+          author: "이OO",
+          role: "데이터 사이언티스트",
+        },
+        {
+          content: "자주 사용하는 명령어들을 저장해두고 바로 복사해서 쓰니까 업무 효율이 확 올랐어요.",
+          author: "박OO",
+          role: "웹 개발자",
+        },
+        {
+          content: "심플하면서도 필요한 기능은 다 있네요",
+          author: "김OO",
+          role: "스타트업 밥풀 대표",
+        },
+      ],
+    },
+    cta: {
+      badge: "시작하기",
+      title_prefix: "지금 바로",
+      title_highlight: "시작하세요",
+      description_prefix: "더 이상 복잡한 메모 앱은 그만!",
+      description_middle: "Clip Memo",
+      description_suffix: "와 함께 심플하고 효율적인 메모 생활을 시작하세요.",
+      button: "무료로 시작하기",
     },
   },
   memo: {

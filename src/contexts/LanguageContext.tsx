@@ -17,7 +17,6 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("ko");
   const [t, setT] = useState<Translations>(ko);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // 초기 로드 시 로컬 스토리지 확인
@@ -26,7 +25,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       setLanguageState(savedLang);
       setT(savedLang === "ko" ? ko : en);
     }
-    setIsLoaded(true);
   }, []);
 
   const setLanguage = (lang: Language) => {

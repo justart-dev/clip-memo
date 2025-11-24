@@ -20,22 +20,120 @@ export const en: Translations = {
     loading: "Loading...",
     new: "New",
     unknown: "Unknown",
+    banner_new: "NEW",
+    banner_message: "English version is now available.",
   },
   landing: {
-    title: "Clip Memo",
-    subtitle: "Quick Copy Notepad",
-    description_1: "Copy with",
-    description_2: "one click,",
-    description_3: "boost your",
-    description_4: "productivity.",
-    start_button: "Get Started",
+    hero: {
+      badge: "The Fastest Way to Note",
+      title_prefix: "Capture Ideas",
+      title_highlight: "Instantly",
+      title_suffix: "",
+      description: "No clutter. No friction. Just your thoughts, copied in a click. The minimalist notepad built for speed and focus.",
+      cta_button: "Start Writing Now",
+    },
     features: {
-      copy: "One-Click Copy",
-      copy_desc: "Copy to clipboard instantly by clicking the memo.",
-      search: "Fast Search",
-      search_desc: "Find what you need instantly with powerful search.",
-      pwa: "Install as App",
-      pwa_desc: "Install and use it like a native app for convenience.",
+      badge: "Special Features",
+      title_prefix: "Easier,",
+      title_highlight: "Faster",
+      subtitle_prefix: "Experience",
+      subtitle_suffix: " the power of simplicity",
+      items: {
+        copy: {
+          title: "Click to Copy",
+          desc: "One click is all it takes. Copy your memos to the clipboard instantly.",
+        },
+        search: {
+          title: "Lightning Search",
+          desc: "Find what you need in milliseconds with smart autocomplete.",
+        },
+        tag: {
+          title: "Smart Tagging",
+          desc: "Organize your thoughts effortlessly with intuitive tags.",
+        },
+        pwa: {
+          title: "Works Offline",
+          desc: "No internet? No problem. Install as an app and access anywhere.",
+        },
+        local: {
+          title: "Privacy First",
+          desc: "Your data stays on your device. We don't see your notes.",
+        },
+        backup: {
+          title: "Easy Backup",
+          badge: "NEW",
+          desc: "Secure your data instantly via clipboard backup.",
+        },
+      },
+    },
+    faq: {
+      badge: "FAQ",
+      title_prefix: "Common",
+      title_highlight: "Questions",
+      description: "Everything you need to know",
+      items: [
+        {
+          question: "What makes Clip Memo different?",
+          answer: "Clip Memo strips away the bloat. It's designed for one thing: speed. \n\nWith one-click copying and instant URL opening, it's the fastest way to manage your snippets, links, and quick thoughts.\n\nPlus, it works completely offline.",
+        },
+        {
+          question: "How does search work?",
+          answer: "Just start typing. Our smart algorithm instantly filters your notes by title and content, prioritizing exact matches so you find what you need immediately.",
+        },
+        {
+          question: "Is my data private?",
+          answer: "Absolutely. We use local storage technology, meaning your notes never leave your browser. \n\nJust remember to use the backup feature if you plan to clear your browser data!",
+        },
+        {
+          question: "Can I use this on mobile?",
+          answer: "Yes! Clip Memo is a Progressive Web App (PWA).\n\n• iOS: Tap Share → 'Add to Home Screen'\n• Android: Tap Menu → 'Install App'\n• PC: Click the install icon in the address bar\n\nIt works just like a native app.",
+        },
+        {
+          question: "How do I backup my notes?",
+          answer: "Hit the 'Backup' button to copy all your data to the clipboard. Save it anywhere. To restore, just copy that text back and click 'Restore'. Simple.",
+        },
+        {
+          question: "Is it really free?",
+          answer: "100% free. No ads, no paywalls, no tracking. \n\nWe build this for the community. If you have feedback, we'd love to hear it via the feedback button!",
+        },
+        {
+          question: "Any hidden secrets?",
+          answer: "We love Easter eggs! Try interacting with the UI in unexpected ways.\n\nHint: #Mobile #PullToRefresh",
+        },
+      ],
+    },
+    testimonials: {
+      badge: "Community",
+      title_before: "Workflow upgraded with",
+      title_highlight: "Clip Memo",
+      title_after: "",
+      description: "See how others are boosting their productivity",
+      items: [
+        {
+          content: "The one-click copy is a game changer. My workflow has never been smoother.",
+          author: "Lee OO",
+          role: "Data Scientist",
+        },
+        {
+          content: "I store all my code snippets here. It's faster than any other tool I've used.",
+          author: "Park OO",
+          role: "Web Developer",
+        },
+        {
+          content: "Minimal, fast, and does exactly what it says. Perfect for quick ideas.",
+          author: "Kim OO",
+          role: "Startup Founder",
+        },
+      ],
+    },
+    cta: {
+      badge: "Ready?",
+      title_prefix: "Start Your",
+      title_highlight: "Journey",
+      description_prefix: "Simplify your digital life.",
+      description_middle: "Clip Memo",
+      description_suffix: " is ready when you are.",
+      button: "Launch Clip Memo",
     },
   },
   memo: {

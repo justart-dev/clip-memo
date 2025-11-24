@@ -11,99 +11,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FAQItem {
   question: string;
   answer: string;
 }
 
-const faqs: FAQItem[] = [
-  {
-    question: "클립 메모는 무엇인가요?",
-    answer: `클립 메모는 복잡한 기능 없이 메모의 핵심에만 집중한 간단하고 빠른 웹 앱입니다. 
-    
-    클릭 한 번으로 메모를 클립보드에 복사할 수 있고, URL이 포함된 메모는 클릭하면 바로 해당 사이트로 이동할 수 있습니다. 
-    
-    또한, 자동완성 기능으로 원하는 메모를 빠르게 찾을 수 있어요.
-    
-    카테고리별로 메모를 체계적으로 관리할 수 있으며, 인터넷 연결 없이도 오프라인에서 언제든 사용할 수 있어 일상적인 메모 관리 도구로 완벽합니다.`,
-  },
-  {
-    question: "검색 자동완성은 어떻게 작동하나요?",
-    answer: `2글자 이상 입력하면 메모 제목과 내용에서 일치하는 항목을 최대 5개까지 추천합니다. 제목 매칭을 우선하며, 그 이후에는 내부 알고리즘에 의해 추천됩니다.`,
-  },
-  {
-    question: "데이터는 안전한가요?",
-    answer: `모든 메모는 브라우저 로컬 스토리지에 저장되어 개인정보가 외부로 유출되지 않습니다. 
-      
-단, 브라우저 데이터 초기화 시 메모가 삭제되므로 중요한 내용은 백업 기능을 활용하세요.`,
-  },
-  {
-    question: "앱으로 설치할 수 있나요?",
-    answer: `네, PWA 기술로 웹에서 앱처럼 설치 가능합니다.
 
-• PC: 브라우저 주소창의 설치 아이콘 클릭
-• iPhone: 공유 버튼 → "홈 화면에 추가"  
-• Android: 브라우저 메뉴 → "앱 설치"
-
-설치하면 오프라인에서도 사용할 수 있어요.`,
-  },
-  {
-    question: "백업과 복구는 어떻게 하나요?",
-    answer:
-      "메모 하단의 '백업하기' 버튼을 클릭하면 모든 메모가 클립보드에 복사됩니다. 복구할 때는 백업 데이터를 복사한 후 '복구하기' 버튼을 클릭하면 됩니다.",
-  },
-  {
-    question: "무료로 사용할 수 있나요?",
-    answer: `네, 클립 메모는 완전 무료로 제공됩니다. 광고도 없고 숨겨진 비용도 없습니다.
-    
-사용자들의 소중한 피드백을 통해 지속적으로 발전하고 있으며, 여러분의 의견이 더 나은 서비스를 만드는 원동력이 됩니다. 상단의 피드백 버튼을 통해 언제든 의견을 공유해주세요!`,
-  },
-  {
-    question: "숨겨진 기능이 있다던데, 정말인가요?",
-    answer: `소소한 이스터에그를 숨겨두었답니다. 직접 발견해보세요!
-
-#모바일 #OOO #새로고침 #pull`,
-  },
-];
-
-interface Testimonial {
-  content: string;
-  author: string;
-  role: string;
-  avatar: string;
-  rating: number;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    content: "클립보드 복사 기능이 편하고 깔끔하네요!",
-    author: "이OO",
-    role: "데이터 사이언티스트",
-    rating: 4.5,
-    avatar:
-      "https://api.dicebear.com/7.x/notionists/svg?seed=lee&backgroundColor=0ea5e9&backgroundType=gradientLinear",
-  },
-  {
-    content:
-      "자주 사용하는 명령어들을 저장해두고 바로 복사해서 쓰니까 업무 효율이 확 올랐어요.",
-    author: "박OO",
-    role: "웹 개발자",
-    rating: 4.5,
-    avatar:
-      "https://api.dicebear.com/7.x/notionists/svg?seed=park&backgroundColor=ec4899&backgroundType=gradientLinear",
-  },
-  {
-    content: "심플하면서도 필요한 기능은 다 있네요",
-    author: "김OO",
-    role: "스타트업 밥풀 대표",
-    rating: 5,
-    avatar:
-      "https://api.dicebear.com/7.x/notionists/svg?seed=kim&backgroundColor=10b981&backgroundType=gradientLinear",
-  },
-];
 
 function FAQAccordion({ item }: { item: FAQItem }) {
   return (
@@ -122,6 +46,7 @@ function FAQAccordion({ item }: { item: FAQItem }) {
 
 export default function LandingPage() {
   const router = useRouter();
+  const { t, setLanguage } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -174,7 +99,7 @@ export default function LandingPage() {
           <div className="relative min-h-screen">
             {/* Header */}
             <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-950">
-              <nav className="flex items-center h-16 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+              <nav className="flex items-center justify-between h-16 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="flex items-center space-x-3">
                   {/* <Image
                     src="/icons/icon-192x192.svg"
@@ -187,6 +112,25 @@ export default function LandingPage() {
                     Clip Memo
                   </div>
                 </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="w-9 h-9 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <Globe className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => setLanguage("ko")}>
+                      한국어
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setLanguage("en")}>
+                      English
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </nav>
             </header>
 
@@ -207,7 +151,7 @@ export default function LandingPage() {
                   >
                     <span className="flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
-                      새로운 메모의 시작
+                      {t.landing.hero.badge}
                     </span>
                   </motion.span>
                   <motion.h1
@@ -222,9 +166,9 @@ export default function LandingPage() {
                       transition={{ delay: 0.3, duration: 0.6 }}
                       className="block mb-2"
                     >
-                      메모를{" "}
+                      {t.landing.hero.title_prefix}{" "}
                       <span className="relative inline-block">
-                        <span className="relative z-10">더 쉽게</span>
+                        <span className="relative z-10">{t.landing.hero.title_highlight}</span>
                         <span className="absolute bottom-1 left-0 w-full h-3 bg-gray-100 dark:bg-gray-800 -z-0 opacity-70" />
                       </span>
                     </motion.span>
@@ -234,7 +178,7 @@ export default function LandingPage() {
                       transition={{ delay: 0.4, duration: 0.6 }}
                       className="block text-3xl text-gray-600 sm:text-4xl lg:text-6xl dark:text-gray-300"
                     >
-                      더 빠르게
+                      {t.landing.hero.title_suffix}
                     </motion.span>
                   </motion.h1>
                   <motion.p
@@ -243,10 +187,7 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="max-w-2xl mx-auto text-base leading-relaxed text-gray-600 sm:text-lg lg:text-xl dark:text-gray-400"
                   >
-                    복잡한 기능은 잊어보세요. 클립 메모와 함께라면
-                 
-                    <br className="block" />단 한 번의 클릭으로 메모를
-                    저장하고 공유할 수 있습니다.
+                    {t.landing.hero.description}
                   </motion.p>
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -263,7 +204,7 @@ export default function LandingPage() {
                         href="/memo"
                         className="flex items-center justify-center gap-2"
                       >
-                        무료로 시작하기
+                        {t.landing.hero.cta_button}
                       </Link>
                     </Button>
                   </motion.div>
@@ -314,7 +255,7 @@ export default function LandingPage() {
                   >
                     <span className="flex items-center gap-2">
                       <span className="w-2 h-2 bg-gray-400 rounded-full dark:bg-gray-700 animate-pulse" />
-                      특별한 기능
+                      {t.landing.features.badge}
                     </span>
                   </motion.span>
                   <motion.h2
@@ -323,9 +264,9 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="mb-8 text-4xl font-bold text-gray-900 sm:text-5xl dark:text-white"
                   >
-                    더 쉽게,{" "}
+                    {t.landing.features.title_prefix}{" "}
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-gray-50 dark:via-gray-300 dark:to-gray-50">
-                      더 빠르게
+                      {t.landing.features.title_highlight}
                     </span>
                   </motion.h2>
                   <motion.p
@@ -334,16 +275,15 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="inline-block text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]"
                   >
-                    Clip Memo{' 만의 특별한 기능을 경험해보세요'}
+                    {t.landing.features.subtitle_prefix}{" "}{t.landing.features.subtitle_suffix}
                   </motion.p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {[
                     {
-                      title: "원클릭 복사",
-                      description:
-                        "드래그할 필요 없이 클릭 한 번으로 클립보드에 복사됩니다.",
+                      title: t.landing.features.items.copy.title,
+                      description: t.landing.features.items.copy.desc,
                       icon: (
                         <path
                           strokeLinecap="round"
@@ -354,9 +294,8 @@ export default function LandingPage() {
                       ),
                     },
                     {
-                      title: "스마트 검색",
-                      description:
-                        "키워드로 원하는 메모를 쉽게 찾을 수 있습니다. 자동완성 기능을 통해 더욱 빠르게 검색하세요.",
+                      title: t.landing.features.items.search.title,
+                      description: t.landing.features.items.search.desc,
                       icon: (
                         <path
                           strokeLinecap="round"
@@ -367,9 +306,8 @@ export default function LandingPage() {
                       ),
                     },
                     {
-                      title: "태그 관리",
-                      description:
-                        "메모를 태그로 분류하고 체계적으로 관리하세요.",
+                      title: t.landing.features.items.tag.title,
+                      description: t.landing.features.items.tag.desc,
                       icon: (
                         <path
                           strokeLinecap="round"
@@ -380,9 +318,8 @@ export default function LandingPage() {
                       ),
                     },
                     {
-                      title: "PWA 지원",
-                      description:
-                        "앱처럼 설치하여 더욱 편리하게 사용하세요.오프라인에서도 기록은 계속돼요.",
+                      title: t.landing.features.items.pwa.title,
+                      description: t.landing.features.items.pwa.desc,
                       icon: (
                         <path
                           strokeLinecap="round"
@@ -393,9 +330,8 @@ export default function LandingPage() {
                       ),
                     },
                     {
-                      title: "로컬 저장",
-                      description:
-                        "모든 데이터는 브라우저에 안전하게 저장됩니다.",
+                      title: t.landing.features.items.local.title,
+                      description: t.landing.features.items.local.desc,
                       icon: (
                         <path
                           strokeLinecap="round"
@@ -408,14 +344,13 @@ export default function LandingPage() {
                     {
                       title: (
                         <span className="flex items-center gap-2">
-                          데이터 백업
+                          {t.landing.features.items.backup.title}
                           <span className="px-1.5 py-0.5 text-[8px] font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full">
-                            NEW
+                            {t.landing.features.items.backup.badge}
                           </span>
                         </span>
                       ),
-                      description:
-                        "메모를 클립보드에 복사하여 손쉽게 복구할 수 있습니다.",
+                      description: t.landing.features.items.backup.desc,
                       icon: (
                         <path
                           strokeLinecap="round"
@@ -481,7 +416,7 @@ export default function LandingPage() {
                   >
                     <span className="flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 bg-gray-400 rounded-full dark:bg-gray-500" />
-                      FAQ
+                      {t.landing.faq.badge}
                     </span>
                   </motion.span>
                   <motion.h2
@@ -490,9 +425,9 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl dark:text-white"
                   >
-                    자주 묻는{" "}
+                    {t.landing.faq.title_prefix}{" "}
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-gray-50 dark:via-gray-300 dark:to-gray-50">
-                      질문
+                      {t.landing.faq.title_highlight}
                     </span>
                   </motion.h2>
                   <motion.p
@@ -501,7 +436,7 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="mt-3 text-base text-gray-600 sm:text-lg dark:text-gray-300"
                   >
-                    궁금하신 점을 확인해보세요
+                    {t.landing.faq.description}
                   </motion.p>
                 </motion.div>
                 <motion.div
@@ -510,7 +445,7 @@ export default function LandingPage() {
                   transition={{ duration: 0.5, delay: 0.1 }}
                   className="max-w-3xl mx-auto p-5 sm:p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800/50 rounded-xl shadow-sm"
                 >
-                  {faqs.map((faq, index) => (
+                  {t.landing.faq.items.map((faq, index) => (
                     <motion.div
                       key={faq.question}
                       initial={{ opacity: 0, y: 10 }}
@@ -541,7 +476,7 @@ export default function LandingPage() {
                   >
                     <span className="flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
-                      사용자 후기
+                      {t.landing.testimonials.badge}
                     </span>
                   </motion.span>
                   <motion.h2
@@ -550,9 +485,15 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="mb-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4.5xl"
                   >
-                    <div className="inline-block text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
-                      Clip Memo 
-                    </div>{' 와 함께하는 분들'}
+                    {t.landing.testimonials.title_before && (
+                      <>{t.landing.testimonials.title_before}{" "}</>
+                    )}
+                    <span className="inline-block text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
+                      {t.landing.testimonials.title_highlight}
+                    </span>
+                    {t.landing.testimonials.title_after && (
+                      <>{" "}{t.landing.testimonials.title_after}</>
+                    )}
                   </motion.h2>
                   <motion.p
                     initial={{ opacity: 0, y: 10 }}
@@ -560,12 +501,34 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="text-xl text-gray-600 sm:text-2xl dark:text-gray-300"
                   >
-                    실제 사용자들의 생생한 후기를 만나보세요
+                    {t.landing.testimonials.description}
                   </motion.p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {testimonials.map((testimonial, index) => (
+                  {[
+                    {
+                      content: t.landing.testimonials.items[0].content,
+                      author: t.landing.testimonials.items[0].author,
+                      role: t.landing.testimonials.items[0].role,
+                      rating: 4.5,
+                      avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=lee&backgroundColor=0ea5e9&backgroundType=gradientLinear",
+                    },
+                    {
+                      content: t.landing.testimonials.items[1].content,
+                      author: t.landing.testimonials.items[1].author,
+                      role: t.landing.testimonials.items[1].role,
+                      rating: 4.5,
+                      avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=park&backgroundColor=ec4899&backgroundType=gradientLinear",
+                    },
+                    {
+                      content: t.landing.testimonials.items[2].content,
+                      author: t.landing.testimonials.items[2].author,
+                      role: t.landing.testimonials.items[2].role,
+                      rating: 5,
+                      avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=kim&backgroundColor=10b981&backgroundType=gradientLinear",
+                    },
+                  ].map((testimonial, index) => (
                     <motion.div
                       key={testimonial.author}
                       initial={{ opacity: 0, y: 20 }}
@@ -667,7 +630,7 @@ export default function LandingPage() {
                   >
                     <span className="flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
-                      시작하기
+                      {t.landing.cta.badge}
                     </span>
                   </motion.span>
                   <motion.h2
@@ -676,9 +639,9 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="mb-8 text-4xl font-bold text-gray-900 sm:text-5xl dark:text-white"
                   >
-                    지금 바로{" "}
+                    {t.landing.cta.title_prefix}{" "}
                     <span className="relative">
-                      <span className="relative z-10">시작하세요</span>
+                      <span className="relative z-10">{t.landing.cta.title_highlight}</span>
                       <span className="absolute bottom-0 left-0 w-full h-3 bg-gray-100 dark:bg-gray-800 -z-0 opacity-70" />
                     </span>
                   </motion.h2>
@@ -688,12 +651,12 @@ export default function LandingPage() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="mb-8 text-lg text-gray-600 sm:text-xl dark:text-gray-400"
                   >
-                    더 이상 복잡한 메모 앱은 그만!
+                    {t.landing.cta.description_prefix}
                     <br />
-                    <div className="inline-block text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
-                      Clip Memo 
-                    </div>
-                    {' 와 함께 심플하고 효율적인 메모 생활을 시작하세요.'}
+                    <span className="inline-block text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
+                      {t.landing.cta.description_middle}
+                    </span>
+                    {" "}{t.landing.cta.description_suffix}
                   </motion.p>
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -709,7 +672,7 @@ export default function LandingPage() {
                         href="/memo"
                         className="flex items-center justify-center gap-2"
                       >
-                        무료로 시작하기
+                        {t.landing.cta.button}
                       </Link>
                     </Button>
                   </motion.div>
