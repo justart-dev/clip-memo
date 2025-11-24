@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { Item } from "../types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AddMemoDialogProps {
   categories: string[];
@@ -30,6 +31,7 @@ export function AddMemoDialog({
   onAdd,
   children,
 }: AddMemoDialogProps) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -41,7 +43,7 @@ export function AddMemoDialog({
     if (!content) return;
 
     onAdd({
-      title: title || "기본 메모",
+      title: title || t.memo.default_title,
       content,
       category,
       createdAt: new Date().toISOString(),
@@ -82,13 +84,13 @@ export function AddMemoDialog({
       <DialogContent className="sm:max-w-[425px] max-h-[85vh] flex flex-col">
         <form onSubmit={handleSubmit} className="contents">
           <DialogHeader>
-            <DialogTitle>새 메모 작성</DialogTitle>
-            <DialogDescription>새로운 메모를 작성하세요.</DialogDescription>
+            <DialogTitle>{t.dialog.add_memo.title}</DialogTitle>
+            <DialogDescription>{t.dialog.add_memo.description}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4 flex-1 overflow-y-auto min-h-0 px-1">
             <div className="grid gap-2">
               <Textarea
-                placeholder="내용을 입력하세요"
+                placeholder={t.dialog.add_memo.content_placeholder}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 onKeyDown={(e) => {
@@ -103,14 +105,14 @@ export function AddMemoDialog({
             <div className="grid gap-2">
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger>
-                  <SelectValue placeholder="카테고리 선택" />
+                  <SelectValue placeholder={t.dialog.add_memo.category_placeholder} />
                 </SelectTrigger>
                 <SelectContent>
                   {categories
                     .filter((cat) => cat !== "전체")
                     .map((cat) => (
                       <SelectItem key={cat} value={cat}>
-                        {cat}
+                        {cat === "기본" ? t.common.default : cat}
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -123,10 +125,10 @@ export function AddMemoDialog({
               type="button"
               onClick={() => setOpen(false)}
             >
-              취소
+              {t.common.cancel}
             </Button>
             <Button type="submit" disabled={!content}>
-              추가하기
+              {t.common.add}
             </Button>
           </DialogFooter>
         </form>

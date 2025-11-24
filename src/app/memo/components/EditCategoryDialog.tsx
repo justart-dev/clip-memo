@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { ReactNode } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface EditCategoryDialogProps {
   categories: string[];
@@ -30,6 +31,7 @@ export function EditCategoryDialog({
   onEdit,
   children,
 }: EditCategoryDialogProps) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -64,11 +66,11 @@ export function EditCategoryDialog({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>카테고리 수정</DialogTitle>
+            <DialogTitle>{t.dialog.category.edit}</DialogTitle>
             <DialogDescription>
               {editableCategories.length > 0
-                ? "수정할 카테고리를 선택하고 새로운 이름을 입력하세요."
-                : "현재 수정 가능한 카테고리가 없습니다."}
+                ? t.dialog.category.edit_description
+                : t.dialog.category.edit_empty}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -83,7 +85,7 @@ export function EditCategoryDialog({
                     }}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="카테고리 선택" />
+                      <SelectValue placeholder={t.dialog.edit_memo.category_placeholder || t.common.category} />
                     </SelectTrigger>
                     <SelectContent>
                       {editableCategories.map((cat) => (
@@ -95,7 +97,7 @@ export function EditCategoryDialog({
                   </Select>
                   {selectedCategory && (
                     <Input
-                      placeholder="새로운 카테고리 이름"
+                      placeholder={t.dialog.category.edit_placeholder}
                       value={newCategoryName}
                       onChange={(e) => setNewCategoryName(e.target.value)}
                       onKeyDown={(e) => {
@@ -109,14 +111,14 @@ export function EditCategoryDialog({
                 </>
               ) : (
                 <div className="py-4 text-sm text-center text-muted-foreground">
-                  새로운 카테고리를 추가한 후 수정할 수 있습니다.
+                  {t.dialog.category.edit_hint}
                 </div>
               )}
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => handleOpenChange(false)}>
-              {editableCategories.length > 0 ? "취소" : "확인"}
+              {editableCategories.length > 0 ? t.common.cancel : t.common.confirm}
             </Button>
             {editableCategories.length > 0 && selectedCategory && (
               <Button
@@ -127,7 +129,7 @@ export function EditCategoryDialog({
                   categories.includes(newCategoryName.trim())
                 }
               >
-                수정하기
+                {t.common.save}
               </Button>
             )}
           </DialogFooter>

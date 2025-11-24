@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { useState, useEffect, useRef } from "react";
 import { Item } from "../types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface EditMemoDialogProps {
   item: Item;
@@ -34,6 +35,7 @@ export function EditMemoDialog({
   onOpenChange,
   onEdit,
 }: EditMemoDialogProps) {
+  const { t } = useLanguage();
   const [title, setTitle] = useState(item.title);
   const [content, setContent] = useState(item.content);
   const [category, setCategory] = useState(item.category);
@@ -61,7 +63,7 @@ export function EditMemoDialog({
 
     onEdit({
       id: item.id,
-      title: title || "기본 메모",
+      title: title || t.memo.default_title,
       content,
       category,
       createdAt: item.createdAt,
@@ -75,15 +77,15 @@ export function EditMemoDialog({
       <DialogContent className="sm:max-w-[425px] max-h-[85vh] flex flex-col">
         <form onSubmit={handleSubmit} className="contents">
           <DialogHeader>
-            <DialogTitle>메모 수정</DialogTitle>
+            <DialogTitle>{t.dialog.edit_memo.title}</DialogTitle>
             <DialogDescription>
-              메모를 수정하세요.
+              {t.dialog.edit_memo.description}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4 flex-1 overflow-y-auto min-h-0 px-1">
             <div className="grid gap-2">
               <Input
-                placeholder="제목을 입력하세요"
+                placeholder={t.dialog.edit_memo.title_placeholder}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 onKeyDown={(e) => {
@@ -97,7 +99,7 @@ export function EditMemoDialog({
             <div className="grid gap-2">
               <Textarea
                 ref={contentRef}
-                placeholder="내용을 입력하세요"
+                placeholder={t.dialog.edit_memo.content_placeholder}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 onKeyDown={(e) => {
@@ -112,14 +114,14 @@ export function EditMemoDialog({
             <div className="grid gap-2">
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger>
-                  <SelectValue placeholder="카테고리 선택" />
+                  <SelectValue placeholder={t.dialog.edit_memo.category_placeholder} />
                 </SelectTrigger>
                 <SelectContent>
                   {categories
                     .filter((cat) => cat !== "전체")
                     .map((cat) => (
                       <SelectItem key={cat} value={cat}>
-                        {cat}
+                        {cat === "기본" ? t.common.default : cat}
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -132,10 +134,10 @@ export function EditMemoDialog({
               type="button"
               onClick={() => onOpenChange(false)}
             >
-              취소
+              {t.common.cancel}
             </Button>
             <Button type="submit" disabled={!content}>
-              수정하기
+              {t.common.save}
             </Button>
           </DialogFooter>
         </form>

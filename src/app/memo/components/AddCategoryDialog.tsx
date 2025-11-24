@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { ReactNode } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AddCategoryDialogProps {
   onAdd: (category: string) => void;
@@ -23,6 +24,7 @@ export function AddCategoryDialog({
   children,
   categories,
 }: AddCategoryDialogProps) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
 
@@ -42,31 +44,31 @@ export function AddCategoryDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>카테고리 추가</DialogTitle>
+          <DialogTitle>{t.dialog.category.add}</DialogTitle>
           <DialogDescription>
-            새로운 카테고리 이름을 입력하세요.
+            {t.dialog.category.add_description}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
             <Input
-              placeholder="새로운 카테고리 이름"
+              placeholder={t.dialog.category.placeholder}
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             />
             {isDuplicate && (
               <p className="text-sm text-red-500">
-                이미 존재하는 카테고리입니다.
+                {t.dialog.category.duplicate_error}
               </p>
             )}
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
-            취소
+            {t.common.cancel}
           </Button>
           <Button onClick={handleSubmit} disabled={!category || isDuplicate}>
-            추가
+            {t.common.add}
           </Button>
         </DialogFooter>
       </DialogContent>

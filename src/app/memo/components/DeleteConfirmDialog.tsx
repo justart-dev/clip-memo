@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface DeleteConfirmDialogProps {
   open: boolean;
@@ -20,22 +21,26 @@ export function DeleteConfirmDialog({
   open,
   onOpenChange,
   onConfirm,
-  title = "메모 삭제",
-  description = "정말로 이 메모를 삭제하시겠습니까?",
+  title,
+  description,
 }: DeleteConfirmDialogProps) {
+  const { t } = useLanguage();
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogTitle>{title || t.dialog.delete_memo.title}</DialogTitle>
+          <DialogDescription>
+            {description || t.dialog.delete_memo.description}
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            취소
+            {t.common.cancel}
           </Button>
           <Button variant="destructive" onClick={onConfirm}>
-            삭제
+            {t.common.delete}
           </Button>
         </DialogFooter>
       </DialogContent>

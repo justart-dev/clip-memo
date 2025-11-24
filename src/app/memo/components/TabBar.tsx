@@ -4,6 +4,7 @@ import React from "react";
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface TabBarProps {
   activeTab: string;
@@ -18,6 +19,14 @@ const TabBar = ({
   onTabChange,
   className = "",
 }: TabBarProps) => {
+  const { t } = useLanguage();
+
+  const getDisplayName = (category: string) => {
+    if (category === "전체") return t.common.all;
+    if (category === "기본") return t.common.default;
+    return category;
+  };
+
   return (
     <nav className={cn("flex flex-wrap gap-2", className)} role="tablist">
       {categories.map((tab) => (
@@ -48,7 +57,7 @@ const TabBar = ({
               style={{ zIndex: -1 }}
             />
           )}
-          <span className="relative z-10">{tab}</span>
+          <span className="relative z-10">{getDisplayName(tab)}</span>
         </button>
       ))}
     </nav>

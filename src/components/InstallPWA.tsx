@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // 타입 정의
 interface BeforeInstallPromptEvent extends Event {
@@ -41,6 +42,7 @@ const isIOS = (): boolean => {
 };
 
 const InstallPWA = () => {
+  const { t } = useLanguage();
   const [supportsPWA, setSupportsPWA] = useState(false);
   const [promptInstall, setPromptInstall] = useState<BeforeInstallPromptEvent | null>(null);
   const [isPWA, setIsPWA] = useState(false);
@@ -105,13 +107,13 @@ const InstallPWA = () => {
     e.preventDefault();
 
     if (isIOSDevice) {
-      alert("Safari 브라우저 하단의 '공유' 버튼을 누르고\n'홈 화면에 추가'를 선택해주세요.");
+      alert(t.pwa.install_guide_ios);
       return;
     }
 
     if (!promptInstall) {
       // 프롬프트가 없는 경우 (수동 안내)
-      alert("브라우저 메뉴에서 '앱 설치' 또는 '홈 화면에 추가'를 선택해주세요.");
+      alert(t.pwa.install_guide_android);
       return;
     }
 
@@ -147,7 +149,7 @@ const InstallPWA = () => {
         <button
           onClick={handleDismiss}
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
-          aria-label="닫기"
+          aria-label={t.common.close}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -184,10 +186,10 @@ const InstallPWA = () => {
           </div>
           <div className="flex-grow pr-6">
             <h3 className="text-gray-900 dark:text-gray-100 font-semibold text-base m-0">
-              앱 설치하기
+              {t.pwa.install_title}
             </h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm m-0 mt-0.5">
-              더 빠르고 편리한 사용을 위해 앱을 설치하세요.
+              {t.pwa.install_description}
             </p>
           </div>
         </div>
@@ -196,7 +198,7 @@ const InstallPWA = () => {
           onClick={handleInstallClick}
           className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
-          <span>설치하기</span>
+          <span>{t.pwa.install_button}</span>
         </button>
       </div>
     </div>

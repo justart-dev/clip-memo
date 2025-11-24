@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import ClientInstallPWAWrapper from "./ClientInstallPWAWrapper";
 import { Analytics } from "@vercel/analytics/next";
+import { Providers } from "./Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const caveat = Caveat({ 
@@ -162,10 +163,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} ${caveat.variable}`} suppressHydrationWarning>
-        {children}
-        <ClientInstallPWAWrapper />
-        <Analytics />
-        <Toaster position="top-center" />
+        <Providers>
+          {children}
+          <ClientInstallPWAWrapper />
+          <Analytics />
+          <Toaster position="top-center" />
+        </Providers>
       </body>
     </html>
   );

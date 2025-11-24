@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { Search, X } from "lucide-react";
 import { Item } from "../types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AutocompleteItem {
   text: string;
@@ -16,95 +18,95 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
+  const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
-  const [autocompleteItems, setAutocompleteItems] = useState<
-    AutocompleteItem[]
-  >([]);
+  const [autocompleteItems, setAutocompleteItems] = useState<AutocompleteItem[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<HTMLDivElement>(null);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
   // 자동완성 항목 생성 함수
-  const generateAutocompleteItems = (
-    searchQuery: string
-  ): AutocompleteItem[] => {
+  const generateAutocompleteItems = (searchQuery: string): AutocompleteItem[] => {
     if (!searchQuery.trim() || searchQuery.length < 2) {
       return [];
     }
 
-    const query = searchQuery.toLowerCase();
+    const queryLower = searchQuery.toLowerCase();
     const suggestions: AutocompleteItem[] = [];
     const seenTexts = new Set<string>();
 
     items.forEach((item) => {
       // 제목에서 정확 매칭 우선
       const titleLower = item.title.toLowerCase();
-      if (titleLower.includes(query)) {
+      if (titleLower.includes(queryLower)) {
         const text = item.title;
         if (!seenTexts.has(text.toLowerCase())) {
-          // 제목 매칭에 가장 높은 우선순위 부여
-          const startsWithMatch = titleLower.startsWith(query);
+          const startsWithMatch = titleLower.startsWith(queryLower);
           suggestions.push({
             text,
             type: "title",
             source: item,
-            priority: startsWithMatch ? 100 : 90, // 제목 매칭에 매우 높은 우선순위 부여
+            priority: startsWithMatch ? 100 : 90,
           });
           seenTexts.add(text.toLowerCase());
         }
       }
 
-      // 내용에서 의미 있는 단어들 찾기 (개선된 알고리즘)
+      // 내용에서 의미 있는 단어들 찾기
       const contentWords = item.content
         .toLowerCase()
         .split(/[\s\n\r\t.,!?;:()[\]{}"'`]+/)
-        .filter((word) => word.length >= 2); // 최소 2글자 이상으로 변경
+        .filter((word) => word.length >= 2);
 
       contentWords.forEach((word) => {
-        if (word.includes(query) && !seenTexts.has(word)) {
-          const startsWithMatch = word.startsWith(query);
-          const exactMatch = word === query;
+        if (word.includes(queryLower) && !seenTexts.has(word)) {
+          const startsWithMatch = word.startsWith(queryLower);
+          const exactMatch = word === queryLower;
 
           suggestions.push({
             text: word,
             type: "content",
             source: item,
-            priority: exactMatch ? 30 : startsWithMatch ? 20 : 10, // 내용 매칭 우선순위 조정
+            priority: exactMatch ? 30 : startsWithMatch ? 20 : 10,
           });
           seenTexts.add(word);
         }
       });
     });
 
-    // 우선순위에 따라 정렬 (높은 우선순위가 먼저 오도록)
     return suggestions
       .sort((a, b) => {
-        // 1. 우선순위가 높은 순으로 정렬
         if (a.priority !== b.priority) return b.priority - a.priority;
-
-        // 2. 같은 우선순위면 제목 매칭을 우선
         if (a.type === "title" && b.type !== "title") return -1;
         if (a.type !== "title" && b.type === "title") return 1;
-
-        // 3. 길이가 짧은 순으로 정렬 (더 정확한 매칭 우선)
         return a.text.length - b.text.length;
       })
-      .slice(0, 5); // 최대 5개 제안
+      .slice(0, 5);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (searchQuery: string) => {
     setShowAutocomplete(false);
     setSelectedIndex(-1);
-    onSearch(query);
+    onSearch(searchQuery);
+    inputRef.current?.blur();
+  };
+
+  const selectAutocompleteItem = (index: number) => {
+    const selectedItem = autocompleteItems[index];
+    if (selectedItem) {
+      setQuery(selectedItem.text);
+      handleSearchSubmit(selectedItem.text);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!showAutocomplete || autocompleteItems.length === 0) {
       if (e.key === "Enter") {
-        handleSearchSubmit();
+        handleSearchSubmit(query);
       }
       return;
     }
@@ -127,7 +129,7 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
         if (selectedIndex >= 0 && selectedIndex < autocompleteItems.length) {
           selectAutocompleteItem(selectedIndex);
         } else {
-          handleSearchSubmit();
+          handleSearchSubmit(query);
         }
         break;
       case "Escape":
@@ -138,106 +140,44 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
     }
   };
 
-  const selectAutocompleteItem = (index: number) => {
-    const selectedItem = autocompleteItems[index];
-    if (selectedItem) {
-      setQuery(selectedItem.text);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    setSelectedIndex(-1);
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    if (value.trim().length >= 2) {
+      debounceTimer.current = setTimeout(() => {
+        const suggestions = generateAutocompleteItems(value);
+        setAutocompleteItems(suggestions);
+        if (suggestions.length > 0) {
+          setShowAutocomplete(true);
+        } else {
+          setShowAutocomplete(false);
+        }
+        // 실시간 검색도 함께 수행
+        onSearch(value);
+      }, 300);
+    } else {
       setShowAutocomplete(false);
-      setSelectedIndex(-1);
-      onSearch(selectedItem.text);
+      setAutocompleteItems([]);
+      onSearch(value);
     }
   };
 
   const handleClear = () => {
     setQuery("");
+    onSearch("");
     setShowAutocomplete(false);
     setSelectedIndex(-1);
-    onSearch("");
+    setAutocompleteItems([]);
+    inputRef.current?.focus();
   };
 
-  // 디바운스를 위한 타이머 ref
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleInputChange = (value: string) => {
-    setQuery(value);
-    setSelectedIndex(-1);
-
-    // 이전 타이머 클리어
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
-    if (value.trim().length >= 2) {
-      // 300ms 디바운스로 성능 최적화
-      debounceTimerRef.current = setTimeout(() => {
-        const suggestions = generateAutocompleteItems(value);
-        setAutocompleteItems(suggestions);
-        if (suggestions.length > 0) {
-          setShowAutocomplete(true);
-        }
-      }, 300);
-    } else {
-      setShowAutocomplete(false);
-      setAutocompleteItems([]);
-    }
-  };
-
-  // 컴포넌트 언마운트 시 타이머 클리어
-  useEffect(() => {
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, []);
-
-  const handleFocus = () => {
-    setIsFocused(true);
-    if (query.trim().length >= 2 && autocompleteItems.length > 0) {
-      setShowAutocomplete(true);
-    }
-  };
-
-  const handleBlur = () => {
-    // 자동완성 항목 클릭 시 blur가 발생하므로 약간의 지연을 줌
-    setTimeout(() => {
-      if (!autocompleteRef.current?.contains(document.activeElement)) {
-        setIsFocused(false);
-        setShowAutocomplete(false);
-        setSelectedIndex(-1);
-      }
-    }, 150);
-  };
-
-  // 검색어 하이라이트 함수
-  const highlightText = (text: string, searchTerm: string) => {
-    if (!searchTerm.trim()) return text;
-
-    const regex = new RegExp(
-      `(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
-      "gi"
-    );
-    const parts = text.split(regex);
-
-    return (
-      <>
-        {parts.map((part, index) =>
-          regex.test(part) ? (
-            <mark
-              key={index}
-              className="bg-yellow-200 text-gray-900 rounded px-0.5"
-            >
-              {part}
-            </mark>
-          ) : (
-            part
-          )
-        )}
-      </>
-    );
-  };
-
-  // 외부 클릭 시 자동완성 숨기기
+  // 외부 클릭 시 자동완성 닫기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -252,129 +192,146 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
     };
   }, []);
+
+
+  // 검색어 하이라이팅 함수
+  const highlightText = (text: string, highlight: string) => {
+    if (!highlight.trim()) return text;
+    
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    return (
+      <span>
+        {parts.map((part, i) => 
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <span key={i} className="text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50 dark:bg-indigo-900/30 rounded px-0.5">
+              {part}
+            </span>
+          ) : (
+            part
+          )
+        )}
+      </span>
+    );
+  };
 
   return (
     <div
       className="relative w-full transition-all duration-300"
       style={{ isolation: "isolate", zIndex: 9999 }}
     >
-      <button
-        onClick={handleSearchSubmit}
-        className="absolute inset-y-0 left-0 flex items-center pl-4 transition-colors hover:text-primary"
+      <div
+        className={`relative flex items-center w-full h-12 rounded-2xl transition-all duration-300 ${
+          isFocused
+            ? "bg-white dark:bg-gray-800 shadow-lg ring-2 ring-gray-900/10 dark:ring-gray-100/10 scale-[1.02]"
+            : "bg-white dark:bg-gray-800 shadow-sm hover:shadow-md border border-gray-200/50 dark:border-gray-700/50"
+        }`}
       >
-        <svg
-          className={`w-5 h-5 transition-colors duration-300 ${
-            isFocused ? "text-primary" : "text-muted-foreground"
-          }`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </button>
-      <input
-        ref={inputRef}
-        type="text"
-        placeholder="검색어를 입력해주세요"
-        className="w-full py-3.5 pl-12 pr-4 text-md bg-transparent border border-gray-250 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 shadow-sm"
-        style={{
-          WebkitAppearance: "none",
-          backgroundColor: "transparent !important",
-          overflow: "hidden",
-          WebkitBorderRadius: "9999px",
-          borderRadius: "9999px",
-          border: "1px solid #e5e7eb",
-        }}
-        value={query}
-        onChange={(e) => handleInputChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        autoFocus={false}
-        autoComplete="off"
-      />
-      {query && (
-        <button
-          onClick={handleClear}
-          className="absolute inset-y-0 flex items-center transition-colors right-4 text-muted-foreground hover:text-foreground "
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      )}
+        <div className="flex items-center justify-center w-12 h-full text-gray-400">
+          <Search className={`w-5 h-5 transition-colors ${isFocused ? "text-gray-900 dark:text-gray-100" : ""}`} />
+        </div>
+        
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          onFocus={() => {
+            setIsFocused(true);
+            if (query.trim().length >= 2 && autocompleteItems.length > 0) {
+              setShowAutocomplete(true);
+            }
+          }}
+          onBlur={() => {
+            // 클릭 이벤트 처리를 위해 약간의 지연
+            setTimeout(() => setIsFocused(false), 200);
+          }}
+          onKeyDown={handleKeyDown}
+          placeholder={t.memo.search_placeholder}
+          className="w-full h-full bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 placeholder-gray-400 text-base"
+          autoComplete="off"
+        />
 
-      {/* 자동완성 드롭다운 - absolute positioning relative to parent */}
+        {query && (
+          <button
+            onClick={handleClear}
+            className="flex items-center justify-center w-10 h-10 mr-1 text-gray-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-600 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
+        
+
+      </div>
+
+      {/* 자동완성 드롭다운 */}
       {showAutocomplete && autocompleteItems.length > 0 && (
         <div
           ref={autocompleteRef}
-          className="absolute top-full left-0 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden max-h-64 overflow-y-auto z-50"
+          className="absolute top-full left-0 w-full mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl overflow-hidden max-h-[60vh] overflow-y-auto z-50 animate-in fade-in zoom-in-95 duration-200"
         >
-          {autocompleteItems.map((item, index) => (
-            <button
-              key={`${item.text}-${index}`}
-              className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors flex items-center gap-3 ${
-                selectedIndex === index ? "bg-gray-100" : ""
-              }`}
-              onClick={() => selectAutocompleteItem(index)}
-              onMouseEnter={() => setSelectedIndex(index)}
-            >
-              <div className="flex items-center gap-2">
-                <div
-                  className={`w-2 h-2 rounded-full ${
-                    item.type === "title" ? "bg-blue-400" : "bg-green-400"
-                  }`}
-                />
-                <span className="text-sm text-gray-900 max-w-[12ch] sm:max-w-none truncate overflow-hidden whitespace-nowrap">
-                  {highlightText(item.text, query)}
-                </span>
+          <div className="sticky top-0 bg-gray-50/90 dark:bg-gray-900/90 backdrop-blur-sm px-4 py-2 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center z-10">
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+              {t.common.search} {t.common.title}/{t.common.content}
+            </span>
+            <span className="text-[10px] text-gray-400 bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-700">
+              {autocompleteItems.length} {t.memo.count_suffix}
+            </span>
+          </div>
+          
+          <div className="py-1">
+            {autocompleteItems.map((item, index) => (
+              <div
+                key={`${item.text}-${index}`}
+                className={`px-4 py-3 cursor-pointer transition-colors border-b border-gray-100 dark:border-gray-800 last:border-0 ${
+                  index === selectedIndex ? "bg-indigo-50 dark:bg-indigo-900/20" : "hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                }`}
+                onClick={() => selectAutocompleteItem(index)}
+                onMouseEnter={() => setSelectedIndex(index)}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate max-w-[12ch] sm:max-w-none">
+                        {highlightText(item.text, query)}
+                      </span>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap ${
+                        item.type === 'title' 
+                          ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' 
+                          : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+                      }`}>
+                        {item.type === 'title' ? t.common.title : t.common.content}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      {item.source.category}
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 text-[10px] text-gray-400 border border-gray-200 dark:border-gray-700 rounded px-1.5 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block">
+                    {t.search.autocomplete.enter}
+                  </div>
+                </div>
               </div>
-              <div className="ml-auto flex items-center gap-1">
-                <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${
-                    item.type === "title"
-                      ? "bg-blue-100 text-blue-700"
-                      : "bg-green-100 text-green-700"
-                  }`}
-                >
-                  {item.type === "title" ? "제목" : "내용"}
-                </span>
-                <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
-                  {item.source.category}
-                </span>
-              </div>
-            </button>
-          ))}
-
-          {/* 키보드 힌트 */}
-          <div className="px-4 py-2 bg-gray-50 border-t border-gray-100">
-            <div className="flex items-center justify-between text-xs text-gray-500">
-              <span>↑↓ 선택</span>
-              <span>Enter 검색</span>
-              <span>Esc 닫기</span>
+            ))}
+          </div>
+          
+          <div className="sticky bottom-0 bg-gray-50 dark:bg-gray-900 px-3 py-2 border-t border-gray-100 dark:border-gray-800 flex justify-end gap-3 text-[10px] text-gray-500 dark:text-gray-400">
+            <div className="flex items-center gap-1">
+              <kbd className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded px-1 min-w-[16px] text-center">↑</kbd>
+              <kbd className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded px-1 min-w-[16px] text-center">↓</kbd>
+              <span>{t.search.autocomplete.keyboard_hint}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <kbd className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded px-1">Enter</kbd>
+              <span>{t.search.autocomplete.enter}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <kbd className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded px-1">Esc</kbd>
+              <span>{t.search.autocomplete.esc}</span>
             </div>
           </div>
         </div>

@@ -15,10 +15,19 @@ import { DeleteCategoryDialog } from "./components/DeleteCategoryDialog";
 import { EditCategoryDialog } from "./components/EditCategoryDialog";
 import { useMemoManager } from "./hooks/useMemoManager";
 import { PullToRefresh } from "@/components/PullToRefresh";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Globe } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const STORAGE_KEY_BANNER_CLOSED = "clip-memo-banner-closed";
 
 export default function Home() {
+  const { t, language, setLanguage } = useLanguage();
   const [showBanner, setShowBanner] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -62,12 +71,12 @@ export default function Home() {
   const handleAddNewWithToast = (newItem: Omit<Item, "id">) => {
     try {
       handleAddNew(newItem);
-      toast.success("메모가 추가되었습니다.");
+      toast.success(t.toast.memo_added);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("메모 추가 중 오류가 발생했습니다.");
+        toast.error(t.toast.error);
       }
     }
   };
@@ -75,12 +84,12 @@ export default function Home() {
   const handleAddCategoryWithToast = (category: string) => {
     try {
       handleAddCategory(category);
-      toast.success("카테고리가 추가되었습니다.");
+      toast.success(t.toast.category_added);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("카테고리 추가 중 오류가 발생했습니다.");
+        toast.error(t.toast.category_add_error);
       }
     }
   };
@@ -88,12 +97,12 @@ export default function Home() {
   const handleDeleteCategoryWithToast = (category: string) => {
     try {
       handleDeleteCategory(category);
-      toast.success("카테고리가 삭제되었습니다.");
+      toast.success(t.toast.category_deleted);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("카테고리 삭제 중 오류가 발생했습니다.");
+        toast.error(t.toast.category_delete_error);
       }
     }
   };
@@ -101,12 +110,12 @@ export default function Home() {
   const handleEditWithToast = (editedItem: Item) => {
     try {
       handleEdit(editedItem);
-      toast.success("메모가 수정되었습니다.");
+      toast.success(t.toast.memo_edited);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("메모 수정 중 오류가 발생했습니다.");
+        toast.error(t.toast.error);
       }
     }
   };
@@ -114,12 +123,12 @@ export default function Home() {
   const confirmDeleteWithToast = () => {
     try {
       confirmDelete();
-      toast.success("메모가 삭제되었습니다");
+      toast.success(t.toast.memo_deleted);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("메모 삭제 중 오류가 발생했습니다");
+        toast.error(t.toast.error);
       }
     }
   };
@@ -130,30 +139,30 @@ export default function Home() {
   ) => {
     try {
       handleEditCategory(oldCategory, newCategory);
-      toast.success("카테고리가 수정되었습니다");
+      toast.success(t.toast.category_edited);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("카테고리 수정 중 오류가 발생했습니다.");
+        toast.error(t.toast.category_edit_error);
       }
     }
   };
 
   const handleCopy = () => {
     // 즉시 토스트 표시 (중복 방지 제거)
-    toast.success("클립보드에 복사되었습니다.");
+    toast.success(t.toast.copied);
   };
 
   const handleDuplicateWithToast = (item: Item) => {
     try {
       handleDuplicate(item);
-      toast.success("메모가 복제되었습니다.");
+      toast.success(t.toast.memo_duplicated);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("메모 복제 중 오류가 발생했습니다.");
+        toast.error(t.toast.error);
       }
     }
   };
@@ -196,10 +205,10 @@ export default function Home() {
       };
 
       await navigator.clipboard.writeText(JSON.stringify(backupData, null, 2));
-      toast.success("메모 데이터가 클립보드에 백업되었습니다.");
+      toast.success(t.backup.success);
     } catch (error) {
       console.error("Backup failed:", error);
-      toast.error("백업 중 오류가 발생했습니다.");
+      toast.error(t.backup.error);
     }
   };
 
@@ -210,12 +219,12 @@ export default function Home() {
 
       // 백업 데이터 유효성 검증
       if (!backupData.items || !Array.isArray(backupData.items)) {
-        throw new Error("올바른 백업 데이터가 아닙니다.");
+        throw new Error(t.backup.invalid_data);
       }
 
       // 복구 확인
       const confirmed = window.confirm(
-        `${backupData.items.length}개의 메모를 복구하시겠습니까?\n현재 메모는 모두 덮어쓰여집니다.`
+        `${t.backup.restore_confirm_prefix}${backupData.items.length}${t.backup.restore_confirm_suffix}`
       );
 
       if (!confirmed) return;
@@ -234,9 +243,9 @@ export default function Home() {
     } catch (error) {
       console.error("Restore failed:", error);
       if (error instanceof SyntaxError) {
-        toast.error("클립보드에 올바른 백업 데이터가 없습니다.");
+        toast.error(t.backup.no_data);
       } else {
-        toast.error("복구 중 오류가 발생했습니다.");
+        toast.error(t.backup.restore_error);
       }
     }
   };
@@ -247,83 +256,94 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col min-h-screen bg-gradient-to-br ">
-      <header
-        className={`fixed top-0 left-0 right-0 z-40 bg-white transition-all duration-300 ${
-          !showBanner ? "py-2" : "shadow-sm"
-        }`}
-      >
-        {showBanner ? (
-          <div className="flex items-center justify-between px-4 py-3 text-white bg-black animate-fade-in">
-            <div className="flex-1 text-center max-w-[1024px] mx-auto px-2">
-              <div className="flex items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-medium tracking-wide flex-nowrap">
-                <a
-                  href="https://tally.so/r/wkzL91"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 font-medium text-black bg-white rounded-full transition-all hover:bg-gray-100 border border-white/50 shadow-sm hover:shadow-md transform hover:scale-105 active:scale-95 shrink-0"
+    <main className="min-h-screen bg-[#F9FAFB] dark:bg-gray-900 flex flex-col relative">
+      {/* 배경 패턴 */}
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      </div>
+
+      {/* 상단 배너 및 헤더 영역 */}
+      <header className="sticky top-0 z-50 w-full bg-[#F9FAFB] dark:bg-gray-900 border-b border-gray-200/50 dark:border-gray-800/50">
+        {showBanner && (
+          <div className="relative overflow-hidden bg-black text-white border-b border-gray-800">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold tracking-tight">Clip Memo v2.0</span>
+                      <span className="px-2 py-0.5 text-[10px] font-medium bg-white text-black rounded-full">NEW</span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={handleCloseBanner}
+                  className="p-1.5 hover:bg-white/10 rounded-lg transition-colors flex-shrink-0"
+                  aria-label="배너 닫기"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* 헤더 컨트롤 영역 (언어 선택 등) */}
+        {!showBanner && (
+          <div className="w-full bg-[#F9FAFB] dark:bg-gray-900">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-end">
+              <div className="flex items-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
+                      <Globe className="w-5 h-5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => setLanguage("ko")} className={language === "ko" ? "bg-gray-100 font-medium" : ""}>
+                      한국어
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setLanguage("en")} className={language === "en" ? "bg-gray-100 font-medium" : ""}>
+                      English
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <button
+                  onClick={handleOpenBanner}
+                  className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="배너 열기"
+                  title="피드백 배너 열기"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="feather feather-message-circle sm:w-3.5 sm:h-3.5"
+                    className="w-5 h-5"
                   >
                     <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                   </svg>
-                  <span className="font-semibold text-xs sm:text-sm">
-                    피드백 하러가기
-                  </span>
-                </a>
-                <span className="text-white text-xs sm:text-sm min-w-0 truncate">
-                  10초면 충분해요!
-                </span>
+                </button>
               </div>
             </div>
-            <button
-              onClick={handleCloseBanner}
-              className="px-3 py-1 ml-3 text-xs font-medium text-white transition-all border rounded-full cursor-pointer border-white/30 hover:bg-white/10 hover:border-white focus:outline-none focus:ring-1 focus:ring-white/30"
-              aria-label="배너 숨기기"
-            >
-              숨기기
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center justify-end px-4 max-w-[1024px] mx-auto w-full">
-            <button
-              onClick={handleOpenBanner}
-              className="flex items-center px-4 py-1.5 text-xs font-medium text-white transition-all bg-black rounded-full shadow-md hover:shadow-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 transform hover:scale-105 gap-1.5 border border-white/10 animate-pulse hover:animate-none"
-              style={{
-                WebkitAppearance: "none",
-                overflow: "hidden",
-                WebkitBorderRadius: "9999px",
-                borderRadius: "9999px",
-              }}
-              aria-label="배너 열기"
-              title="피드백 배너 열기"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-message-circle"
-              >
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-              </svg>
-              <span>피드백하기</span>
-            </button>
           </div>
         )}
       </header>
@@ -338,20 +358,20 @@ export default function Home() {
             <header className={`pt-10 pb-6 bg-transparent`}>
               <div className="flex items-center justify-between mb-2">
                 <h1 className="inline-block text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-50 font-[family-name:var(--font-caveat)]">
-                  Clip Memo
+                  {t.memo.title}
                 </h1>
                 <div className="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
-                  {isMounted ? `${items.length}개의 메모` : "메모"}
+                  {isMounted ? `${items.length}${t.memo.count_suffix}` : t.common.loading}
                 </div>
               </div>
               <p className="text-lg leading-relaxed text-muted-foreground max-w-md my-4">
                 <span className="font-medium text-foreground hover:bg-gray-50 px-1 rounded transition-colors duration-200 cursor-default">
-                  클릭 한 번에
-                </span> 복사하고,
+                  {t.landing.description_1}
+                </span> {t.landing.description_2}
                 <span className="font-medium text-foreground hover:bg-slate-50 px-1 rounded transition-colors duration-200 cursor-default">
-                  생산성을
+                  {t.landing.description_3}
                 </span>
-                높여보세요.
+                {t.landing.description_4}
               </p>
             </header>
 
@@ -413,7 +433,7 @@ export default function Home() {
                     />
                   </svg>
                   <p className="text-sm font-semibold text-gray-900 sm:text-base">
-                    카테고리
+                    {t.common.category}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 ml-auto">
@@ -440,7 +460,7 @@ export default function Home() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span>추가</span>
+                      <span>{t.common.add}</span>
                     </button>
                   </AddCategoryDialog>
                   <EditCategoryDialog
@@ -472,7 +492,7 @@ export default function Home() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span>수정</span>
+                      <span>{t.common.edit}</span>
                     </button>
                   </EditCategoryDialog>
                   <DeleteCategoryDialog
@@ -498,7 +518,7 @@ export default function Home() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span>삭제</span>
+                      <span>{t.common.delete}</span>
                     </button>
                   </DeleteCategoryDialog>
                 </div>
@@ -519,7 +539,7 @@ export default function Home() {
                   <div className="col-span-full">
                     <div className="flex flex-col items-center justify-center py-24">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-                      <p className="mt-4 text-gray-500 animate-pulse">로딩 중...</p>
+                      <p className="mt-4 text-gray-500 animate-pulse">{t.common.loading}</p>
                     </div>
                   </div>
                 ) : items.length === 0 ? (
@@ -530,7 +550,7 @@ export default function Home() {
                       
                       </div>
                       <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                        첫 번째 메모를 만들어 보세요.
+                        {t.memo.empty_state}
                       </h3>
                       {/* <p className="text-gray-500 max-w-sm mx-auto mb-8 leading-relaxed">
                         복사하고 싶은 텍스트를 저장하고<br />
@@ -544,7 +564,7 @@ export default function Home() {
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                           </svg>
-                          메모 만들기
+                          {t.memo.add_button}
                         </button>
                       </AddMemoDialog>
                     </div>
@@ -589,10 +609,10 @@ export default function Home() {
                         </svg>
                       </div>
                       <p className="text-lg font-medium text-gray-900 mb-2">
-                        검색 결과가 없습니다
+                        {t.search.no_results}
                       </p>
                       <p className="text-gray-500">
-                        다른 키워드로 검색해보세요
+                        {t.search.try_different}
                       </p>
                     </div>
                   </div>
@@ -619,7 +639,7 @@ export default function Home() {
                         d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                       />
                     </svg>
-                    백업하기
+                    {t.backup.button}
                   </button>
                   <button
                     onClick={handleRestoreFromClipboard}
@@ -638,8 +658,22 @@ export default function Home() {
                         d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                       />
                     </svg>
-                    복구하기
+                    {t.backup.restore_button}
                   </button>
+                </div>
+
+                {/* Feedback email */}
+                <div className="text-center mt-6">
+                  <p className="text-xs text-gray-400 dark:text-gray-500">
+                    Feedback{" "}
+                    <span className="text-gray-300 dark:text-gray-600 mx-1">•</span>
+                    <a 
+                      href="mailto:hbd9425@gmail.com" 
+                      className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                    >
+                      hbd9425@gmail.com
+                    </a>
+                  </p>
                 </div>
               </div>
             </section>
@@ -662,6 +696,7 @@ export default function Home() {
         onOpenChange={setDeleteDialogOpen}
         onConfirm={confirmDeleteWithToast}
       />
+
     </main>
   );
 }

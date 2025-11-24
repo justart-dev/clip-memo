@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ListItemProps {
   item: Item;
@@ -21,6 +22,7 @@ interface ListItemProps {
 }
 
 const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps) => {
+  const { t } = useLanguage();
   const [showViewDialog, setShowViewDialog] = useState(false);
 
   const handleCopy = (e: React.MouseEvent) => {
@@ -36,8 +38,6 @@ const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps
         console.error("클립보드 복사 실패:", err);
       });
   };
-
-
 
   return (
     <>
@@ -72,19 +72,19 @@ const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem onClick={() => setShowViewDialog(true)}>
                     <Eye className="w-4 h-4 mr-2" />
-                    전체보기
+                    {t.card.menu.view}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={onEdit}>
                     <Edit2 className="w-4 h-4 mr-2" />
-                    편집
+                    {t.card.menu.edit}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => onDuplicate(item)}>
                     <Copy className="w-4 h-4 mr-2" />
-                    복제하기
+                    {t.card.menu.duplicate}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={onDelete} className="text-red-600 focus:text-red-600 focus:bg-red-50">
                     <Trash2 className="w-4 h-4 mr-2" />
-                    삭제
+                    {t.card.menu.delete}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -102,7 +102,7 @@ const ListItem = ({ item, onCopy, onEdit, onDelete, onDuplicate }: ListItemProps
               className="group/btn flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-gray-900 rounded-full hover:bg-gray-800 transition-all shadow-sm hover:shadow active:scale-95"
             >
               <Copy className="w-3 h-3" />
-              <span>복사</span>
+              <span>{t.card.copy_button}</span>
             </button>
           </div>
         </div>

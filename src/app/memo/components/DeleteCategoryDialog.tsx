@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { ReactNode } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface DeleteCategoryDialogProps {
   categories: string[];
@@ -29,6 +30,7 @@ export function DeleteCategoryDialog({
   onDelete,
   children,
 }: DeleteCategoryDialogProps) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -55,11 +57,11 @@ export function DeleteCategoryDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>카테고리 삭제</DialogTitle>
+          <DialogTitle>{t.dialog.category.delete}</DialogTitle>
           <DialogDescription>
             {deletableCategories.length > 0
-              ? "삭제할 카테고리를 선택하세요. 선택한 카테고리에 메모가 존재한다면 해당 메모들은 기본 카테고리로 이동합니다."
-              : "현재 삭제 가능한 카테고리가 없습니다."}
+              ? t.dialog.category.delete_description
+              : t.dialog.category.delete_empty}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -70,7 +72,7 @@ export function DeleteCategoryDialog({
                 onValueChange={setSelectedCategory}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="카테고리 선택" />
+                  <SelectValue placeholder={t.dialog.edit_memo.category_placeholder} />
                 </SelectTrigger>
                 <SelectContent>
                   {deletableCategories.map((cat) => (
@@ -82,14 +84,14 @@ export function DeleteCategoryDialog({
               </Select>
             ) : (
               <div className="py-4 text-sm text-center text-muted-foreground">
-                새로운 카테고리를 추가한 후 삭제할 수 있습니다.
+                {t.dialog.category.delete_hint}
               </div>
             )}
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => handleOpenChange(false)}>
-            {deletableCategories.length > 0 ? "취소" : "확인"}
+            {deletableCategories.length > 0 ? t.common.cancel : t.common.confirm}
           </Button>
           {deletableCategories.length > 0 && (
             <Button
@@ -97,7 +99,7 @@ export function DeleteCategoryDialog({
               onClick={handleSubmit}
               disabled={!selectedCategory}
             >
-              삭제하기
+              {t.common.delete}
             </Button>
           )}
         </DialogFooter>
