@@ -124,6 +124,16 @@ export const en: Translations = {
           author: "Kim OO",
           role: "Vibe Coder",
         },
+        {
+          content: "Perfect for storing color codes and links I use frequently in my design work.",
+          author: "Choi OO",
+          role: "Freelance Designer",
+        },
+        {
+          content: "Great for organizing resource links for assignments. The search is fast too!",
+          author: "Jung OO",
+          role: "College Student",
+        },
       ],
     },
     cta: {
