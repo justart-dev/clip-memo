@@ -528,6 +528,20 @@ export default function LandingPage() {
                       rating: 5,
                       avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=kim&backgroundColor=10b981&backgroundType=gradientLinear",
                     },
+                    {
+                      content: t.landing.testimonials.items[3].content,
+                      author: t.landing.testimonials.items[3].author,
+                      role: t.landing.testimonials.items[3].role,
+                      rating: 4.5,
+                      avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=choi&backgroundColor=f59e0b&backgroundType=gradientLinear",
+                    },
+                    {
+                      content: t.landing.testimonials.items[4].content,
+                      author: t.landing.testimonials.items[4].author,
+                      role: t.landing.testimonials.items[4].role,
+                      rating: 5,
+                      avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=jung&backgroundColor=8b5cf6&backgroundType=gradientLinear",
+                    },
                   ].map((testimonial, index) => (
                     <motion.div
                       key={testimonial.author}
