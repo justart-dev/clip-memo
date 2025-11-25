@@ -120,9 +120,9 @@ export const en: Translations = {
           role: "Web Developer",
         },
         {
-          content: "Minimal, fast, and does exactly what it says. Perfect for quick ideas.",
+          content: "Convenient to use occasionally during vibe coding sessions.",
           author: "Kim OO",
-          role: "Startup Founder",
+          role: "Vibe Coder",
         },
       ],
     },
