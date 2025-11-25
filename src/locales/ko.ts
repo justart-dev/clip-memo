@@ -118,9 +118,9 @@ export const ko = {
           role: "웹 개발자",
         },
         {
-          content: "심플하면서도 필요한 기능은 다 있네요",
+          content: "바이브코딩할때 간간히 사용하는데 편리하다",
           author: "김OO",
-          role: "스타트업 밥풀 대표",
+          role: "바이브코더",
         },
       ],
     },
