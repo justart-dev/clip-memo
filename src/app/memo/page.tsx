@@ -445,7 +445,7 @@ export default function Home() {
                     categories={categories}
                   >
                     <button
-                      className="px-3 py-1.5 text-xs font-semibold rounded-full transition-colors duration-300 bg-transparent hover:bg-gray-100 text-gray-900 border border-gray-300 flex items-center justify-center gap-1.5"
+                      className="px-3 py-1.5 text-xs font-semibold rounded-full transition-colors duration-300 bg-transparent hover:bg-gray-100 text-gray-900 border border-gray-200 flex items-center justify-center gap-1.5"
                       title="카테고리 추가"
                     >
                       <svg
@@ -471,7 +471,7 @@ export default function Home() {
                     onEdit={handleEditCategoryWithToast}
                   >
                     <button
-                      className="px-3 py-1.5 text-xs font-semibold rounded-full transition-colors duration-300 bg-transparent hover:bg-gray-100 text-gray-900 border border-gray-300 flex items-center justify-center gap-1.5"
+                      className="px-3 py-1.5 text-xs font-semibold rounded-full transition-colors duration-300 bg-transparent hover:bg-gray-100 text-gray-900 border border-gray-200 flex items-center justify-center gap-1.5"
                       title="카테고리 수정"
                     >
                       <svg
@@ -503,7 +503,7 @@ export default function Home() {
                     onDelete={handleDeleteCategoryWithToast}
                   >
                     <button
-                      className="px-3 py-1.5 text-xs font-semibold rounded-full transition-colors duration-300 bg-transparent hover:bg-gray-100 text-gray-900 border border-gray-300 flex items-center justify-center gap-1.5"
+                      className="px-3 py-1.5 text-xs font-semibold rounded-full transition-colors duration-300 bg-transparent hover:bg-gray-100 text-gray-900 border border-gray-200 flex items-center justify-center gap-1.5"
                       title="카테고리 삭제"
                     >
                       <svg
