@@ -60,7 +60,7 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
             if (key.length >= 2) keywords.push(key);
             if (value.length >= 2) keywords.push(value);
           });
-        } catch (e) {
+        } catch {
           // URL 파싱 실패 시 무시
         }
       });
