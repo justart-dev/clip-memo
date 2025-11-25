@@ -29,6 +29,46 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
+  // URL에서 검색 가능한 키워드 추출 함수
+  const extractUrlKeywords = (text: string): string[] => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const keywords: string[] = [];
+    const urls = text.match(urlRegex);
+
+    if (urls) {
+      urls.forEach((url) => {
+        try {
+          const urlObj = new URL(url);
+
+          // 도메인 추가 (예: example.com)
+          const domain = urlObj.hostname.replace(/^www\./, '');
+          keywords.push(domain);
+
+          // 도메인의 각 부분 추가 (예: example, com)
+          domain.split('.').forEach(part => {
+            if (part.length >= 2) keywords.push(part);
+          });
+
+          // 경로의 각 부분 추가 (예: /some-page -> some, page)
+          const pathParts = urlObj.pathname
+            .split(/[\/\-_]/)
+            .filter(part => part.length >= 2);
+          keywords.push(...pathParts);
+
+          // 검색 파라미터 추가
+          urlObj.searchParams.forEach((value, key) => {
+            if (key.length >= 2) keywords.push(key);
+            if (value.length >= 2) keywords.push(value);
+          });
+        } catch (e) {
+          // URL 파싱 실패 시 무시
+        }
+      });
+    }
+
+    return keywords;
+  };
+
   // 자동완성 항목 생성 함수
   const generateAutocompleteItems = (searchQuery: string): AutocompleteItem[] => {
     if (!searchQuery.trim() || searchQuery.length < 2) {
@@ -62,7 +102,11 @@ const SearchBar = ({ onSearch, items = [] }: SearchBarProps) => {
         .split(/[\s\n\r\t.,!?;:()[\]{}"'`]+/)
         .filter((word) => word.length >= 2);
 
-      contentWords.forEach((word) => {
+      // URL에서 키워드 추출 추가
+      const urlKeywords = extractUrlKeywords(item.content);
+      const allContentWords = [...contentWords, ...urlKeywords.map(k => k.toLowerCase())];
+
+      allContentWords.forEach((word) => {
         if (word.includes(queryLower) && !seenTexts.has(word)) {
           const startsWithMatch = word.startsWith(queryLower);
           const exactMatch = word === queryLower;
