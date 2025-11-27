@@ -132,6 +132,11 @@ export const ko = {
           author: "정OO",
           role: "대학생",
         },
+        {
+          content: "고객 응대할 때 자주 쓰는 답변을 저장해두니 업무 처리 속도가 2배는 빨라졌어요.",
+          author: "강OO",
+          role: "고객 서포트 매니저",
+        },
       ],
     },
     cta: {

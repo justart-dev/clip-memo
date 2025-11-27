@@ -542,6 +542,13 @@ export default function LandingPage() {
                       rating: 5,
                       avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=jung&backgroundColor=8b5cf6&backgroundType=gradientLinear",
                     },
+                    {
+                      content: t.landing.testimonials.items[5].content,
+                      author: t.landing.testimonials.items[5].author,
+                      role: t.landing.testimonials.items[5].role,
+                      rating: 5,
+                      avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=kang&backgroundColor=ef4444&backgroundType=gradientLinear",
+                    },
                   ].map((testimonial, index) => (
                     <motion.div
                       key={testimonial.author}
