@@ -57,6 +57,11 @@ export default function Home() {
     handleDuplicate,
   } = useMemoManager();
 
+  // 페이지 마운트 시 스크롤 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 배너 상태 초기화
   useEffect(() => {
     try {
