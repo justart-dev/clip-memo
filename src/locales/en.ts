@@ -134,6 +134,11 @@ export const en: Translations = {
           author: "Jung OO",
           role: "College Student",
         },
+        {
+          content: "I save frequently used responses here. My customer support efficiency has doubled.",
+          author: "Kang OO",
+          role: "Customer Support Manager",
+        },
       ],
     },
     cta: {
